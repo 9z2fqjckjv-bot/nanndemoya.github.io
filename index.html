@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="zuyasi の個人サイト。プロフィール、スキル、連絡先を掲載しています。">
+  <meta name="theme-color" content="#2563eb">
+  <title>zuyasi | Personal Website</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --border: #e5e7eb;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+      --radius: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 100%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container {
+      width: min(900px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0 56px;
+    }
+
+    header,
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    header {
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    main {
+      display: grid;
+      gap: 20px;
+    }
+
+    section {
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      line-height: 1.2;
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 1.25rem;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .lead {
+      color: var(--muted);
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 10px 16px;
+      margin: 0;
+    }
+
+    dt {
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    dd {
+      margin: 0;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    a:hover,
+    a:focus-visible {
+      color: var(--primary-hover);
+      text-decoration: underline;
+    }
+
+    .contact {
+      list-style: none;
+      padding: 0;
+    }
+
+    .contact li + li {
+      margin-top: 10px;
+    }
+
+    .note {
+      margin-top: 12px;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    footer {
+      margin-top: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 20px, 900px);
+        padding: 20px 0 32px;
+      }
+
+      header,
+      section {
+        padding: 20px;
+      }
+
+      dl {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+
+      dt {
+        margin-top: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>こんにちは、zuyasi です。</h1>
+      <p class="lead">このサイトでは、業務効率化ツール、PCの使い方、便利な小技、日記などを気ままに更新しています。</p>
+    </header>
+
+    <main>
+      <section aria-labelledby="profile-title">
+        <h2 id="profile-title">プロフィール</h2>
+        <dl>
+          <dt>ニックネーム</dt>
+          <dd>zuyasi</dd>
+
+          <dt>誕生日</dt>
+          <dd>04/25</dd>
+
+          <dt>特技</dt>
+          <dd>PC操作</dd>
+
+          <dt>出生地</dt>
+          <dd>東京都板橋区成増</dd>
+
+          <dt>出身地</dt>
+          <dd>さいたま市</dd>
+
+          <dt>最終学歴</dt>
+          <dd>浦和商業高等学校</dd>
+        </dl>
+      </section>
+
+      <section aria-labelledby="skills-title">
+        <h2 id="skills-title">スキル</h2>
+        <ul>
+          <li>文書作成ソフト、プレゼンテーションソフト、表計算ソフトを一通り使えます。</li>
+          <li>全国商業高等学校協会主催 情報処理検定1級を取得しています。</li>
+          <li>VBAを少し使えます。</li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="contact-title">
+        <h2 id="contact-title">連絡先</h2>
+        <ul class="contact">
+          <li>メール: <a href="mailto:japan.saitama.nanndemoya@gmail.com">japan.saitama.nanndemoya@gmail.com</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 zuyasi</p>
+    </footer>
+  </div>
+</body>
+</html>
