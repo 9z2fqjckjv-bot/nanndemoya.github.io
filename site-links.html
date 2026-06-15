@@ -1,6 +1,117 @@
-<h1>サイトリンク</h1>
-<a href="https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/">トップページ</a>
-<a href="https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/information.html">連絡先</a>
-<a href="https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/site-link.html">サイトリンク</a>
-<a href="https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/">トップに戻る</a>
-<p>©2026 Nanndemoya|Anyways,Anywehre,Anytimes</p>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>サイトリンク | Nanndemoya</title>
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --border: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 2rem;
+    }
+
+    .description {
+      margin: 0 0 24px;
+      color: var(--muted);
+    }
+
+    .link-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .link-list a {
+      display: block;
+      text-decoration: none;
+      color: var(--accent);
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-weight: 700;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .link-list a:hover {
+      background: #dbeafe;
+      color: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      margin-top: 28px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 24px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="card">
+      <h1>サイトリンク</h1>
+      <p class="description">Nanndemoya の各ページへ移動できるリンク一覧です。</p>
+
+      <ul class="link-list">
+        <li><a href="https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/">トップページ</a></li>
+        <li><a href="https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/information.html">連絡先</a></li>
+        <li><a href="https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/site-links.html">サイトリンク</a></li>
+        <li><a href="https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/">トップに戻る</a></li>
+      </ul>
+
+      <footer>
+        <p>© 2026 Nanndemoya | Anyways, Anywhere, Anytime</p>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>
