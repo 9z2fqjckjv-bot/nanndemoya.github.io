@@ -1,29 +1,286 @@
-<h1>何でも屋基金</h1>
-<h2>一人暮らし基金</h2>
-<p>目標金額：20万円<br><strong>物件名称</strong><br>レオパレス丹荘105号室<br><a href="https://www.leopalace21.com/estimate/chintai/0000034244105">レオパレス公式サイトで見る</p>
-<p><strong>住所</strong>：埼玉県児玉郡神川町植竹７３６−１<br>この基金は、一人暮らしをするための基金です。目標金額には、初期費用と引越し代金や初月家賃などが含まれます。</p>
-<h2>スマートフォン基金</h2>
-<p>目標金額：5万円<br><strong>機種名</strong><br>DIGNO SX5<br><a href="https://onlineshop.docomo.ne.jp/products/mobile/details/004N9">ドコモオンラインショップで見る</a><br>この基金はスマートフォンを購入するための基金です。</p>
-<h2>電動三輪車基金</h2>
-<p>目標金額：21万円（ただし、6月22日までは14万円）<br><strong>機種名</strong><br>AINOHOT ST3<br><a href="https://ainohot.co.jp/products/ainohot-st3?gad_source=1&gad_campaignid=22185332347&gbraid=0AAAAA-Ptdo52BUyqUl1AMfoC6MwtvAyRG&gclid=Cj0KCQjwornRBhCrARIsAON5exH61_h50cXIdTO1iXZdhSz6JnXkh4PmVFYdLpAqPfB84u0FvuhDOowaAphOEALw_wcB">公式サイトで見る</a>目標金額には電動三輪車に加え、ヘルメットおよびバッグ代金が含まれます。</p>
-<h2>PC基金</h2>
-<p>目標金額：16万円<br><strong>機種名</strong>MacMini<br><a href="https://www.apple.com/jp/shop/xc/product/mac-mini-2024-roc-gbb?option.ethernet_adapter=065-CGYX&option.thunderbolt=065-CH00&option.software_final=065-CH3P&option.software_logic=065-CH3T&option.memory=065-CGYJ&option.storage=065-CJY6&option.countrykit=J065-CH3K&option.processor=065-CGYC">スペックはコチラ</a><br>このパソコンは既存のMacBookNeoの一部プロセスを移行するために活用します。</p>
-<h2>日常生活および事業維持費基金</h2>
-<p>目標金額：30万円<br><strong>内訳</strong>公共インフラの利用料金および、通信キャリアの料金に加え、家賃、クレジットカード等の利用代金支払い、事業運転費用が含まれます。</p>
-<h2>広告基金</h2>
-<p>目標金額：50万円<br><strong>内訳</strong>Google広告およびYahoo広告の利用代金。</p>
-<h2>資本基金</h2>
-<p>目標金額：1000万円<br>資本金として計上し、積み立てるお金です。</p>
-<h2>優先順位</h2>
-<p>優先順位は、一人暮らし＞日常生活および事業維持費＞PC＞スマートフォン＞電動三輪車＞広告＞資本の順です。</p>
-<h2>基金に参加するメリット</h2>
-<p>基金に参加すると、以下のようなメリットが傍受できます。</p>
-<li>一人暮らしによる日々のパフォーマンスの向上</li>
-<li>動画投稿の高頻度、高品質化</li>
-<li>「何でも屋」のサービスを一人暮らしの住まいでご提供</li>
-<li>公共交通機関に加え、電動三輪車による移動手段を提供し、交通費を削減</li>
-<li>事業の岩盤強化、安定化</li>
-<li>コンプリートボーナス（※を参照）</li>
-<li>何らかの形による還元（現金還元もあり）</li>
-<li>その他詳細は、お問い合わせください。</li>
-<p>※<strong>コンプリートボーナスとは</strong><br>コンプリートボーナスとは、各基金のうちいずれかの基金の目標金額を一人の参加者によって満たされ、<br>尚且つキリの良い金額が集まることにより、その参加者に参加金額の余りを利用した還元が行われること。<br>ただし、現金還元はありません。また、キリの良い金額とは、5万で割り切れる金額を指します。</p>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>何でも屋基金</title>
+  <style>
+    :root {
+      --bg: #f7f8fc;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --border: #e5e7eb;
+      --success: #059669;
+      --warning: #d97706;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.8;
+      color: var(--text);
+      background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 220px);
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #1d4ed8, #2563eb 60%, #3b82f6);
+      color: #fff;
+      padding: 40px 32px;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 1.05rem;
+      opacity: 0.96;
+    }
+
+    .notice {
+      margin-top: 18px;
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+    }
+
+    .section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 22px;
+    }
+
+    .section h2 {
+      margin-top: 0;
+      margin-bottom: 16px;
+      font-size: 1.45rem;
+    }
+
+    .lead {
+      color: var(--muted);
+      margin-top: 0;
+    }
+
+    .priority-box {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      padding: 16px 18px;
+      border-radius: 14px;
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      background: #fff;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+    }
+
+    .amount {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .meta {
+      margin: 12px 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .card p {
+      margin: 10px 0;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+      margin: 0;
+    }
+
+    .benefits li + li,
+    .notes li + li {
+      margin-top: 8px;
+    }
+
+    .footnote {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      background: #f9fafb;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 640px) {
+      .hero,
+      .section {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1>何でも屋基金</h1>
+      <p>生活基盤の安定化と事業成長を両立するための支援プロジェクトです。用途ごとに基金を分け、優先順位を明確にしたうえで参加者を募っています。</p>
+      <div class="notice">優先順位：一人暮らし ＞ 日常生活および事業維持費 ＞ PC ＞ スマートフォン ＞ 電動三輪車 ＞ 広告 ＞ 資本</div>
+    </header>
+
+    <section class="section">
+      <h2>基金の概要</h2>
+      <p class="lead">各基金は、生活環境の改善、制作環境の強化、移動手段の確保、広告投資、そして事業基盤の安定化を目的としています。ご支援いただくことで、日々の活動効率向上とサービス品質向上につながります。</p>
+      <div class="priority-box">重要：集まった支援金は、上記の優先順位に沿って活用されます。</div>
+    </section>
+
+    <section class="section">
+      <h2>募集している基金一覧</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>一人暮らし基金</h3>
+          <div class="amount">目標金額：20万円</div>
+          <p><strong>物件名称</strong><br>レオパレス丹荘105号室</p>
+          <p><a href="https://www.leopalace21.com/estimate/chintai/0000034244105" target="_blank" rel="noopener noreferrer">レオパレス公式サイトで見る</a></p>
+          <p class="meta"><strong>住所</strong>：埼玉県児玉郡神川町植竹736-1</p>
+          <p>一人暮らしを実現するための基金です。目標金額には、初期費用や引越し費用などを含みます。</p>
+        </article>
+
+        <article class="card">
+          <h3>スマートフォン基金</h3>
+          <div class="amount">目標金額：5万円</div>
+          <p><strong>機種名</strong><br>DIGNO SX5</p>
+          <p><a href="https://onlineshop.docomo.ne.jp/products/mobile/details/004N9" target="_blank" rel="noopener noreferrer">ドコモオンラインショップで見る</a></p>
+          <p>撮影・連絡・運用の安定化を目的としたスマートフォン購入基金です。</p>
+        </article>
+
+        <article class="card">
+          <h3>電動三輪車基金</h3>
+          <div class="amount">目標金額：21万円</div>
+          <p class="meta">ただし、2026年6月22日までは14万円</p>
+          <p><strong>機種名</strong><br>AINOHOT ST3</p>
+          <p><a href="https://ainohot.co.jp/products/ainohot-st3?gad_source=1" target="_blank" rel="noopener noreferrer">商品ページを見る</a></p>
+          <p>移動手段の確保により、活動範囲の拡大と交通費の削減を目指す基金です。</p>
+        </article>
+
+        <article class="card">
+          <h3>PC基金</h3>
+          <div class="amount">目標金額：16万円</div>
+          <p><strong>機種名</strong><br>Mac mini</p>
+          <p><a href="https://www.apple.com/jp/shop/xc/product/mac-mini-2024-roc-gbb?option.ethernet_adapter=065-CGYX&option.thunderbolt=065-CH00" target="_blank" rel="noopener noreferrer">Apple公式ページで見る</a></p>
+          <p>動画制作や業務効率化のためのPC購入基金です。</p>
+        </article>
+
+        <article class="card">
+          <h3>日常生活および事業維持費基金</h3>
+          <div class="amount">目標金額：30万円</div>
+          <p><strong>内訳</strong><br>公共インフラ利用料金、通信キャリア料金、家賃、クレジットカード等の支払い、その他事業継続に必要な費用</p>
+          <p>生活と事業の両面を維持するための基盤資金です。</p>
+        </article>
+
+        <article class="card">
+          <h3>広告基金</h3>
+          <div class="amount">目標金額：50万円</div>
+          <p><strong>内訳</strong><br>Google広告およびYahoo広告の利用代金</p>
+          <p>認知拡大と集客強化のための広告運用基金です。</p>
+        </article>
+
+        <article class="card">
+          <h3>資本基金</h3>
+          <div class="amount">目標金額：1000万円</div>
+          <p>資本金として計上し、長期的に積み立てていくための基金です。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>基金に参加するメリット</h2>
+      <ul class="benefits">
+        <li>一人暮らしの実現による日々のパフォーマンス向上</li>
+        <li>動画投稿の高頻度化・高品質化</li>
+        <li>「何でも屋」サービスを一人暮らしの住まいで提供可能</li>
+        <li>公共交通機関に加え、電動三輪車による移動手段の確保</li>
+        <li>事業基盤の強化と安定化</li>
+        <li>コンプリートボーナスの対象</li>
+        <li>何らかの形での還元（現金還元を含む場合あり）</li>
+        <li>その他詳細はお問い合わせにて案内</li>
+      </ul>
+
+      <div class="footnote">
+        <strong>コンプリートボーナスとは</strong><br>
+        各基金のうち、いずれか1つの目標金額を一人の参加者が満たした場合に適用される特典です。詳細条件や還元内容については、個別にお問い合わせください。
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>ご参加前のご案内</h2>
+      <ul class="notes">
+        <li>各基金の内容・金額・条件は、状況に応じて更新される場合があります。</li>
+        <li>支援方法、還元内容、詳細条件については、お問い合わせのうえご確認ください。</li>
+        <li>外部サイトへのリンクは、最新情報確認のために掲載しています。</li>
+      </ul>
+    </section>
+
+    <p class="footer">何でも屋基金へのご関心、ありがとうございます。</p>
+  </div>
+</body>
+</html>
