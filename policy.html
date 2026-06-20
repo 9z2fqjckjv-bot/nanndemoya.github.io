@@ -2,129 +2,404 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>1ファイル複数ページ構成</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="何でも屋の特定商取引法に基づく表記、利用規約、プライバシーポリシーを掲載しています。">
+    <title>何でも屋 | 事業情報・利用規約・プライバシーポリシー</title>
     <style>
-        /* 簡単なスタイリング */
-        nav { margin-bottom: 20px; }
-        nav button { margin-right: 10px; padding: 5px 10px; cursor: pointer; }
-        .page { padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
+        :root {
+            --bg: #f7f8fc;
+            --surface: #ffffff;
+            --surface-subtle: #f0f4ff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --border: #dbe2f0;
+            --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            --radius: 18px;
+            --max-width: 960px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+            line-height: 1.8;
+            color: var(--text);
+            background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 180px);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            width: min(calc(100% - 32px), var(--max-width));
+            margin: 0 auto;
+        }
+
+        .hero {
+            padding: 48px 0 24px;
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            padding: 32px 24px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            margin-bottom: 12px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: var(--surface-subtle);
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        h1, h2, h3 {
+            line-height: 1.4;
+            margin-top: 0;
+        }
+
+        h1 {
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            margin-bottom: 12px;
+        }
+
+        .lead {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .tab-nav {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(247, 248, 252, 0.88);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(219, 226, 240, 0.9);
+        }
+
+        .tab-list {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 16px 0;
+        }
+
+        .tab-button {
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tab-button:hover,
+        .tab-button:focus-visible {
+            border-color: var(--primary);
+            color: var(--primary);
+            outline: none;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+        }
+
+        main {
+            padding: 24px 0 56px;
+        }
+
+        .page {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 28px 22px;
+        }
+
+        .page + .page {
+            margin-top: 20px;
+        }
+
+        .section-intro {
+            margin-bottom: 24px;
+        }
+
+        .section-intro p {
+            color: var(--muted);
+            margin-bottom: 0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .info-card {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            background: #fcfdff;
+        }
+
+        .info-card h3 {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--muted);
+        }
+
+        .info-card p,
+        .info-card ul {
+            margin: 0;
+        }
+
+        .link-list,
+        .term-list,
+        .nested-list {
+            padding-left: 1.2em;
+        }
+
+        .link-list li,
+        .term-list li,
+        .nested-list li {
+            margin-bottom: 8px;
+        }
+
+        .note {
+            margin-top: 20px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: #fff8e8;
+            border: 1px solid #f6d58c;
+        }
+
+        .date {
+            margin-top: 28px;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        footer {
+            padding: 0 0 48px;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        @media (max-width: 720px) {
+            .hero {
+                padding-top: 24px;
+            }
+
+            .hero-card,
+            .page {
+                padding: 22px 18px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-list {
+                gap: 8px;
+            }
+
+            .tab-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
+    <header class="hero">
+        <div class="container">
+            <div class="hero-card">
+                <span class="eyebrow">何でも屋 公式案内</span>
+                <h1>事業情報・利用規約・プライバシーポリシー</h1>
+                <p class="lead">このページでは、「何でも屋」に関する基本情報、利用条件、個人情報の取扱いについてまとめています。</p>
+            </div>
+        </div>
+    </header>
 
-    <nav>
-        <button onclick="showPage('page1')">ページ1へ</button>
-        <button onclick="showPage('page2')">ページ2へ</button>
-        <button onclick="showPage('page3')">ページ3へ</button>
+    <nav class="tab-nav" aria-label="ページ切り替え">
+        <div class="container">
+            <div class="tab-list" role="tablist" aria-label="案内タブ">
+                <button class="tab-button active" id="tab-page1" type="button" role="tab" aria-selected="true" aria-controls="page1" onclick="showPage('page1')">事業情報</button>
+                <button class="tab-button" id="tab-page2" type="button" role="tab" aria-selected="false" aria-controls="page2" onclick="showPage('page2')">利用規約</button>
+                <button class="tab-button" id="tab-page3" type="button" role="tab" aria-selected="false" aria-controls="page3" onclick="showPage('page3')">プライバシーポリシー</button>
+            </div>
+        </div>
     </nav>
 
-    <div id="page1" class="page">
-        <h1>「何でも屋」について</h1>
-        <h2>特定商取引法に基づく情報</h2>
-        <h3>事業名</h3>
-        <p>何でも屋</p>
-        <h3>住所</h3>
-        <p>埼玉県さいたま市桜区田島1丁目１６番１５−２号</p>
-        <h3>事業主氏名</h3>
-        <p>牧志鎮也</p>
-        <h3>事業状態</h3>
-        <p>休業中</p>
-        <h3>eMail</h3>
-        <p>japan.saitama.nanndemoya@gmail.com</p>
-        <h3>電話番号</h3>
-        <p>070-9075-8210<br>※電話でのお問い合わせはご遠慮ください。</p>
-        <h3>SNS等</h3>
-        <a href="wa.me/817090758210">What's App</a>
-        <a href="https://www.youtube.com/@saitama-nanndemoya">YouTube</a>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=header">お問い合わせフォーム</a>
-    </div>
+    <main>
+        <div class="container">
+            <section id="page1" class="page" role="tabpanel" aria-labelledby="tab-page1">
+                <div class="section-intro">
+                    <h2>特定商取引法に基づく情報</h2>
+                    <p>サービス提供者に関する基本情報を掲載しています。</p>
+                </div>
 
-    <div id="page2" class="page" hidden>
-        <h1>「何でも屋」利用規約</h1>
-        <h2>用語定義</h2>
-        <li>事業者...「何でも屋」</li>
-        <li>事業主...牧志鎮也</li>
-        <li>利用者...「何でも屋」のサービス提供を受ける顧客</li>
-        <li>提携者...事業主との間に「共通事業者活用規約」を締結し、事業者が掲げる所定の規定に基づき事業主から依頼されたサービス等を利用者に提供するもの。</li>
-        <li>オーナー...事業主</li>
-        <li>パートナー...提携者</li>
-        <li>ユーザー...利用者</li>
-        <li>「何でも屋基金」...オーナーの掲げる目的のためのユーザーからの資金提供サービス</li>
-        <li>サービス...オーナー及びパートナーがユーザーに提供するもの全て</li>
-        <li>フリーサービス...サービスのうち、以下の要項を満たすもの</li>
-        <ul>
-          <li>道具を扱うことを前提とするサービス</li>
-          <li>以下に基づくサービス</li>
-          <ul>
-            <li>最低料金...1000円</li>
-            <li>最大料金...338万円</li>
-          </ul>
-        </ul>
-        <li>アシスタントサービス...サービスのうち、以下の要項を満たすもの</li>
-        <ul>
-          <li>対人中心のサービス</li>
-          <li>以下に基づくサービス</li>
-          <ul>
-            <li>最低料金...2000円</li>
-            <li>最大料金...572万円</li>
-          </ul>
-        </ul>
-        <li>ビジネスアシスタントサービス...サービスのうち、以下の要項を満たすもの</li>
-        <ul>
-          <li>企業やビジネスでの活用を前提としたサービス</li>
-          <li>以下に基づくサービス</li>
-          <ul>
-            <li>最低料金...1500円</li>
-            <li>最大料金...468万円</li>
-          </ul>
-        </ul>
-        <li>子ども向けサービス...サービスのうち、以下の要項を満たすもの</li>
-        <ul>
-          <li>20歳未満の方及びその兄弟姉妹の利用を前提としたサービス</li>
-          <li>以下に基づくサービス</li>
-          <ul>
-            <li>最低料金...500円</li>
-            <li>最大料金...156万円</li>
-          </ul>
-        </ul>
-        <li>シニアサービス（高齢の方向けサービス）...サービスのうち、以下の要項を満たすもの</li>
-        <ul>
-          <li>60歳以上の方を前提としたサービス</li>
-          <li>以下に基づくサービス</li>
-          <ul>
-            <li>最大料金...500円</li>
-          </ul>
-        </ul>
-        <li>「何でも屋ハウス」...サービスのうち、ユーザーの今現在住んでいない別荘等の物件を事業者が譲受、リース、レンタルのいずれかで活用し、ユーザーに特典を付与するサービス。ただし、詳細は「何でも屋ハウス」のユーザーが、事業者と相談や契約等の行為を行った際に、取り決める。</li>
-        <li>「何でも屋基金」...<a href="https://9z2fqjckjv-bot/nanndemoya.github.io/NCF.html">このページを参照すること</a></li>
-        <li>※一部のサービスは、現在提供停止中のため、掲載は行わない。</li>
-        <h2>利用方法等</h2>
-        <p>今現在、オーナーである私は、将来的なユーザーとなる見込みの者たちから、資金提供を受け付けている。そのうち、以下の基金が満額となった際には、ここにサービスの提供方法、内容、契約などの具体的事項を掲載を行う。</p>
-        <h2>規約作成日</h2>
-        <p>2026年6月20日</p>
-    </div>
+                <div class="info-grid">
+                    <article class="info-card">
+                        <h3>事業名</h3>
+                        <p>何でも屋</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>住所</h3>
+                        <p>埼玉県さいたま市桜区田島1丁目16番15-2号</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>事業主氏名</h3>
+                        <p>牧志鎮也</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>事業状態</h3>
+                        <p>休業中</p>
+                    </article>
+                    <article class="info-card">
+                        <h3>メールアドレス</h3>
+                        <p><a href="mailto:japan.saitama.nanndemoya@gmail.com">japan.saitama.nanndemoya@gmail.com</a></p>
+                    </article>
+                    <article class="info-card">
+                        <h3>電話番号</h3>
+                        <p>070-9075-8210<br>※電話でのお問い合わせはご遠慮ください。</p>
+                    </article>
+                </div>
 
-    <div id="page3" class="page" hidden>
-        <h2>プライバシーポリシー</h2>
-        <p>「何でも屋」に寄せられたすべての情報は、オーナーのもとに届き、また、ユーザーと連絡をとり、詳細などをやり取りのみに使われる。また、その詳細をユーザーはオーナーに確認することができる。</p>
-        <p>2026年6月20日</p>
-    </div>
+                <div class="note">
+                    <strong>お問い合わせ先</strong>
+                    <ul class="link-list">
+                        <li><a href="https://wa.me/817090758210" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                        <li><a href="https://www.youtube.com/@saitama-nanndemoya" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=header" target="_blank" rel="noopener noreferrer">お問い合わせフォーム</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="page2" class="page" role="tabpanel" aria-labelledby="tab-page2" hidden>
+                <div class="section-intro">
+                    <h2>「何でも屋」利用規約</h2>
+                    <p>現時点で掲載されている用語定義と利用方法等を、読みやすい形に整理しています。</p>
+                </div>
+
+                <h3>用語定義</h3>
+                <ul class="term-list">
+                    <li>事業者：『何でも屋』</li>
+                    <li>事業主：牧志鎮也</li>
+                    <li>利用者：『何でも屋』のサービス提供を受ける顧客</li>
+                    <li>提携者：事業主との間に『共通事業者活用規約』を締結し、事業者が掲げる所定の規定に基づき事業主から依頼されたサービス等を利用者に提供する者</li>
+                    <li>オーナー：事業主</li>
+                    <li>パートナー：提携者</li>
+                    <li>ユーザー：利用者</li>
+                    <li>『何でも屋基金』：オーナーの掲げる目的のための、ユーザーからの資金提供サービス</li>
+                    <li>サービス：オーナー及びパートナーがユーザーに提供するもの全て</li>
+                    <li>
+                        フリーサービス：サービスのうち、以下の要項を満たすもの
+                        <ul class="nested-list">
+                            <li>道具を扱うことを前提とするサービス</li>
+                            <li>料金目安：最低料金 1,000円 / 最大料金 338万円</li>
+                        </ul>
+                    </li>
+                    <li>
+                        アシスタントサービス：サービスのうち、以下の要項を満たすもの
+                        <ul class="nested-list">
+                            <li>対人中心のサービス</li>
+                            <li>料金目安：最低料金 2,000円 / 最大料金 572万円</li>
+                        </ul>
+                    </li>
+                    <li>
+                        ビジネスアシスタントサービス：サービスのうち、以下の要項を満たすもの
+                        <ul class="nested-list">
+                            <li>企業やビジネスでの活用を前提としたサービス</li>
+                            <li>料金目安：最低料金 1,500円 / 最大料金 468万円</li>
+                        </ul>
+                    </li>
+                    <li>
+                        子ども向けサービス：サービスのうち、以下の要項を満たすもの
+                        <ul class="nested-list">
+                            <li>20歳未満の方及びその兄弟姉妹の利用を前提としたサービス</li>
+                            <li>料金目安：最低料金 500円 / 最大料金 156万円</li>
+                        </ul>
+                    </li>
+                    <li>
+                        シニアサービス（高齢の方向けサービス）：サービスのうち、以下の要項を満たすもの
+                        <ul class="nested-list">
+                            <li>60歳以上の方を前提としたサービス</li>
+                            <li>料金目安：最大料金 500円</li>
+                        </ul>
+                    </li>
+                    <li>『何でも屋ハウス』：サービスのうち、ユーザーの今現在住んでいない別荘等の物件を事業者が譲受、リース、レンタルのいずれかで活用するもの</li>
+                    <li>『何でも屋基金』：<a href="NCF.html">このページを参照すること</a></li>
+                    <li>※一部のサービスは、現在提供停止中のため、掲載は行わない。</li>
+                </ul>
+
+                <h3>利用方法等</h3>
+                <p>今現在、オーナーである私は、将来的なユーザーとなる見込みの者たちから、資金提供を受け付けている。そのうち、以下の基金が満額となった場合に、順次サービスの提供準備を開始する。</p>
+
+                <p class="date">規約作成日：2026年6月20日</p>
+            </section>
+
+            <section id="page3" class="page" role="tabpanel" aria-labelledby="tab-page3" hidden>
+                <div class="section-intro">
+                    <h2>プライバシーポリシー</h2>
+                    <p>お問い合わせやサービス利用に関連して取得した情報の基本的な取扱いを記載しています。</p>
+                </div>
+
+                <p>『何でも屋』に寄せられたすべての情報は、オーナーのもとに届き、ユーザーとの連絡や詳細事項のやり取りのために使用されます。また、法令に基づく場合を除き、本人の同意なく第三者へ提供しません。</p>
+
+                <p class="date">制定日：2026年6月20日</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>掲載内容は、必要に応じて予告なく更新される場合があります。</p>
+        </div>
+    </footer>
 
     <script>
         function showPage(pageId) {
-            // すべてのページ要素を取得して隠す
             const pages = document.querySelectorAll('.page');
-            pages.forEach(page => {
-                page.hidden = true;
+            const buttons = document.querySelectorAll('.tab-button');
+
+            pages.forEach((page) => {
+                page.hidden = page.id !== pageId;
             });
 
-            // クリックされた指定のページだけを表示する
-            const targetPage = document.getElementById(pageId);
-            if (targetPage) {
-                targetPage.hidden = false;
-            }
+            buttons.forEach((button) => {
+                const isActive = button.getAttribute('aria-controls') === pageId;
+                button.classList.toggle('active', isActive);
+                button.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
         }
     </script>
-
 </body>
 </html>
