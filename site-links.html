@@ -92,6 +92,30 @@
       text-align: center;
     }
 
+    .back-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 18px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 6px 20px rgba(37,99,235,0.3);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .back-top:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+
     @media (max-width: 480px) {
       .card {
         padding: 24px;
@@ -127,5 +151,6 @@
       </footer>
     </section>
   </main>
+  <a class="back-top" href="index.html">↑ トップに戻る</a>
 </body>
 </html>

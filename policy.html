@@ -219,6 +219,30 @@
             font-size: 0.92rem;
         }
 
+        .back-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 18px;
+            background: var(--primary);
+            color: #fff;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(37,99,235,0.3);
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .back-top:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 720px) {
             .hero {
                 padding-top: 24px;
@@ -395,6 +419,8 @@
             <p>掲載内容は、必要に応じて予告なく更新される場合があります。</p>
         </div>
     </footer>
+
+    <a class="back-top" href="index.html">↑ トップに戻る</a>
 
     <script>
         function showPage(pageId) {
