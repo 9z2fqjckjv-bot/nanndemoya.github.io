@@ -88,23 +88,6 @@
         background: transparent !important;
     }
     
-    /* 印刷時の画面（ブラウザ）調整 */
-    @media print {
-        body {
-            background-color: transparent;
-            padding: 0;
-        }
-        .sheet-page {
-            box-shadow: none;
-            border-radius: 0;
-            padding: 0;
-            margin-bottom: 0;
-        }
-        .back-top {
-            display: none;
-        }
-    }
-
     .back-top {
         position: fixed;
         bottom: 24px;
@@ -127,6 +110,23 @@
     .back-top:hover {
         background: #1d4ed8;
         transform: translateY(-2px);
+    }
+
+    /* 印刷時の画面（ブラウザ）調整 */
+    @media print {
+        body {
+            background-color: transparent;
+            padding: 0;
+        }
+        .sheet-page {
+            box-shadow: none;
+            border-radius: 0;
+            padding: 0;
+            margin-bottom: 0;
+        }
+        .back-top {
+            display: none;
+        }
     }
 </style>
 </head>
