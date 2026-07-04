@@ -55,7 +55,8 @@
 
     const script = doc.createElement('script');
     script.async = true;
-    script.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(GTM_ID);
+    const dataLayerParameter = DATA_LAYER_NAME !== 'dataLayer' ? '&l=' + encodeURIComponent(DATA_LAYER_NAME) : '';
+    script.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(GTM_ID) + dataLayerParameter;
 
     const firstScript = doc.getElementsByTagName('script')[0];
     if (firstScript && firstScript.parentNode) {
@@ -83,7 +84,7 @@
     const payload = {
       event: link.dataset.googleEvent || 'outbound_click',
       event_category: link.dataset.googleCategory || 'engagement',
-      event_label: link.dataset.googleLabel || normalizeText(link.textContent) || url.href,
+      event_label: link.dataset.googleLabel || normalizeText(link.textContent) || url.pathname || url.href,
       link_url: url.href,
       link_text: normalizeText(link.textContent)
     };
