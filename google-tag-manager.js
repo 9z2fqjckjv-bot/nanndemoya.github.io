@@ -3,6 +3,7 @@
   const DATA_LAYER_NAME = 'dataLayer';
   const win = window;
   const doc = document;
+  const gtmStartTime = Date.now();
 
   if (win.__nanndemoyaGoogleTagManagerLoaded) {
     return;
@@ -47,7 +48,7 @@
 
   const loadGoogleTagManager = () => {
     pushEvent({
-      'gtm.start': Date.now(),
+      'gtm.start': gtmStartTime,
       event: 'gtm.js'
     });
 
@@ -64,13 +65,17 @@
     (doc.head || doc.documentElement).appendChild(script);
   };
 
-  const isTrackableLink = (link) => {
-    const url = new URL(link.href, win.location.href);
-    return url.protocol === 'mailto:' || url.protocol === 'tel:' || url.host !== win.location.host || Boolean(link.dataset.googleEvent);
+  const getTrackableUrl = (link) => {
+    try {
+      const url = new URL(link.href, win.location.href);
+      const shouldTrack = url.protocol === 'mailto:' || url.protocol === 'tel:' || url.host !== win.location.host || Boolean(link.dataset.googleEvent);
+      return shouldTrack ? url : null;
+    } catch (error) {
+      return null;
+    }
   };
 
-  const trackLinkClick = (link) => {
-    const url = new URL(link.href, win.location.href);
+  const trackLinkClick = (link, url) => {
     const payload = {
       event: link.dataset.googleEvent || 'outbound_click',
       event_category: link.dataset.googleCategory || 'engagement',
@@ -114,8 +119,11 @@
     }
 
     const link = event.target.closest('a[href]');
-    if (link && isTrackableLink(link)) {
-      trackLinkClick(link);
+    if (link) {
+      const url = getTrackableUrl(link);
+      if (url) {
+        trackLinkClick(link, url);
+      }
     }
   }, { passive: true });
 
