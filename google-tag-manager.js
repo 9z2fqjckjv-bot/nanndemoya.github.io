@@ -1,6 +1,10 @@
 (function () {
   const GTM_ID = 'GTM-P56Q566B';
   const DATA_LAYER_NAME = 'dataLayer';
+  const CONSENT_COOKIE_NAME = 'nanndemoya_google_tag_consent';
+  const CONSENT_ACCEPTED = 'accepted';
+  const CONSENT_DECLINED = 'declined';
+  const CONSENT_HIDDEN = 'hidden';
   const win = window;
   const doc = document;
 
@@ -9,10 +13,32 @@
   }
 
   win.__nanndemoyaGoogleTagManagerLoaded = true;
-  const dataLayer = win[DATA_LAYER_NAME] = win[DATA_LAYER_NAME] || [];
+  const dataLayer = (win[DATA_LAYER_NAME] = win[DATA_LAYER_NAME] || []);
+  let isGoogleTagManagerScriptLoaded = false;
+  let isTrackingDisabled = false;
+
+  const getConsentStatus = () => {
+    const cookiePrefix = CONSENT_COOKIE_NAME + '=';
+    const cookies = doc.cookie ? doc.cookie.split(';') : [];
+    for (let index = 0; index < cookies.length; index += 1) {
+      const cookie = cookies[index].trim();
+      if (cookie.indexOf(cookiePrefix) === 0) {
+        return decodeURIComponent(cookie.substring(cookiePrefix.length));
+      }
+    }
+    return '';
+  };
+
+  const setConsentStatus = (status, maxAgeSeconds) => {
+    const maxAge = Number.isFinite(maxAgeSeconds) ? Math.max(0, Math.floor(maxAgeSeconds)) : 60 * 60 * 24 * 365;
+    const secure = win.location.protocol === 'https:' ? '; Secure' : '';
+    doc.cookie = `${CONSENT_COOKIE_NAME}=${encodeURIComponent(status)}; Max-Age=${maxAge}; Path=/; SameSite=Lax${secure}`;
+  };
+
+  const isTrackingAllowed = () => getConsentStatus() === CONSENT_ACCEPTED && !isTrackingDisabled;
 
   const pushEvent = (payload) => {
-    if (payload && typeof payload === 'object') {
+    if (payload && typeof payload === 'object' && isTrackingAllowed()) {
       dataLayer.push(payload);
     }
   };
@@ -48,6 +74,10 @@
   };
 
   const loadGoogleTagManager = () => {
+    if (!isTrackingAllowed() || isGoogleTagManagerScriptLoaded) {
+      return;
+    }
+
     pushEvent({
       'gtm.start': new Date().getTime(),
       event: 'gtm.js'
@@ -61,10 +91,28 @@
     const firstScript = doc.getElementsByTagName('script')[0];
     if (firstScript && firstScript.parentNode) {
       firstScript.parentNode.insertBefore(script, firstScript);
-      return;
+    } else {
+      (doc.head || doc.documentElement).appendChild(script);
     }
 
-    (doc.head || doc.documentElement).appendChild(script);
+    isGoogleTagManagerScriptLoaded = true;
+  };
+
+  const disableTracking = () => {
+    isTrackingDisabled = true;
+    dataLayer.push = () => {};
+    win.nanndemoyaGoogleTag = {
+      pushEvent() {},
+      trackConversion() {}
+    };
+
+    doc.querySelectorAll('script[src*="googletagmanager.com/gtm.js"],script[src*="googletagmanager.com/gtag/js"]').forEach((scriptNode) => {
+      scriptNode.remove();
+    });
+
+    doc.querySelectorAll('iframe[src*="googletagmanager.com/ns.html"]').forEach((iframeNode) => {
+      iframeNode.remove();
+    });
   };
 
   const getTrackableUrl = (link) => {
@@ -112,6 +160,24 @@
     }
   };
 
+  win.nanndemoyaGoogleTagConsent = {
+    getStatus() {
+      return getConsentStatus() || 'unset';
+    },
+    accept() {
+      isTrackingDisabled = false;
+      setConsentStatus(CONSENT_ACCEPTED);
+      loadGoogleTagManager();
+    },
+    decline() {
+      setConsentStatus(CONSENT_DECLINED);
+      disableTracking();
+    },
+    hide() {
+      setConsentStatus(CONSENT_HIDDEN, 60 * 60 * 24);
+    }
+  };
+
   doc.addEventListener('click', (event) => {
     if (!(event.target instanceof Element)) {
       return;
@@ -132,5 +198,13 @@
     }
   });
 
-  loadGoogleTagManager();
+  const initialConsentStatus = getConsentStatus();
+  if (initialConsentStatus === CONSENT_DECLINED) {
+    disableTracking();
+    return;
+  }
+
+  if (initialConsentStatus === CONSENT_ACCEPTED) {
+    loadGoogleTagManager();
+  }
 })();
