@@ -3,7 +3,6 @@
   const DATA_LAYER_NAME = 'dataLayer';
   const win = window;
   const doc = document;
-  const gtmStartTime = Date.now();
 
   if (win.__nanndemoyaGoogleTagManagerLoaded) {
     return;
@@ -48,7 +47,7 @@
 
   const loadGoogleTagManager = () => {
     pushEvent({
-      'gtm.start': gtmStartTime,
+      'gtm.start': new Date().getTime(),
       event: 'gtm.js'
     });
 
@@ -68,7 +67,10 @@
   const getTrackableUrl = (link) => {
     try {
       const url = new URL(link.href, win.location.href);
-      const shouldTrack = url.protocol === 'mailto:' || url.protocol === 'tel:' || url.host !== win.location.host || Boolean(link.dataset.googleEvent);
+      const isSpecialProtocol = url.protocol === 'mailto:' || url.protocol === 'tel:';
+      const isExternalLink = url.host !== win.location.host;
+      const hasCustomEvent = Boolean(link.dataset.googleEvent);
+      const shouldTrack = isSpecialProtocol || isExternalLink || hasCustomEvent;
       return shouldTrack ? url : null;
     } catch (error) {
       return null;
@@ -125,7 +127,7 @@
         trackLinkClick(link, url);
       }
     }
-  }, { passive: true });
+  });
 
   loadGoogleTagManager();
 })();
