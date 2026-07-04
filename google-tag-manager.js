@@ -100,6 +100,7 @@
 
   const disableTracking = () => {
     isTrackingDisabled = true;
+    isGoogleTagManagerScriptLoaded = false;
 
     doc.querySelectorAll('script[src*="googletagmanager.com/gtm.js"],script[src*="googletagmanager.com/gtag/js"]').forEach((scriptNode) => {
       scriptNode.remove();

@@ -98,22 +98,41 @@
       overlay.remove();
     };
 
-    overlay.querySelector('.nanndemoya-consent-accept').addEventListener('click', () => {
-      consentApi.accept();
-      removePopup();
-    });
+    const acceptButton = overlay.querySelector('.nanndemoya-consent-accept');
+    const declineButton = overlay.querySelector('.nanndemoya-consent-decline');
+    const hideButton = overlay.querySelector('.nanndemoya-consent-hide');
 
-    overlay.querySelector('.nanndemoya-consent-decline').addEventListener('click', () => {
-      consentApi.decline();
-      removePopup();
-    });
+    if (acceptButton) {
+      acceptButton.addEventListener('click', () => {
+        consentApi.accept();
+        removePopup();
+      });
+    }
 
-    overlay.querySelector('.nanndemoya-consent-hide').addEventListener('click', () => {
-      consentApi.hide();
-      removePopup();
-    });
+    if (declineButton) {
+      declineButton.addEventListener('click', () => {
+        consentApi.decline();
+        removePopup();
+      });
+    }
 
-    doc.body.appendChild(overlay);
+    if (hideButton) {
+      hideButton.addEventListener('click', () => {
+        consentApi.hide();
+        removePopup();
+      });
+    }
+
+    if (doc.body) {
+      doc.body.appendChild(overlay);
+      return;
+    }
+
+    doc.addEventListener('DOMContentLoaded', () => {
+      if (!overlay.isConnected && doc.body) {
+        doc.body.appendChild(overlay);
+      }
+    }, { once: true });
   };
 
   if (doc.readyState === 'loading') {
