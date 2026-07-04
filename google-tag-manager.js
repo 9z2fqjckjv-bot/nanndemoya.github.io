@@ -17,7 +17,7 @@
     }
   };
 
-  const normalizeText = (value) => value ? value.replace(/\s+/g, ' ').trim() : '';
+  const normalizeText = (value) => (value ?? '').toString().replace(/\s+/g, ' ').trim();
 
   const applyTrackingOptions = (element, payload) => {
     if (element.dataset.googleSendTo) {
@@ -30,7 +30,9 @@
 
     if (element.dataset.googleValue) {
       const numericValue = Number(element.dataset.googleValue);
-      payload.value = Number.isNaN(numericValue) ? element.dataset.googleValue : numericValue;
+      if (!Number.isNaN(numericValue)) {
+        payload.value = numericValue;
+      }
     }
   };
 
@@ -91,14 +93,14 @@
   };
 
   win.nanndemoyaGoogleTag = {
-    pushEvent(eventName, params) {
+    pushEvent(eventName, eventParams) {
       if (!eventName) {
         return;
       }
 
       pushEvent({
         event: eventName,
-        ...(params || {})
+        ...(eventParams || {})
       });
     },
     trackConversion(params) {
