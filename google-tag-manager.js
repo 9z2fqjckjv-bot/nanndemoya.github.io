@@ -55,8 +55,8 @@
 
     const script = doc.createElement('script');
     script.async = true;
-    const dataLayerParameter = DATA_LAYER_NAME !== 'dataLayer' ? '&l=' + encodeURIComponent(DATA_LAYER_NAME) : '';
-    script.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(GTM_ID) + dataLayerParameter;
+    const dataLayerQueryParam = DATA_LAYER_NAME !== 'dataLayer' ? '&l=' + encodeURIComponent(DATA_LAYER_NAME) : '';
+    script.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(GTM_ID) + dataLayerQueryParam;
 
     const firstScript = doc.getElementsByTagName('script')[0];
     if (firstScript && firstScript.parentNode) {
