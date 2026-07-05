@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <script src="google-tag-manager.js"></script>
+  <script src="google-tag-consent-popup.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Google Tag Manager と Google 向けデータ送信の状態を確認する診断ページです。">
+  <title>Googleタグ診断 | Nanndemoya</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #d7deea;
+      --ok-bg: #ecfdf3;
+      --ok-text: #166534;
+      --warn-bg: #fff7ed;
+      --warn-text: #9a3412;
+      --bad-bg: #fef2f2;
+      --bad-text: #b91c1c;
+      --accent: #2563eb;
+      --accent-dark: #1d4ed8;
+      --shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #eaf2ff 0%, var(--bg) 280px);
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    a:hover {
+      color: var(--accent-dark);
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 64px;
+    }
+
+    .hero,
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      margin: 12px 0 8px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .status-ok {
+      background: var(--ok-bg);
+      color: var(--ok-text);
+    }
+
+    .status-warn {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+    }
+
+    .status-bad {
+      background: var(--bad-bg);
+      color: var(--bad-text);
+    }
+
+    .hero-actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+    }
+
+    .button-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .button-primary:hover {
+      background: var(--accent-dark);
+      color: #fff;
+    }
+
+    .button-secondary {
+      background: #fff;
+      color: var(--accent);
+      border-color: #bfdbfe;
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      margin-bottom: 24px;
+    }
+
+    .card {
+      padding: 24px;
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 1.35rem;
+    }
+
+    .metric-list,
+    .suggestion-list,
+    .request-list {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .metric-list li,
+    .suggestion-list li,
+    .request-list li {
+      margin-bottom: 10px;
+    }
+
+    .summary {
+      font-weight: 700;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .audit-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+
+    .audit-table th,
+    .audit-table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .audit-table th {
+      font-size: 0.95rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .tag-ok {
+      background: var(--ok-bg);
+      color: var(--ok-text);
+    }
+
+    .tag-bad {
+      background: var(--bad-bg);
+      color: var(--bad-text);
+    }
+
+    .tag-warn {
+      background: var(--warn-bg);
+      color: var(--warn-text);
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.92em;
+    }
+
+    footer {
+      margin-top: 28px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 700px) {
+      .hero,
+      .card {
+        padding: 20px;
+      }
+
+      .audit-table,
+      .audit-table thead,
+      .audit-table tbody,
+      .audit-table tr,
+      .audit-table th,
+      .audit-table td {
+        display: block;
+      }
+
+      .audit-table thead {
+        display: none;
+      }
+
+      .audit-table tr {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .audit-table td {
+        border: none;
+        padding: 6px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P56Q566B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <main class="page">
+    <section class="hero">
+      <span id="overall-status" class="status-pill status-warn">診断を実行中です…</span>
+      <h1>Googleタグ診断</h1>
+      <p>このページは、Google Tag Manager の設置状況・同意設定・現在のブラウザで観測できる Google 向け通信をまとめて表示し、改善案を提示します。</p>
+      <div class="hero-actions">
+        <button id="rerun-button" class="button button-primary" type="button">再診断する</button>
+        <a class="button button-secondary" href="site-links.html">サイトリンクへ戻る</a>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>総合判定</h2>
+        <p id="overall-summary" class="summary">読み込み中です。</p>
+        <p id="overall-detail" class="muted">ページ構成とブラウザ上の挙動を確認しています。</p>
+      </article>
+
+      <article class="card">
+        <h2>現在のブラウザ状態</h2>
+        <ul id="runtime-metrics" class="metric-list"></ul>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>ページごとの設置確認</h2>
+      <p class="muted">HTML を直接読み取り、共通の Google Tag Manager 設定が揃っているかを確認します。</p>
+      <div id="page-audit"></div>
+    </section>
+
+    <section class="grid" style="margin-top: 24px;">
+      <article class="card">
+        <h2>観測できた Google 向け通信</h2>
+        <p class="muted">このブラウザで読み込み済みのリソースから判定しています。Google Tag Manager のコンテナ読み込みや Google の計測先への送信が見えているかを表示します。</p>
+        <ul id="request-list" class="request-list"></ul>
+      </article>
+
+      <article class="card">
+        <h2>改善案</h2>
+        <ul id="suggestion-list" class="suggestion-list"></ul>
+      </article>
+    </section>
+
+    <footer>
+      <p>© 2026 Nanndemoya | Anyways, Anywhere, Anytimes</p>
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      const PAGE_DEFINITIONS = [
+        { path: 'index.html', label: 'トップページ' },
+        { path: 'information.html', label: '連絡先' },
+        { path: 'site-links.html', label: 'サイトリンク' },
+        { path: 'policy.html', label: 'ポリシー' },
+        { path: 'NCF.html', label: '何でも屋基金' },
+        { path: 'anytime_service_prices.html', label: '利用料金表' },
+        { path: 'service_pricing_tables.html', label: 'サービス料金表' },
+        { path: 'google-tag-manager-diagnostics.html', label: 'Googleタグ診断' }
+      ];
+      const GTM_ID = 'GTM-P56Q566B';
+      const GOOGLE_HOST_PATTERN = /(googletagmanager\.com|google-analytics\.com|analytics\.google\.com|googleadservices\.com|doubleclick\.net|pagead2\.googlesyndication\.com)/i;
+
+      const overallStatus = document.getElementById('overall-status');
+      const overallSummary = document.getElementById('overall-summary');
+      const overallDetail = document.getElementById('overall-detail');
+      const runtimeMetrics = document.getElementById('runtime-metrics');
+      const pageAudit = document.getElementById('page-audit');
+      const requestList = document.getElementById('request-list');
+      const suggestionList = document.getElementById('suggestion-list');
+      const rerunButton = document.getElementById('rerun-button');
+
+      const wait = (milliseconds) => new Promise((resolve) => {
+        window.setTimeout(resolve, milliseconds);
+      });
+
+      const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[character]));
+
+      const createStatusTag = (label, level) => `<span class="tag tag-${level}">${escapeHtml(label)}</span>`;
+
+      const renderMetric = (label, value, level, detail) => {
+        const item = document.createElement('li');
+        item.innerHTML = `<strong>${escapeHtml(label)}:</strong> ${createStatusTag(value, level)}${detail ? ` <span class="muted">${escapeHtml(detail)}</span>` : ''}`;
+        runtimeMetrics.appendChild(item);
+      };
+
+      const getGoogleRequests = () => {
+        const resourceEntries = performance.getEntriesByType('resource');
+        return resourceEntries
+          .filter((entry) => GOOGLE_HOST_PATTERN.test(entry.name))
+          .map((entry) => ({
+            name: entry.name,
+            initiatorType: entry.initiatorType || 'unknown'
+          }));
+      };
+
+      const auditPage = async ({ path, label }) => {
+        try {
+          const response = await fetch(path, { cache: 'no-store' });
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+
+          const html = await response.text();
+          const parser = new DOMParser();
+          const documentSnapshot = parser.parseFromString(html, 'text/html');
+          const scriptSources = Array.from(documentSnapshot.querySelectorAll('script[src]')).map((node) => node.getAttribute('src') || '');
+
+          return {
+            path,
+            label,
+            hasTagManagerLoader: scriptSources.includes('google-tag-manager.js'),
+            hasConsentPopup: scriptSources.includes('google-tag-consent-popup.js'),
+            hasNoscriptIframe: new RegExp(`googletagmanager\\.com\\/ns\\.html\\?id=${GTM_ID}`).test(html),
+            hasDocumentTitle: Boolean(documentSnapshot.title.trim()),
+            error: ''
+          };
+        } catch (error) {
+          return {
+            path,
+            label,
+            hasTagManagerLoader: false,
+            hasConsentPopup: false,
+            hasNoscriptIframe: false,
+            hasDocumentTitle: false,
+            error: error instanceof Error ? error.message : 'unknown error'
+          };
+        }
+      };
+
+      const renderPageAudit = (results) => {
+        const rows = results.map((result) => {
+          const statuses = [
+            createStatusTag(result.hasTagManagerLoader ? 'あり' : '不足', result.hasTagManagerLoader ? 'ok' : 'bad'),
+            createStatusTag(result.hasConsentPopup ? 'あり' : '不足', result.hasConsentPopup ? 'ok' : 'bad'),
+            createStatusTag(result.hasNoscriptIframe ? 'あり' : '不足', result.hasNoscriptIframe ? 'ok' : 'bad')
+          ].join(' ');
+
+          const note = result.error
+            ? `<span class="tag tag-bad">取得失敗</span> <span class="muted">${escapeHtml(result.error)}</span>`
+            : result.hasDocumentTitle
+              ? '<span class="muted">基本構造を確認できました。</span>'
+              : '<span class="tag tag-warn">title未確認</span>';
+
+          return `
+            <tr>
+              <td><strong>${escapeHtml(result.label)}</strong><br><span class="muted"><code>${escapeHtml(result.path)}</code></span></td>
+              <td>${statuses}</td>
+              <td>${note}</td>
+            </tr>
+          `;
+        }).join('');
+
+        pageAudit.innerHTML = `
+          <table class="audit-table">
+            <thead>
+              <tr>
+                <th>ページ</th>
+                <th>GTM / 同意 / noscript</th>
+                <th>備考</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        `;
+      };
+
+      const renderRequests = (requests) => {
+        requestList.innerHTML = '';
+        if (!requests.length) {
+          const item = document.createElement('li');
+          item.textContent = 'このブラウザでは、まだ Google 向け通信を観測できていません。';
+          requestList.appendChild(item);
+          return;
+        }
+
+        const uniqueRequests = Array.from(new Map(requests.map((request) => [request.name, request])).values());
+        uniqueRequests.forEach((request) => {
+          const item = document.createElement('li');
+          item.innerHTML = `<code>${escapeHtml(request.name)}</code><span class="muted">（initiator: ${escapeHtml(request.initiatorType)}）</span>`;
+          requestList.appendChild(item);
+        });
+      };
+
+      const renderSuggestions = (pageResults, runtimeState) => {
+        suggestionList.innerHTML = '';
+        const suggestions = [];
+        const pagesWithMissingTags = pageResults.filter((result) => !result.error && (!result.hasTagManagerLoader || !result.hasConsentPopup || !result.hasNoscriptIframe));
+
+        if (pagesWithMissingTags.length) {
+          suggestions.push(`未設置のページがあります。${pagesWithMissingTags.map((page) => page.label).join('、')} に共通の Google Tag Manager 読み込みと noscript iframe を追加してください。`);
+        }
+
+        if (pageResults.some((result) => result.error)) {
+          suggestions.push('一部ページを取得できませんでした。公開環境でこの診断ページを開き、すべての HTML を再確認してください。');
+        }
+
+        if (runtimeState.consentStatus !== 'accepted') {
+          suggestions.push('現在は同意状態が accepted ではありません。実送信の確認には同意後に再診断し、Google Tag Manager の読み込みと通信発生を確認してください。');
+        }
+
+        if (!runtimeState.gtmApiAvailable) {
+          suggestions.push('nanndemoyaGoogleTag API が見つかりません。google-tag-manager.js の読み込み順序が変わっていないか確認してください。');
+        }
+
+        if (runtimeState.consentStatus === 'accepted' && !runtimeState.hasObservedGoogleRequest) {
+          suggestions.push('同意後も Google 向け通信が観測できません。GTM コンテナ内で GA4 や Google 広告タグが公開済みか、Tag Assistant のプレビューで発火条件を確認してください。');
+        }
+
+        if (runtimeState.consentStatus === 'accepted' && !runtimeState.probeQueued) {
+          suggestions.push('診断用イベントを dataLayer に追加できませんでした。window.dataLayer と nanndemoyaGoogleTag.pushEvent の利用可否を確認してください。');
+        }
+
+        if (!suggestions.length) {
+          suggestions.push('設置状況は良好です。今後ページを追加した際は、この診断ページで共通タグと通信状況を再確認してください。');
+        }
+
+        suggestions.forEach((text) => {
+          const item = document.createElement('li');
+          item.textContent = text;
+          suggestionList.appendChild(item);
+        });
+      };
+
+      const setOverallState = (level, summary, detail) => {
+        overallStatus.className = `status-pill status-${level}`;
+        overallStatus.textContent = level === 'ok' ? '連携は概ね良好です' : level === 'warn' ? '一部確認が必要です' : '要修正項目があります';
+        overallSummary.textContent = summary;
+        overallDetail.textContent = detail;
+      };
+
+      const runDiagnostics = async () => {
+        rerunButton.disabled = true;
+        runtimeMetrics.innerHTML = '';
+        pageAudit.innerHTML = '<p class="muted">ページ構成を確認中です。</p>';
+        requestList.innerHTML = '';
+        suggestionList.innerHTML = '';
+        setOverallState('warn', '診断を実行中です。', 'ページ構成とブラウザ上の状態を更新しています。');
+
+        const consentApi = window.nanndemoyaGoogleTagConsent;
+        const googleTagApi = window.nanndemoyaGoogleTag;
+        const consentStatus = consentApi && typeof consentApi.getStatus === 'function' ? consentApi.getStatus() : 'unavailable';
+        const dataLayer = Array.isArray(window.dataLayer) ? window.dataLayer : [];
+        const requestsBeforeProbe = getGoogleRequests();
+
+        let probeQueued = false;
+        if (consentStatus === 'accepted' && googleTagApi && typeof googleTagApi.pushEvent === 'function') {
+          const beforeLength = dataLayer.length;
+          googleTagApi.pushEvent('gtm_diagnostic_probe', {
+            diagnostic_mode: true,
+            diagnostic_page: location.pathname,
+            diagnostic_timestamp: new Date().toISOString()
+          });
+          await wait(400);
+          probeQueued = dataLayer.length > beforeLength;
+        }
+
+        await wait(400);
+        const pageResults = await Promise.all(PAGE_DEFINITIONS.map(auditPage));
+        const requestsAfterProbe = getGoogleRequests();
+        const allRequests = [...requestsBeforeProbe, ...requestsAfterProbe];
+        const hasObservedGoogleRequest = allRequests.length > 0;
+        const missingRequirementsCount = pageResults.filter((result) => result.error || !result.hasTagManagerLoader || !result.hasConsentPopup || !result.hasNoscriptIframe).length;
+        const runtimeState = {
+          consentStatus,
+          gtmApiAvailable: Boolean(googleTagApi && typeof googleTagApi.pushEvent === 'function'),
+          consentApiAvailable: Boolean(consentApi && typeof consentApi.getStatus === 'function'),
+          dataLayerAvailable: Array.isArray(window.dataLayer),
+          dataLayerLength: dataLayer.length,
+          hasObservedGoogleRequest,
+          probeQueued,
+          gtmScriptPresent: Boolean(document.querySelector('script[src*="googletagmanager.com/gtm.js"]'))
+        };
+
+        renderMetric('同意状態', consentStatus, consentStatus === 'accepted' ? 'ok' : consentStatus === 'unavailable' ? 'bad' : 'warn');
+        renderMetric('同意 API', runtimeState.consentApiAvailable ? '利用可能' : '未検出', runtimeState.consentApiAvailable ? 'ok' : 'bad');
+        renderMetric('Googleタグ API', runtimeState.gtmApiAvailable ? '利用可能' : '未検出', runtimeState.gtmApiAvailable ? 'ok' : 'bad');
+        renderMetric('dataLayer', runtimeState.dataLayerAvailable ? '利用可能' : '未検出', runtimeState.dataLayerAvailable ? 'ok' : 'bad', runtimeState.dataLayerAvailable ? `${runtimeState.dataLayerLength} 件` : '');
+        renderMetric('GTM スクリプト読込', runtimeState.gtmScriptPresent ? '観測済み' : '未観測', runtimeState.gtmScriptPresent ? 'ok' : consentStatus === 'accepted' ? 'warn' : 'warn');
+        renderMetric('診断イベント投入', probeQueued ? '成功' : '未確認', probeQueued ? 'ok' : consentStatus === 'accepted' ? 'warn' : 'warn');
+        renderMetric('Google 向け通信', hasObservedGoogleRequest ? '観測済み' : '未観測', hasObservedGoogleRequest ? 'ok' : consentStatus === 'accepted' ? 'warn' : 'warn');
+
+        renderPageAudit(pageResults);
+        renderRequests(allRequests);
+        renderSuggestions(pageResults, runtimeState);
+
+        if (missingRequirementsCount > 0) {
+          setOverallState('bad', '一部のページで共通タグまたは取得状態に問題があります。', '表の「不足」または「取得失敗」を解消してから再度確認してください。');
+        } else if (consentStatus !== 'accepted') {
+          setOverallState('warn', '設置状況は揃っていますが、現在のブラウザでは同意待ちのため実送信を断定できません。', '同意後に再診断すると、Google 向け通信の観測結果まで確認できます。');
+        } else if (!hasObservedGoogleRequest || !probeQueued) {
+          setOverallState('warn', '設置は揃っていますが、実際のデータ送信には追加確認が必要です。', 'GTM コンテナ内の配信設定とタグ発火条件を確認してください。');
+        } else {
+          setOverallState('ok', 'Google Tag Manager の設置と、このブラウザで観測できる Google 向け通信は概ね正常です。', '共通タグ・同意 API・dataLayer・Google 向け通信を確認できました。');
+        }
+
+        rerunButton.disabled = false;
+      };
+
+      rerunButton.addEventListener('click', () => {
+        runDiagnostics();
+      });
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', runDiagnostics, { once: true });
+      } else {
+        runDiagnostics();
+      }
+    })();
+  </script>
+</body>
+</html>
