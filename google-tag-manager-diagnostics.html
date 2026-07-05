@@ -327,7 +327,14 @@
         { path: 'google-tag-manager-diagnostics.html', label: 'Googleタグ診断' }
       ];
       const GTM_ID = 'GTM-P56Q566B';
-      const GOOGLE_HOST_PATTERN = /(googletagmanager\.com|google-analytics\.com|analytics\.google\.com|googleadservices\.com|doubleclick\.net|pagead2\.googlesyndication\.com)/i;
+      const GOOGLE_HOSTS = [
+        'googletagmanager.com',
+        'google-analytics.com',
+        'analytics.google.com',
+        'googleadservices.com',
+        'doubleclick.net',
+        'pagead2.googlesyndication.com'
+      ];
       const HTML_ESCAPE_MAP = {
         '&': '&amp;',
         '<': '&lt;',
@@ -362,7 +369,7 @@
       const getGoogleRequests = () => {
         const resourceEntries = performance.getEntriesByType('resource');
         return resourceEntries
-          .filter((entry) => GOOGLE_HOST_PATTERN.test(entry.name))
+          .filter((entry) => GOOGLE_HOSTS.some((host) => entry.name.includes(host)))
           .map((entry) => ({
             name: entry.name,
             initiatorType: entry.initiatorType || 'unknown'
@@ -462,7 +469,10 @@
         const pagesWithMissingTags = pageResults.filter((result) => !result.error && (!result.hasTagManagerLoader || !result.hasConsentPopup || !result.hasNoscriptIframe));
 
         if (pagesWithMissingTags.length) {
-          suggestions.push(`未設置のページがあります。${pagesWithMissingTags.map((page) => page.label).join('、')} に共通の Google Tag Manager 読み込みと noscript iframe を追加してください。`);
+          const previewLabels = pagesWithMissingTags.slice(0, 3).map((page) => page.label).join('、');
+          const additionalCount = pagesWithMissingTags.length - Math.min(pagesWithMissingTags.length, 3);
+          const suffix = additionalCount > 0 ? ` ほか ${additionalCount} ページ` : '';
+          suggestions.push(`未設置のページがあります。${previewLabels}${suffix} に共通の Google Tag Manager 読み込みと noscript iframe を追加してください。`);
         }
 
         if (pageResults.some((result) => result.error)) {
@@ -537,8 +547,13 @@
             diagnosticPage: location.pathname,
             diagnosticTimestamp: new Date().toISOString()
           });
-          await wait(400);
-          probeQueued = dataLayer.slice(beforeLength).some((entry) => entry && entry.event === 'gtm_diagnostic_probe');
+          for (let attempt = 0; attempt < 5; attempt += 1) {
+            await wait(250);
+            probeQueued = dataLayer.slice(beforeLength).some((entry) => entry && entry.event === 'gtm_diagnostic_probe');
+            if (probeQueued) {
+              break;
+            }
+          }
         }
 
         await wait(400);
