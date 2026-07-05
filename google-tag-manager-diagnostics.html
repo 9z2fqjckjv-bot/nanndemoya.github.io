@@ -327,6 +327,7 @@
         { path: 'google-tag-manager-diagnostics.html', label: 'Googleタグ診断' }
       ];
       const GTM_ID = 'GTM-P56Q566B';
+      const GTM_NOSCRIPT_PATTERN = new RegExp(`googletagmanager\\.com\\/ns\\.html\\?id=${GTM_ID}`);
       const GOOGLE_HOSTS = [
         'googletagmanager.com',
         'google-analytics.com',
@@ -340,8 +341,10 @@
         '<': '&lt;',
         '>': '&gt;',
         '"': '&quot;',
-        "'": '&#39;'
+        "'": '&#39;',
+        '`': '&#96;'
       };
+      // Retry for up to 1.25s to allow asynchronous dataLayer updates after the probe event.
       const MAX_PROBE_ATTEMPTS = 5;
 
       const overallStatus = document.getElementById('overall-status');
@@ -355,7 +358,7 @@
 
       const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
-      const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => HTML_ESCAPE_MAP[character]);
+      const escapeHtml = (value) => String(value).replace(/[&<>"'`]/g, (character) => HTML_ESCAPE_MAP[character]);
 
       const createStatusTag = (label, level) => `<span class="tag tag-${level}">${escapeHtml(label)}</span>`;
 
@@ -365,7 +368,7 @@
         runtimeMetrics.appendChild(item);
       };
 
-      const deduplicateRequests = (requests) => Array.from(new Map(requests.map((request) => [`${request.name}::${request.initiatorType}`, request])).values());
+      const deduplicateRequests = (requests) => Array.from(new Map(requests.map((request) => [JSON.stringify([request.name, request.initiatorType]), request])).values());
 
       const getGoogleRequests = () => {
         const resourceEntries = performance.getEntriesByType('resource');
@@ -394,7 +397,7 @@
             label,
             hasTagManagerLoader: scriptSources.includes('google-tag-manager.js'),
             hasConsentPopup: scriptSources.includes('google-tag-consent-popup.js'),
-            hasNoscriptIframe: new RegExp(`googletagmanager\\.com\\/ns\\.html\\?id=${GTM_ID}`).test(html),
+            hasNoscriptIframe: GTM_NOSCRIPT_PATTERN.test(html),
             hasDocumentTitle: Boolean(documentSnapshot.title.trim()),
             error: ''
           };
@@ -578,9 +581,9 @@
         renderMetric('同意 API', runtimeState.consentApiAvailable ? '利用可能' : '未検出', runtimeState.consentApiAvailable ? 'ok' : 'bad');
         renderMetric('Googleタグ API', runtimeState.gtmApiAvailable ? '利用可能' : '未検出', runtimeState.gtmApiAvailable ? 'ok' : 'bad');
         renderMetric('dataLayer', runtimeState.dataLayerAvailable ? '利用可能' : '未検出', runtimeState.dataLayerAvailable ? 'ok' : 'bad', runtimeState.dataLayerAvailable ? `${runtimeState.dataLayerLength} 件` : '');
-        renderMetric('GTM スクリプト読込', runtimeState.gtmScriptPresent ? '観測済み' : '未観測', runtimeState.gtmScriptPresent ? 'ok' : consentStatus === 'accepted' ? 'warn' : 'warn');
-        renderMetric('診断イベント投入', probeQueued ? '成功' : '未確認', probeQueued ? 'ok' : consentStatus === 'accepted' ? 'warn' : 'warn');
-        renderMetric('Google 向け通信', hasObservedGoogleRequest ? '観測済み' : '未観測', hasObservedGoogleRequest ? 'ok' : consentStatus === 'accepted' ? 'warn' : 'warn');
+        renderMetric('GTM スクリプト読込', runtimeState.gtmScriptPresent ? '観測済み' : '未観測', runtimeState.gtmScriptPresent ? 'ok' : 'warn');
+        renderMetric('診断イベント投入', probeQueued ? '成功' : '未確認', probeQueued ? 'ok' : 'warn');
+        renderMetric('Google 向け通信', hasObservedGoogleRequest ? '観測済み' : '未観測', hasObservedGoogleRequest ? 'ok' : 'warn');
 
         renderPageAudit(pageResults);
         renderRequests(allRequests);
