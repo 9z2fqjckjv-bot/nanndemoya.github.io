@@ -338,9 +338,7 @@
       const suggestionList = document.getElementById('suggestion-list');
       const rerunButton = document.getElementById('rerun-button');
 
-      const wait = (milliseconds) => new Promise((resolve) => {
-        window.setTimeout(resolve, milliseconds);
-      });
+      const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
       const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({
         '&': '&amp;',
@@ -358,7 +356,7 @@
         runtimeMetrics.appendChild(item);
       };
 
-      const uniqueRequestsByUrl = (requests) => Array.from(new Map(requests.map((request) => [request.name, request])).values());
+      const deduplicateRequests = (requests) => Array.from(new Map(requests.map((request) => [request.name, request])).values());
 
       const getGoogleRequests = () => {
         const resourceEntries = performance.getEntriesByType('resource');
@@ -450,7 +448,7 @@
           return;
         }
 
-        uniqueRequestsByUrl(requests).forEach((request) => {
+        deduplicateRequests(requests).forEach((request) => {
           const item = document.createElement('li');
           item.innerHTML = `<code>${escapeHtml(request.name)}</code><span class="muted">（initiator: ${escapeHtml(request.initiatorType)}）</span>`;
           requestList.appendChild(item);
