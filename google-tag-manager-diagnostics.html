@@ -358,6 +358,8 @@
         runtimeMetrics.appendChild(item);
       };
 
+      const uniqueRequestsByUrl = (requests) => Array.from(new Map(requests.map((request) => [request.name, request])).values());
+
       const getGoogleRequests = () => {
         const resourceEntries = performance.getEntriesByType('resource');
         return resourceEntries
@@ -448,8 +450,7 @@
           return;
         }
 
-        const uniqueRequests = Array.from(new Map(requests.map((request) => [request.name, request])).values());
-        uniqueRequests.forEach((request) => {
+        uniqueRequestsByUrl(requests).forEach((request) => {
           const item = document.createElement('li');
           item.innerHTML = `<code>${escapeHtml(request.name)}</code><span class="muted">（initiator: ${escapeHtml(request.initiatorType)}）</span>`;
           requestList.appendChild(item);
@@ -496,9 +497,21 @@
         });
       };
 
+      const getOverallStatusText = (level) => {
+        if (level === 'ok') {
+          return '連携は概ね良好です';
+        }
+
+        if (level === 'warn') {
+          return '一部確認が必要です';
+        }
+
+        return '要修正項目があります';
+      };
+
       const setOverallState = (level, summary, detail) => {
         overallStatus.className = `status-pill status-${level}`;
-        overallStatus.textContent = level === 'ok' ? '連携は概ね良好です' : level === 'warn' ? '一部確認が必要です' : '要修正項目があります';
+        overallStatus.textContent = getOverallStatusText(level);
         overallSummary.textContent = summary;
         overallDetail.textContent = detail;
       };
