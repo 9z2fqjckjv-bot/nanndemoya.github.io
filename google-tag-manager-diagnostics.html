@@ -328,6 +328,13 @@
       ];
       const GTM_ID = 'GTM-P56Q566B';
       const GOOGLE_HOST_PATTERN = /(googletagmanager\.com|google-analytics\.com|analytics\.google\.com|googleadservices\.com|doubleclick\.net|pagead2\.googlesyndication\.com)/i;
+      const HTML_ESCAPE_MAP = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      };
 
       const overallStatus = document.getElementById('overall-status');
       const overallSummary = document.getElementById('overall-summary');
@@ -340,13 +347,7 @@
 
       const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
-      const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;'
-      }[character]));
+      const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => HTML_ESCAPE_MAP[character]);
 
       const createStatusTag = (label, level) => `<span class="tag tag-${level}">${escapeHtml(label)}</span>`;
 
@@ -356,7 +357,7 @@
         runtimeMetrics.appendChild(item);
       };
 
-      const deduplicateRequests = (requests) => Array.from(new Map(requests.map((request) => [request.name, request])).values());
+      const deduplicateRequests = (requests) => Array.from(new Map(requests.map((request) => [`${request.name}::${request.initiatorType}`, request])).values());
 
       const getGoogleRequests = () => {
         const resourceEntries = performance.getEntriesByType('resource');
@@ -537,7 +538,7 @@
             diagnosticTimestamp: new Date().toISOString()
           });
           await wait(400);
-          probeQueued = dataLayer.length > beforeLength;
+          probeQueued = dataLayer.slice(beforeLength).some((entry) => entry && entry.event === 'gtm_diagnostic_probe');
         }
 
         await wait(400);
