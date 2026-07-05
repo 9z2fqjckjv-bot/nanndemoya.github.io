@@ -534,9 +534,9 @@
         if (consentStatus === 'accepted' && googleTagApi && typeof googleTagApi.pushEvent === 'function') {
           const beforeLength = dataLayer.length;
           googleTagApi.pushEvent('gtm_diagnostic_probe', {
-            diagnostic_mode: true,
-            diagnostic_page: location.pathname,
-            diagnostic_timestamp: new Date().toISOString()
+            diagnosticMode: true,
+            diagnosticPage: location.pathname,
+            diagnosticTimestamp: new Date().toISOString()
           });
           await wait(400);
           probeQueued = dataLayer.length > beforeLength;
