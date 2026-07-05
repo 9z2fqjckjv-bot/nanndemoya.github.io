@@ -342,6 +342,7 @@
         '"': '&quot;',
         "'": '&#39;'
       };
+      const MAX_PROBE_ATTEMPTS = 5;
 
       const overallStatus = document.getElementById('overall-status');
       const overallSummary = document.getElementById('overall-summary');
@@ -470,7 +471,7 @@
 
         if (pagesWithMissingTags.length) {
           const previewLabels = pagesWithMissingTags.slice(0, 3).map((page) => page.label).join('、');
-          const additionalCount = pagesWithMissingTags.length - Math.min(pagesWithMissingTags.length, 3);
+          const additionalCount = Math.max(0, pagesWithMissingTags.length - 3);
           const suffix = additionalCount > 0 ? ` ほか ${additionalCount} ページ` : '';
           suggestions.push(`未設置のページがあります。${previewLabels}${suffix} に共通の Google Tag Manager 読み込みと noscript iframe を追加してください。`);
         }
@@ -547,7 +548,7 @@
             diagnosticPage: location.pathname,
             diagnosticTimestamp: new Date().toISOString()
           });
-          for (let attempt = 0; attempt < 5; attempt += 1) {
+          for (let attempt = 0; attempt < MAX_PROBE_ATTEMPTS; attempt += 1) {
             await wait(250);
             probeQueued = dataLayer.slice(beforeLength).some((entry) => entry && entry.event === 'gtm_diagnostic_probe');
             if (probeQueued) {
