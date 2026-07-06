@@ -196,6 +196,7 @@
       + '<input type="tel" id="nm-lead-phone" name="phone" placeholder="例：090-1234-5678" autocomplete="tel">'
       + '</div>'
       + '<button type="submit" class="nm-lead-submit">送信する</button>'
+      + '<div class="nm-lead-error nm-lead-send-error" id="nm-lead-send-error" style="margin-top:10px;">送信に失敗しました。しばらくしてから再度お試しください。</div>'
       + '</form>'
       + '<div class="nm-lead-thanks" style="display:none;">'
       + '<span class="nm-lead-thanks-icon">✅</span>'
@@ -288,6 +289,8 @@
             return;
           }
 
+          var sendError = overlay.querySelector('#nm-lead-send-error');
+
           fetch(
             'https://api.github.com/repos/' + NM_FORM_GH_OWNER + '/' + NM_FORM_GH_REPO + '/issues',
             {
@@ -304,11 +307,23 @@
                 labels: [NM_FORM_GH_LABEL]
               })
             }
-          ).then(function () {
-            showThanks();
+          ).then(function (res) {
+            if (res.ok) {
+              showThanks();
+            } else {
+              showSendError();
+            }
           }).catch(function () {
-            showThanks();
+            showSendError();
           });
+
+          var showSendError = function () {
+            submitBtn.disabled = false;
+            submitBtn.textContent = '送信する';
+            if (sendError) {
+              sendError.style.display = 'block';
+            }
+          };
         };
 
         var showThanks = function () {
