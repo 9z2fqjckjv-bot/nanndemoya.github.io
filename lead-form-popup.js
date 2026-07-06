@@ -1,5 +1,5 @@
 (function () {
-  var REDIRECT_URL = 'https://example.com/contact'; // ← 遷移先を設定
+  var REDIRECT_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfYt373xf8padZTHHZMp9-z5XO4K7I1ugiK4Y7c0dMT_WkyvA/viewform?usp=publish-editor'; // ← 遷移先を設定
   var STORAGE_KEY = 'nanndemoya_lead_form_hidden_until';
   var DELAY_MS = 2500;
 
