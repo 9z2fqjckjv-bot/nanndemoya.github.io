@@ -1,7 +1,5 @@
 (function () {
-  var NM_FORM_GH_OWNER  = '9z2fqjckjv-bot';
-  var NM_FORM_GH_REPO   = 'nanndemoya.github.io';
-
+  var REDIRECT_URL = 'https://example.com/contact'; // ← 遷移先を設定
   var STORAGE_KEY = 'nanndemoya_lead_form_hidden_until';
   var DELAY_MS = 2500;
 
@@ -117,43 +115,13 @@
       '}',
       '.nm-lead-submit:hover {',
       '  background: #1f4fb0;',
-      '}',
-      '.nm-lead-thanks {',
-      '  text-align: center;',
-      '  padding: 12px 0 8px;',
-      '}',
-      '.nm-lead-thanks .nm-lead-thanks-icon {',
-      '  font-size: 44px;',
-      '  display: block;',
-      '  margin-bottom: 12px;',
-      '}',
-      '.nm-lead-thanks h3 {',
-      '  font-size: 20px;',
-      '  font-weight: 700;',
-      '  margin: 0 0 8px;',
-      '  color: #111;',
-      '}',
-      '.nm-lead-thanks p {',
-      '  font-size: 14px;',
-      '  color: #555;',
-      '  margin: 0 0 20px;',
-      '}',
-      '.nm-lead-thanks-close {',
-      '  padding: 10px 32px;',
-      '  background: #2f6fed;',
-      '  color: #fff;',
-      '  border: none;',
-      '  border-radius: 8px;',
-      '  font-size: 15px;',
-      '  font-weight: 700;',
-      '  cursor: pointer;',
-      '  transition: background 0.2s;',
-      '}',
-      '.nm-lead-thanks-close:hover {',
-      '  background: #1f4fb0;',
       '}'
     ].join('\n');
     doc.head.appendChild(style);
+
+    var a = Math.floor(Math.random() * 8) + 2; // 2-9
+    var b = Math.floor(Math.random() * 8) + 2; // 2-9
+    var botAnswer = a + b;
 
     var overlay = doc.createElement('div');
     overlay.className = 'nm-lead-overlay';
@@ -163,7 +131,7 @@
     overlay.innerHTML = '<div class="nm-lead-modal">'
       + '<button type="button" class="nm-lead-close" aria-label="閉じる">✕</button>'
       + '<h2 id="nm-lead-title">お気軽にお問い合わせください</h2>'
-      + '<p class="nm-lead-subtitle">ご連絡先をご入力いただくと、担当者よりご連絡いたします。</p>'
+      + '<p class="nm-lead-subtitle">ご連絡先をご入力のうえ、ボット確認に回答すると外部ページへ移動します。</p>'
       + '<form class="nm-lead-form" novalidate>'
       + '<div class="nm-lead-field">'
       + '<label for="nm-lead-name">氏名<span class="nm-lead-required">*</span></label>'
@@ -179,15 +147,13 @@
       + '<label for="nm-lead-phone">電話番号</label>'
       + '<input type="tel" id="nm-lead-phone" name="phone" placeholder="例：090-1234-5678" autocomplete="tel">'
       + '</div>'
-      + '<button type="submit" class="nm-lead-submit">送信する</button>'
-      + '<div class="nm-lead-error nm-lead-send-error" id="nm-lead-send-error" style="margin-top:10px;">送信に失敗しました。しばらくしてから再度お試しください。</div>'
-      + '</form>'
-      + '<div class="nm-lead-thanks" style="display:none;">'
-      + '<span class="nm-lead-thanks-icon">✅</span>'
-      + '<h3>ありがとうございます！</h3>'
-      + '<p>お問い合わせを受け付けました。<br>担当者よりご連絡差し上げます。</p>'
-      + '<button type="button" class="nm-lead-thanks-close">閉じる</button>'
+      + '<div class="nm-lead-field">'
+      + '<label for="nm-lead-bot">' + a + ' + ' + b + ' = ? <span class="nm-lead-required">*</span></label>'
+      + '<input type="text" id="nm-lead-bot" name="bot" inputmode="numeric" placeholder="計算結果を入力">'
+      + '<div class="nm-lead-error" id="nm-lead-bot-error">ボット確認の回答が正しくありません。</div>'
       + '</div>'
+      + '<button type="submit" class="nm-lead-submit">確認して進む</button>'
+      + '</form>'
       + '</div>';
 
     var hidePopupFor24h = function () {
@@ -220,15 +186,20 @@
 
         var nameInput = overlay.querySelector('#nm-lead-name');
         var emailInput = overlay.querySelector('#nm-lead-email');
+        var botInput = overlay.querySelector('#nm-lead-bot');
+
         var nameError = overlay.querySelector('#nm-lead-name-error');
         var emailError = overlay.querySelector('#nm-lead-email-error');
+        var botError = overlay.querySelector('#nm-lead-bot-error');
 
         var valid = true;
 
         nameInput.classList.remove('nm-lead-input-error');
         emailInput.classList.remove('nm-lead-input-error');
+        botInput.classList.remove('nm-lead-input-error');
         nameError.style.display = 'none';
         emailError.style.display = 'none';
+        botError.style.display = 'none';
 
         if (!nameInput.value.trim()) {
           nameInput.classList.add('nm-lead-input-error');
@@ -243,75 +214,20 @@
           valid = false;
         }
 
+        var botVal = parseInt((botInput.value || '').trim(), 10);
+        if (isNaN(botVal) || botVal !== botAnswer) {
+          botInput.classList.add('nm-lead-input-error');
+          botError.style.display = 'block';
+          valid = false;
+        }
+
         if (!valid) {
           return;
         }
 
-        var submitBtn = overlay.querySelector('.nm-lead-submit');
-        submitBtn.disabled = true;
-        submitBtn.textContent = '送信中...';
-
-        var phoneVal = (overlay.querySelector('#nm-lead-phone').value || '').trim();
-        var now = new Date();
-        var jstString = now.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
-
-        var doSubmit = function () {
-          var sendError = overlay.querySelector('#nm-lead-send-error');
-
-          fetch(
-            'https://api.github.com/repos/' + NM_FORM_GH_OWNER + '/' + NM_FORM_GH_REPO + '/dispatches',
-            {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/vnd.github+json',
-                'Content-Type': 'application/json',
-                'X-GitHub-Api-Version': '2022-11-28'
-              },
-              body: JSON.stringify({
-                event_type: 'lead_form_submission',
-                client_payload: {
-                  name: nameInput.value.trim(),
-                  email: emailVal,
-                  phone: phoneVal,
-                  submitted_at: jstString
-                }
-              })
-            }
-          ).then(function (res) {
-            if (res.ok) {
-              showThanks();
-            } else {
-              showSendError();
-            }
-          }).catch(function () {
-            showSendError();
-          });
-
-          var showSendError = function () {
-            submitBtn.disabled = false;
-            submitBtn.textContent = '送信する';
-            if (sendError) {
-              sendError.style.display = 'block';
-            }
-          };
-        };
-
-        var showThanks = function () {
-          form.style.display = 'none';
-          var thanks = overlay.querySelector('.nm-lead-thanks');
-          if (thanks) {
-            thanks.style.display = 'block';
-          }
-          hidePopupFor24h();
-        };
-
-        doSubmit();
+        hidePopupFor24h();
+        window.location.href = REDIRECT_URL;
       });
-    }
-
-    var thanksCloseBtn = overlay.querySelector('.nm-lead-thanks-close');
-    if (thanksCloseBtn) {
-      thanksCloseBtn.addEventListener('click', removePopup);
     }
 
     if (doc.body) {
