@@ -1,4 +1,23 @@
 (function () {
+  // ===== GitHub Issues 通知設定 =====
+  // フォーム送信内容をGitHub IssueとしてPOSTすることで、
+  // GitHubのネイティブ通知（Web＋メール）が発動します。
+  //
+  // 設定手順:
+  // 1. https://github.com/settings/personal-access-tokens/new でFine-grained PATを作成
+  //    - Repository access: "9z2fqjckjv-bot/nanndemoya.github.io" のみ
+  //    - Permissions: Issues → Read and write (他はすべて None)
+  // 2. 下記 NM_FORM_GH_TOKEN に発行したトークンを貼り付ける
+  // 3. GitHubの通知設定で "Watching" → "All Activity" をONにしておく
+  //
+  // ※ このトークンはソースコード上から見えますが、
+  //   Issues:Write 権限のみのため悪用されても Issue が作成されるだけです。
+  var NM_FORM_GH_TOKEN  = 'REPLACE_WITH_YOUR_GITHUB_PAT'; // ← ここを書き換える
+  var NM_FORM_GH_OWNER  = '9z2fqjckjv-bot';
+  var NM_FORM_GH_REPO   = 'nanndemoya.github.io';
+  var NM_FORM_GH_LABEL  = 'contact-form';
+  // ===================================
+
   var STORAGE_KEY = 'nanndemoya_lead_form_hidden_until';
   var DELAY_MS = 2500;
 
@@ -243,13 +262,65 @@
           return;
         }
 
-        form.style.display = 'none';
-        var thanks = overlay.querySelector('.nm-lead-thanks');
-        if (thanks) {
-          thanks.style.display = 'block';
-        }
+        var submitBtn = overlay.querySelector('.nm-lead-submit');
+        submitBtn.disabled = true;
+        submitBtn.textContent = '送信中...';
 
-        hidePopupFor24h();
+        var phoneVal = (overlay.querySelector('#nm-lead-phone').value || '').trim();
+        var now = new Date();
+        var jstString = now.toLocaleString('ja-JP', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+
+        var issueTitle = 'お問い合わせ：' + nameInput.value.trim() + ' 様';
+        var issueBody  = '## お問い合わせフォーム送信\n\n'
+          + '| 項目 | 内容 |\n'
+          + '|------|------|\n'
+          + '| **氏名** | ' + nameInput.value.trim() + ' |\n'
+          + '| **メールアドレス** | ' + emailVal + ' |\n'
+          + (phoneVal ? '| **電話番号** | ' + phoneVal + ' |\n' : '')
+          + '| **送信日時（JST）** | ' + jstString + ' |\n\n'
+          + '_このIssueはWebサイトのお問い合わせフォームから自動作成されました。_';
+
+        var doSubmit = function () {
+          if (!NM_FORM_GH_TOKEN || NM_FORM_GH_TOKEN === 'REPLACE_WITH_YOUR_GITHUB_PAT') {
+            // トークン未設定の場合はコンソール警告のみでサンクス画面を表示
+            console.warn('[lead-form] GitHub PAT が未設定です。lead-form-popup.js の NM_FORM_GH_TOKEN を設定してください。');
+            showThanks();
+            return;
+          }
+
+          fetch(
+            'https://api.github.com/repos/' + NM_FORM_GH_OWNER + '/' + NM_FORM_GH_REPO + '/issues',
+            {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/vnd.github+json',
+                'Authorization': 'Bearer ' + NM_FORM_GH_TOKEN,
+                'Content-Type': 'application/json',
+                'X-GitHub-Api-Version': '2022-11-28'
+              },
+              body: JSON.stringify({
+                title: issueTitle,
+                body: issueBody,
+                labels: [NM_FORM_GH_LABEL]
+              })
+            }
+          ).then(function () {
+            showThanks();
+          }).catch(function () {
+            showThanks();
+          });
+        };
+
+        var showThanks = function () {
+          form.style.display = 'none';
+          var thanks = overlay.querySelector('.nm-lead-thanks');
+          if (thanks) {
+            thanks.style.display = 'block';
+          }
+          hidePopupFor24h();
+        };
+
+        doSubmit();
       });
     }
 

@@ -1,0 +1,33 @@
+name: contact-form ラベル初期セットアップ
+
+# 手動実行のみ（初回だけ実行してください）
+on:
+  workflow_dispatch:
+
+jobs:
+  create-label:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: contact-form ラベルを作成
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'contact-form',
+                color: '0075ca',
+                description: 'Webサイトのお問い合わせフォームから自動作成',
+              });
+              console.log('✅ ラベル "contact-form" を作成しました。');
+            } catch (e) {
+              if (e.status === 422) {
+                console.log('ℹ️ ラベル "contact-form" はすでに存在します。');
+              } else {
+                throw e;
+              }
+            }
