@@ -492,7 +492,8 @@
         }
 
         if (runtimeState.consentStatus === 'accepted' && !runtimeState.hasObservedGoogleRequest) {
-          suggestions.push('同意後も Google 向け通信が観測できません。gtag.js および GTM コンテナの読み込みを確認してください。Google 広告・GA4 タグが google-tag-manager.js から正しく注入されているか確認してください。');
+          suggestions.push('同意後も Google 向け通信が観測できません。gtag.js と GTM スクリプトが正しく読み込まれているか確認してください。');
+          suggestions.push('google-tag-manager.js から Google 広告・GA4 タグが正しく注入されているか確認してください。GTM コンテナ内のタグ発火条件も見直してください。');
         }
 
         if (runtimeState.consentStatus === 'accepted' && !runtimeState.probeQueued) {

@@ -81,7 +81,7 @@
     }
 
     // Set up window.gtag and configure Google Ads + GA4 tags
-    win.gtag = win.gtag || function () { dataLayer.push(arguments); };
+    win.gtag = win.gtag || function () { (win[DATA_LAYER_NAME] = win[DATA_LAYER_NAME] || []).push(arguments); };
     win.gtag('js', new Date());
     win.gtag('config', GOOGLE_ADS_ID);
     GA4_IDS.forEach(function (id) { win.gtag('config', id); });
@@ -124,8 +124,7 @@
     doc.querySelectorAll('iframe[src*="googletagmanager.com/ns.html"]').forEach((iframeNode) => {
       iframeNode.remove();
     });
-
-    win.gtag = undefined;
+    delete win.gtag;
   };
 
   const getTrackableUrl = (link) => {
