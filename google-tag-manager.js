@@ -1,7 +1,5 @@
 (function () {
   const GTM_ID = 'GTM-P56Q566B';
-  const GOOGLE_ADS_ID = 'AW-17751593563';
-  const GA4_IDS = ['G-ZKMBJ3ZPGE', 'G-SPPEKLT0LH'];
   const DATA_LAYER_NAME = 'dataLayer';
   const CONSENT_COOKIE_NAME = 'nanndemoya_google_tag_consent';
   const CONSENT_ACCEPTED = 'accepted';
@@ -79,18 +77,6 @@
     if (!isTrackingAllowed() || isGoogleTagManagerScriptLoaded) {
       return;
     }
-
-    // Set up window.gtag and configure Google Ads + GA4 tags
-    win.gtag = win.gtag || function () { (win[DATA_LAYER_NAME] = win[DATA_LAYER_NAME] || []).push(arguments); };
-    win.gtag('js', new Date());
-    win.gtag('config', GOOGLE_ADS_ID);
-    GA4_IDS.forEach(function (id) { win.gtag('config', id); });
-
-    // Load gtag.js library (covers Google Ads and GA4)
-    const gtagScript = doc.createElement('script');
-    gtagScript.async = true;
-    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GOOGLE_ADS_ID);
-    (doc.head || doc.documentElement).appendChild(gtagScript);
 
     // Load Google Tag Manager
     pushEvent({
