@@ -96,60 +96,6 @@
             {
                 "accountId": "6314892635",
                 "containerId": "231014985",
-                "tagId": "25",
-                "name": "購入",
-                "type": "awct",
-                "parameter": [
-                    {
-                        "type": "BOOLEAN",
-                        "key": "enableNewCustomerReporting",
-                        "value": "false"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "enableConversionLinker",
-                        "value": "true"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "enableProductReporting",
-                        "value": "false"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "enableShippingData",
-                        "value": "false"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "conversionId",
-                        "value": "17751593563"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "conversionLabel",
-                        "value": "OweTCOTg-socENukz5BC"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "rdp",
-                        "value": "false"
-                    }
-                ],
-                "fingerprint": "1783465893631",
-                "firingTriggerId": [
-                    "29"
-                ],
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "6314892635",
-                "containerId": "231014985",
                 "tagId": "26",
                 "name": "Google タグ G-SPPEKLT0LH",
                 "type": "googtag",
@@ -257,31 +203,6 @@
                 "name": "JavaScript エラー",
                 "type": "JS_ERROR",
                 "fingerprint": "1767491717613"
-            },
-            {
-                "accountId": "6314892635",
-                "containerId": "231014985",
-                "triggerId": "29",
-                "name": "購入コンバージョン用",
-                "type": "PAGEVIEW",
-                "filter": [
-                    {
-                        "type": "EQUALS",
-                        "parameter": [
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg0",
-                                "value": "{{Page URL}}"
-                            },
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg1",
-                                "value": "https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/NCF.html"
-                            }
-                        ]
-                    }
-                ],
-                "fingerprint": "1783463666688"
             }
         ],
         "variable": [
