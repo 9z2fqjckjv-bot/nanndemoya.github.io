@@ -1,10 +1,10 @@
 (function () {
   // --- 設定値 ---
   var REDIRECT_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfYt373xf8padZTHHZMp9-z5XO4K7I1ugiK4Y7c0dMT_WkyvA/viewform?usp=publish-editor';
-  var GOOGLE_CLIENT_ID = 'YOUR_CLIENT_ID.apps.googleusercontent.com';
+  var GOOGLE_CLIENT_ID = '593428385721-mj70tgma9b20kd4hm9u1ni90nhsre36l.apps.googleusercontent.com';
   var GOOGLE_SCRIPT_SRC = 'https://accounts.google.com/gsi/client';
-  var GOOGLE_NAME_ENTRY_KEY = 'entry.111111111';
-  var GOOGLE_EMAIL_ENTRY_KEY = 'entry.222222222';
+  var GOOGLE_NAME_ENTRY_KEY = 'entry.1152315817';
+  var GOOGLE_EMAIL_ENTRY_KEY = 'entry.1404478992';
   var STORAGE_KEY = 'nanndemoya_lead_form_hidden_until';
   var DELAY_MS = 2500;
   var APPEND_RETRY_DELAY_MS = 50;
