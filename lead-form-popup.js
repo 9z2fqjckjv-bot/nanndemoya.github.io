@@ -247,16 +247,18 @@
     }
 
     // 作成した要素を確実にDOM（画面）へ追加
-    if (doc.body) {
-      doc.body.appendChild(overlay);
-      return;
-    }
+    var appendOverlay = function () {
+      if (!doc.body) {
+        window.setTimeout(appendOverlay, 50);
+        return;
+      }
 
-    doc.addEventListener('DOMContentLoaded', function () {
-      if (doc.body && !doc.body.contains(overlay)) {
+      if (!doc.body.contains(overlay)) {
         doc.body.appendChild(overlay);
       }
-    }, { once: true });
+    };
+
+    appendOverlay();
   };
 
   // --- 修正の要：DOM（HTML）の構築が完全に終わってからタイマーを始動させる ---
