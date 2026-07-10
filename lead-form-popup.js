@@ -253,7 +253,7 @@
     var appendOverlay = function () {
       if (!doc.body) {
         appendAttempts += 1;
-        if (appendAttempts <= MAX_APPEND_RETRIES) {
+        if (appendAttempts < MAX_APPEND_RETRIES) {
           window.setTimeout(appendOverlay, APPEND_RETRY_DELAY_MS);
         }
         return;
