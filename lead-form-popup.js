@@ -1,28 +1,10 @@
-<!-- 1. Google認証ライブラリの読み込み（<head>内または</body>直前に記述） -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-
-<!-- 2. Googleでログインボタンを表示したい場所に設置 -->
-<div id="g_id_onload"
-     data-client_id="593428385721-mj70tgma9b20kd4hm9u1ni90nhsre36l.apps.googleusercontent.com" 
-     data-context="signin"
-     data-ux_mode="popup"
-     data-callback="handleCredentialResponse"
-     data-auto_prompt="false">
-</div>
-
-<div class="g_id_signin"
-     data-type="standard"
-     data-shape="rounded"
-     data-theme="outline"
-     data-text="signin_with"
-     data-size="large"
-     data-logo_alignment="left">
-</div>
 (function () {
+  // --- 設定値 ---
   var REDIRECT_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfYt373xf8padZTHHZMp9-z5XO4K7I1ugiK4Y7c0dMT_WkyvA/viewform?usp=publish-editor';
   var STORAGE_KEY = 'nanndemoya_lead_form_hidden_until';
   var DELAY_MS = 2500;
 
+  // すでに非表示期間中（24時間以内）であれば、何もしない
   var now = Date.now();
   var hiddenUntil = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
   if (now < hiddenUntil) {
@@ -31,7 +13,9 @@
 
   var doc = document;
 
+  // --- ポップアップを生成・表示する主要関数 ---
   var renderPopup = function () {
+    // 1. スタイルの生成と追加
     var style = doc.createElement('style');
     style.textContent = [
       '.nm-lead-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 10000; }',
@@ -54,10 +38,12 @@
     ].join('\n');
     doc.head.appendChild(style);
 
+    // 2. ボット確認用の計算問題を生成 (2〜9のランダム)
     var a = Math.floor(Math.random() * 8) + 2;
     var b = Math.floor(Math.random() * 8) + 2;
     var botAnswer = a + b;
 
+    // 3. オーバーレイ要素の作成
     var overlay = doc.createElement('div');
     overlay.className = 'nm-lead-overlay';
     overlay.setAttribute('role', 'dialog');
@@ -69,8 +55,6 @@
       + '<h2 id="nm-lead-title">お気軽にお問い合わせください</h2>'
       + '<p class="nm-lead-subtitle">ご連絡先をご入力のうえ、ボット確認に回答すると外部ページへ移動します。</p>'
       + '<form class="nm-lead-form" novalidate>'
-      
-      // 姓・名（横並び）
       + '<div class="nm-lead-row">'
       + '<div class="nm-lead-field">'
       + '<label for="nm-lead-last-name">姓<span class="nm-lead-required">*</span></label>'
@@ -83,8 +67,6 @@
       + '<div class="nm-lead-error" id="nm-lead-first-name-error">名を入力してください。</div>'
       + '</div>'
       + '</div>'
-      
-      // メール・電話
       + '<div class="nm-lead-field">'
       + '<label for="nm-lead-email">メールアドレス<span class="nm-lead-required">*</span></label>'
       + '<input type="email" id="nm-lead-email" placeholder="例：example@email.com" autocomplete="email">'
@@ -95,8 +77,6 @@
       + '<input type="tel" id="nm-lead-phone" placeholder="例：09012345678" autocomplete="tel">'
       + '<div class="nm-lead-error" id="nm-lead-phone-error">電話番号を入力してください。</div>'
       + '</div>'
-      
-      // 国・郵便番号（国はデフォルト日本）
       + '<div class="nm-lead-row">'
       + '<div class="nm-lead-field">'
       + '<label for="nm-lead-country">国<span class="nm-lead-required">*</span></label>'
@@ -111,8 +91,6 @@
       + '<div class="nm-lead-error" id="nm-lead-postal-error">郵便番号を入力してください。</div>'
       + '</div>'
       + '</div>'
-
-      // 地域（都道府県）・市区町村
       + '<div class="nm-lead-row">'
       + '<div class="nm-lead-field">'
       + '<label for="nm-lead-region">地域 (都道府県)<span class="nm-lead-required">*</span></label>'
@@ -125,25 +103,21 @@
       + '<div class="nm-lead-error" id="nm-lead-locality-error">市区町村を入力してください。</div>'
       + '</div>'
       + '</div>'
-
-      // 番地
       + '<div class="nm-lead-field">'
       + '<label for="nm-lead-street">番地・ビル名<span class="nm-lead-required">*</span></label>'
       + '<input type="text" id="nm-lead-street" placeholder="例：千代田1-1" autocomplete="address-line1">'
       + '<div class="nm-lead-error" id="nm-lead-street-error">番地を入力してください。</div>'
       + '</div>'
-      
-      // ボット確認
       + '<div class="nm-lead-field">'
       + '<label for="nm-lead-bot">' + a + ' + ' + b + ' = ? <span class="nm-lead-required">*</span></label>'
       + '<input type="text" id="nm-lead-bot" inputmode="numeric" placeholder="計算結果を入力">'
       + '<div class="nm-lead-error" id="nm-lead-bot-error">ボット確認の回答が正しくありません。</div>'
       + '</div>'
-      
       + '<button type="submit" class="nm-lead-submit">確認して進む</button>'
       + '</form>'
       + '</div>';
 
+    // クッキー/ローカルストレージに24時間非表示フラグをセットする関数
     var hidePopupFor24h = function () {
       localStorage.setItem(STORAGE_KEY, String(Date.now() + 24 * 60 * 60 * 1000));
     };
@@ -152,6 +126,7 @@
       overlay.remove();
     };
 
+    // ✕ ボタンによるクローズ
     var closeBtn = overlay.querySelector('.nm-lead-close');
     if (closeBtn) {
       closeBtn.addEventListener('click', function () {
@@ -160,6 +135,7 @@
       });
     }
 
+    // フォーム送信処理（バリデーションとGTMデータ送信）
     var form = overlay.querySelector('.nm-lead-form');
     if (form) {
       form.addEventListener('submit', function (e) {
@@ -192,15 +168,15 @@
 
         var valid = true;
 
-        // エラー状態の初期化
+        // エラー表示リセット
         Object.keys(inputs).forEach(function(key) {
-          inputs[key].classList.remove('nm-lead-input-error');
+          if(inputs[key]) inputs[key].classList.remove('nm-lead-input-error');
         });
         Object.keys(errors).forEach(function(key) {
-          errors[key].style.display = 'none';
+          if(errors[key]) errors[key].style.display = 'none';
         });
 
-        // 必須チェック一覧
+        // 必須テキストフィールドチェック
         var requiredFields = ['lastName', 'firstName', 'phone', 'postal', 'region', 'locality', 'street'];
         requiredFields.forEach(function(field) {
           if (!inputs[field].value.trim()) {
@@ -210,7 +186,7 @@
           }
         });
 
-        // メールチェック
+        // メールアドレス形式チェック
         var emailVal = inputs.email.value.trim();
         if (!emailVal || !inputs.email.validity.valid) {
           inputs.email.classList.add('nm-lead-input-error');
@@ -218,7 +194,7 @@
           valid = false;
         }
 
-        // ボットチェック
+        // ボット計算クイズチェック
         var botVal = parseInt((inputs.bot.value || '').trim(), 10);
         if (isNaN(botVal) || botVal !== botAnswer) {
           inputs.bot.classList.add('nm-lead-input-error');
@@ -230,7 +206,7 @@
           return;
         }
 
-        // ✨ すべてのデータをGTMのデータレイヤーへ送信
+        // ✨ すべてのデータをGTMのdataLayer（拡張コンバージョン対応）へ送信
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           'event': 'lead_form_submit',
@@ -247,71 +223,25 @@
 
         hidePopupFor24h();
         
-        // データレイヤーへの書き込み完了をわずかに待ってからGoogleフォームへ安全に遷移
+        // GTMへのデータ書き込みの時間をわずかに待ってから安全にGoogleフォームへ遷移
         setTimeout(function() {
           window.location.href = REDIRECT_URL;
         }, 150);
       });
     }
 
-    if (doc.body) {
-      doc.body.appendChild(overlay);
-      return;
-    }
-
-    doc.addEventListener('DOMContentLoaded', function () {
-      if (!doc.body.contains(overlay) && doc.body) {
-        doc.body.appendChild(overlay);
-      }
-    }, { once: true });
+    // 作成した要素を確実にDOM（画面）へ追加
+    doc.body.appendChild(overlay);
   };
 
-  var schedulePopup = function () {
+  // --- 修正の要：DOM（HTML）の構築が完全に終わってからタイマーを始動させる ---
+  var initPopupScheduler = function () {
     setTimeout(renderPopup, DELAY_MS);
   };
 
-  if (doc.readyState === 'loading') {
-    doc.addEventListener('DOMContentLoaded', schedulePopup, { once: true });
-    return;
+  if (doc.readyState === 'interactive' || doc.readyState === 'complete') {
+    initPopupScheduler();
+  } else {
+    doc.addEventListener('DOMContentLoaded', initPopupScheduler, { once: true });
   }
-
-  schedulePopup();
 })();
-
-// JWT（Googleから返却される暗号化データ）を解読するための関数
-function decodeJwtResponse(token) {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    return JSON.parse(jsonPayload);
-}
-
-// Googleログインが成功した時に自動で呼び出される関数
-function handleCredentialResponse(response) {
-    // 1. ユーザー情報の取得
-    const responsePayload = decodeJwtResponse(response.credential);
-    
-    const userName  = responsePayload.name;  // フルネーム (例: 山田太郎)
-    const userEmail = responsePayload.email; // メールアドレス
-
-    // 2. 拡張コンバージョン用にGTMデータレイヤーにも送信しておく場合（任意）
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-        'event': 'lead_google_login',
-        'lead_email': userEmail,
-        'lead_first_name': responsePayload.given_name,
-        'lead_last_name': responsePayload.family_name
-    });
-
-    // 3. Googleフォームの事前入力URLの組み立て
-    // ★ステップ1で取得したベースURLに書き換えてください
-    const formBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfYt373xf8padZTHHZMp9-z5XO4K7I1ugiK4Y7c0dMT_WkyvA/viewform?usp=pp_url";
-    
-    // ★ダミー文字列に対応する entry.xxxx の部分をステップ1の結果に合わせて書き換えてください
-    const finalFormUrl = `${formBaseUrl}&entry.111111111=${encodeURIComponent(userName)}&entry.1152315817=${encodeURIComponent(userEmail)}`;
-
-    // 4. Googleフォームへユーザーを画面遷移させる（別タブで開く場合）
-    window.open(finalFormUrl, '_blank');
-}
