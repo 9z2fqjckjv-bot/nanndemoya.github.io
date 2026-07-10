@@ -1,3 +1,23 @@
+<!-- 1. Google認証ライブラリの読み込み（<head>内または</body>直前に記述） -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<!-- 2. Googleでログインボタンを表示したい場所に設置 -->
+<div id="g_id_onload"
+     data-client_id="593428385721-mj70tgma9b20kd4hm9u1ni90nhsre36l.apps.googleusercontent.com" 
+     data-context="signin"
+     data-ux_mode="popup"
+     data-callback="handleCredentialResponse"
+     data-auto_prompt="false">
+</div>
+
+<div class="g_id_signin"
+     data-type="standard"
+     data-shape="rounded"
+     data-theme="outline"
+     data-text="signin_with"
+     data-size="large"
+     data-logo_alignment="left">
+</div>
 (function () {
   var REDIRECT_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfYt373xf8padZTHHZMp9-z5XO4K7I1ugiK4Y7c0dMT_WkyvA/viewform?usp=publish-editor';
   var STORAGE_KEY = 'nanndemoya_lead_form_hidden_until';
@@ -257,3 +277,41 @@
 
   schedulePopup();
 })();
+
+// JWT（Googleから返却される暗号化データ）を解読するための関数
+function decodeJwtResponse(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+}
+
+// Googleログインが成功した時に自動で呼び出される関数
+function handleCredentialResponse(response) {
+    // 1. ユーザー情報の取得
+    const responsePayload = decodeJwtResponse(response.credential);
+    
+    const userName  = responsePayload.name;  // フルネーム (例: 山田太郎)
+    const userEmail = responsePayload.email; // メールアドレス
+
+    // 2. 拡張コンバージョン用にGTMデータレイヤーにも送信しておく場合（任意）
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        'event': 'lead_google_login',
+        'lead_email': userEmail,
+        'lead_first_name': responsePayload.given_name,
+        'lead_last_name': responsePayload.family_name
+    });
+
+    // 3. Googleフォームの事前入力URLの組み立て
+    // ★ステップ1で取得したベースURLに書き換えてください
+    const formBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfYt373xf8padZTHHZMp9-z5XO4K7I1ugiK4Y7c0dMT_WkyvA/viewform?usp=pp_url";
+    
+    // ★ダミー文字列に対応する entry.xxxx の部分をステップ1の結果に合わせて書き換えてください
+    const finalFormUrl = `${formBaseUrl}&entry.111111111=${encodeURIComponent(userName)}&entry.1152315817=${encodeURIComponent(userEmail)}`;
+
+    // 4. Googleフォームへユーザーを画面遷移させる（別タブで開く場合）
+    window.open(finalFormUrl, '_blank');
+}
