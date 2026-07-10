@@ -1,6 +1,10 @@
 (function () {
   // --- 設定値 ---
   var REDIRECT_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfYt373xf8padZTHHZMp9-z5XO4K7I1ugiK4Y7c0dMT_WkyvA/viewform?usp=publish-editor';
+  var GOOGLE_CLIENT_ID = 'YOUR_CLIENT_ID.apps.googleusercontent.com';
+  var GOOGLE_SCRIPT_SRC = 'https://accounts.google.com/gsi/client';
+  var GOOGLE_NAME_ENTRY_KEY = 'entry.111111111';
+  var GOOGLE_EMAIL_ENTRY_KEY = 'entry.222222222';
   var STORAGE_KEY = 'nanndemoya_lead_form_hidden_until';
   var DELAY_MS = 2500;
   var APPEND_RETRY_DELAY_MS = 50;
@@ -30,6 +34,86 @@
   }
 
   var doc = document;
+  var decodeJwtResponse = function (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  };
+  var buildGoogleFormUrl = function (fullName, email) {
+    var url = new URL(REDIRECT_URL, window.location.href);
+    if (GOOGLE_NAME_ENTRY_KEY) {
+      url.searchParams.set(GOOGLE_NAME_ENTRY_KEY, fullName);
+    }
+    if (GOOGLE_EMAIL_ENTRY_KEY) {
+      url.searchParams.set(GOOGLE_EMAIL_ENTRY_KEY, email);
+    }
+    return url.toString();
+  };
+  var handleCredentialResponse = function (response) {
+    var responsePayload = decodeJwtResponse(response.credential);
+    var userName = responsePayload.name || '';
+    var userEmail = responsePayload.email || '';
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'lead_google_login',
+      'lead_email': userEmail,
+      'lead_first_name': responsePayload.given_name || '',
+      'lead_last_name': responsePayload.family_name || ''
+    });
+
+    window.open(buildGoogleFormUrl(userName, userEmail), '_blank');
+  };
+  window.handleCredentialResponse = handleCredentialResponse;
+  var ensureGoogleIdentityScript = function (overlay) {
+    var script = doc.querySelector('script[src="' + GOOGLE_SCRIPT_SRC + '"]');
+    var renderGoogleButton = function () {
+      if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+        return;
+      }
+
+      var target = overlay.querySelector('.g_id_signin');
+      if (!target) {
+        return;
+      }
+
+      target.innerHTML = '';
+      window.google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleCredentialResponse,
+        context: 'signin',
+        ux_mode: 'popup',
+        auto_select: false
+      });
+      window.google.accounts.id.renderButton(target, {
+        type: 'standard',
+        shape: 'rounded',
+        theme: 'outline',
+        text: 'signin_with',
+        size: 'large',
+        logo_alignment: 'left'
+      });
+    };
+
+    if (script) {
+      if (window.google && window.google.accounts && window.google.accounts.id) {
+        renderGoogleButton();
+      } else {
+        script.addEventListener('load', renderGoogleButton, { once: true });
+      }
+      return;
+    }
+
+    script = doc.createElement('script');
+    script.src = GOOGLE_SCRIPT_SRC;
+    script.async = true;
+    script.defer = true;
+    script.onload = renderGoogleButton;
+    doc.head.appendChild(script);
+  };
 
   // --- ポップアップを生成・表示する主要関数 ---
   var renderPopup = function () {
@@ -51,6 +135,9 @@
       '.nm-lead-field input:focus, .nm-lead-field select:focus { border-color: #2f6fed; }',
       '.nm-lead-field input.nm-lead-input-error { border-color: #c62828; }',
       '.nm-lead-error { font-size: 11px; color: #c62828; margin-top: 3px; display: none; }',
+      '.nm-lead-google { margin: 0 0 14px; }',
+      '.nm-lead-google-note { margin: 0 0 6px; font-size: 12px; color: #555; }',
+      '.nm-lead-divider { margin: 16px 0 12px; border: 0; border-top: 1px solid #e3e8f0; }',
       '.nm-lead-submit { width: 100%; padding: 10px; margin-top: 8px; background: #2f6fed; color: #fff; border: none; border-radius: 6px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; }',
       '.nm-lead-submit:hover { background: #1f4fb0; }'
     ].join('\n');
@@ -72,6 +159,12 @@
       + '<button type="button" class="nm-lead-close" aria-label="閉じる">✕</button>'
       + '<h2 id="nm-lead-title">お気軽にお問い合わせください</h2>'
       + '<p class="nm-lead-subtitle">ご連絡先をご入力のうえ、ボット確認に回答すると外部ページへ移動します。</p>'
+      + '<div class="nm-lead-google">'
+      + '<p class="nm-lead-google-note">Googleアカウントでログインして入力を省略できます。</p>'
+      + '<div id="g_id_onload" data-client_id="' + GOOGLE_CLIENT_ID + '" data-context="signin" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>'
+      + '<div class="g_id_signin" data-type="standard" data-shape="rounded" data-theme="outline" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>'
+      + '</div>'
+      + '<hr class="nm-lead-divider">'
       + '<form class="nm-lead-form" novalidate>'
       + '<div class="nm-lead-row">'
       + '<div class="nm-lead-field">'
@@ -262,6 +355,7 @@
       }
 
       doc.body.appendChild(overlay);
+      ensureGoogleIdentityScript(overlay);
     };
 
     appendOverlay();
