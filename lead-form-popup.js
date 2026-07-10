@@ -3,6 +3,8 @@
   var REDIRECT_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfYt373xf8padZTHHZMp9-z5XO4K7I1ugiK4Y7c0dMT_WkyvA/viewform?usp=publish-editor';
   var STORAGE_KEY = 'nanndemoya_lead_form_hidden_until';
   var DELAY_MS = 2500;
+  var APPEND_RETRY_DELAY_MS = 50;
+  var MAX_APPEND_RETRIES = 100;
   var memoryHiddenUntil = 0;
   var readHiddenUntil = function () {
     try {
@@ -251,15 +253,13 @@
     var appendOverlay = function () {
       if (!doc.body) {
         appendAttempts += 1;
-        if (appendAttempts <= 100) {
-          window.setTimeout(appendOverlay, 50);
+        if (appendAttempts <= MAX_APPEND_RETRIES) {
+          window.setTimeout(appendOverlay, APPEND_RETRY_DELAY_MS);
         }
         return;
       }
 
-      if (!doc.body.contains(overlay)) {
-        doc.body.appendChild(overlay);
-      }
+      doc.body.appendChild(overlay);
     };
 
     appendOverlay();
