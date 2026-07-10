@@ -4,7 +4,7 @@
   var STORAGE_KEY = 'nanndemoya_lead_form_hidden_until';
   var DELAY_MS = 2500;
   var APPEND_RETRY_DELAY_MS = 50;
-  var MAX_APPEND_RETRIES = 100;
+  var MAX_APPEND_RETRIES = 60;
   var memoryHiddenUntil = 0;
   var readHiddenUntil = function () {
     try {
@@ -255,6 +255,8 @@
         appendAttempts += 1;
         if (appendAttempts < MAX_APPEND_RETRIES) {
           window.setTimeout(appendOverlay, APPEND_RETRY_DELAY_MS);
+        } else if (window.console && typeof window.console.warn === 'function') {
+          window.console.warn('Lead form popup could not be attached because document.body was unavailable.');
         }
         return;
       }
