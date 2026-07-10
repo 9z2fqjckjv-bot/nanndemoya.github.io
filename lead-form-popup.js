@@ -247,9 +247,13 @@
     }
 
     // 作成した要素を確実にDOM（画面）へ追加
+    var appendAttempts = 0;
     var appendOverlay = function () {
       if (!doc.body) {
-        window.setTimeout(appendOverlay, 50);
+        appendAttempts += 1;
+        if (appendAttempts <= 100) {
+          window.setTimeout(appendOverlay, 50);
+        }
         return;
       }
 
