@@ -3,10 +3,28 @@
   var REDIRECT_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfYt373xf8padZTHHZMp9-z5XO4K7I1ugiK4Y7c0dMT_WkyvA/viewform?usp=publish-editor';
   var STORAGE_KEY = 'nanndemoya_lead_form_hidden_until';
   var DELAY_MS = 2500;
+  var APPEND_RETRY_DELAY_MS = 50;
+  var MAX_APPEND_RETRIES = 60;
+  var memoryHiddenUntil = 0;
+  var readHiddenUntil = function () {
+    try {
+      return parseInt(window.localStorage.getItem(STORAGE_KEY) || '0', 10) || 0;
+    } catch (error) {
+      return memoryHiddenUntil;
+    }
+  };
+  var writeHiddenUntil = function (value) {
+    memoryHiddenUntil = value;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, String(value));
+    } catch (error) {
+      // localStorage が使えない環境でもポップアップ表示自体は継続する
+    }
+  };
 
   // すでに非表示期間中（24時間以内）であれば、何もしない
   var now = Date.now();
-  var hiddenUntil = parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+  var hiddenUntil = readHiddenUntil();
   if (now < hiddenUntil) {
     return;
   }
@@ -119,7 +137,7 @@
 
     // クッキー/ローカルストレージに24時間非表示フラグをセットする関数
     var hidePopupFor24h = function () {
-      localStorage.setItem(STORAGE_KEY, String(Date.now() + 24 * 60 * 60 * 1000));
+      writeHiddenUntil(Date.now() + 24 * 60 * 60 * 1000);
     };
 
     var removePopup = function () {
@@ -231,7 +249,22 @@
     }
 
     // 作成した要素を確実にDOM（画面）へ追加
-    doc.body.appendChild(overlay);
+    var appendAttempts = 0;
+    var appendOverlay = function () {
+      if (!doc.body) {
+        appendAttempts += 1;
+        if (appendAttempts < MAX_APPEND_RETRIES) {
+          window.setTimeout(appendOverlay, APPEND_RETRY_DELAY_MS);
+        } else if (window.console && typeof window.console.warn === 'function') {
+          window.console.warn('Lead form popup could not be attached because document.body was unavailable.');
+        }
+        return;
+      }
+
+      doc.body.appendChild(overlay);
+    };
+
+    appendOverlay();
   };
 
   // --- 修正の要：DOM（HTML）の構築が完全に終わってからタイマーを始動させる ---
