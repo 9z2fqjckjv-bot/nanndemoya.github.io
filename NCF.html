@@ -145,6 +145,40 @@
       margin: 10px 0;
       }
 
+      .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-top: 14px;
+      }
+
+      table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+      background: #fff;
+      }
+
+      th,
+      td {
+      border-bottom: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.95rem;
+      }
+
+      th {
+      background: #f8fafc;
+      font-weight: 700;
+      }
+
+      .small-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      }
+
       a {
       color: var(--accent);
       text-decoration: none;
@@ -322,22 +356,12 @@
 
           <article class="card">
             <h3>PC基金</h3>
-            <div class="amount">目標金額：25万円</div>
+            <div class="amount">MacStudioを活用したクラウドファンディング</div>
             <p>
-              <strong>機種名</strong><br />Mac mini<a
-                href="https://www.amazon.jp/hz/wishlist/ls/1Y1SG8Y2ZNE5L?ref_=wl_share"
-                >と外付けストレージ</a
-              >
+              個人では手の届きにくい高性能Mac Studioをコミュニティ資産として導入し、共有するための基金です。
             </p>
-            <p>
-              <a
-                href="https://www.apple.com/jp/shop/xc/product/mac-mini-2024-roc-gbb?option.ethernet_adapter=065-CGYX&option.thunderbolt=065-CH00"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Apple公式ページで見る</a
-              >
-            </p>
-            <p>動画制作や業務効率化のためのPC購入基金です。</p>
+            <p><strong>再募集目安</strong>：Apple保証終了を目安に約5年ごと</p>
+            <p><a href="#pc-fund-details">PC基金の詳細を見る</a></p>
           </article>
 
           <article class="card">
@@ -363,6 +387,134 @@
             <p>資本金として計上し、長期的に積み立てていくための基金です。</p>
           </article>
         </div>
+      </section>
+
+      <section class="section" id="pc-fund-details">
+        <h2>PC基金（MacStudioを活用したクラウドファンディング）詳細</h2>
+        <h3>目的</h3>
+        <p>
+          このプロジェクトの目的は、単に高額なMac Studioを購入することではありません。私たちの真の願いは、個人のクリエイターでは手の届きにくい最高峰の制作環境を、皆さまと共に創り上げ、持続可能な形で共有することにあります。クリエイティブな情熱を持つ誰もが、スペックの制約に縛られることなく、その才能を最大限に発揮できる「共創の場」のインフラを構築することを目指します。参加者の皆さまからお預かりした資金でMac Studioを導入し、コミュニティ資産として無償開放します。同時に、第三者への一部リソース提供による収益を維持・メンテナンス費用や次世代機更新に充てることで、永続的なクリエイティブ・エコシステムの実現を目指します。
+        </p>
+
+        <h3>実施期間</h3>
+        <p>
+          実施期間の設定はありません。Appleの保証制度が切れるタイミングを目安に、再購入のため約5年程度で再度資金集めを実施します。
+        </p>
+
+        <h3>特典</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>参加金額</th>
+                <th>ベースパッククレジット</th>
+                <th>MacStudioShere's 無償利用最大期間</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1万円未満</td><td>1,000円</td><td>1日</td></tr>
+              <tr><td>1万円以上〜2万円未満</td><td>5,000円</td><td>5日</td></tr>
+              <tr><td>2万円以上〜4万円未満</td><td>10,000円</td><td>10日</td></tr>
+              <tr><td>4万円以上〜8万円未満</td><td>20,000円</td><td>3週間</td></tr>
+              <tr><td>8万円以上〜16万円未満</td><td>40,000円</td><td>1.5か月</td></tr>
+              <tr><td>16万円以上〜32万円未満</td><td>80,000円</td><td>3か月</td></tr>
+              <tr><td>32万円以上〜64万円未満</td><td>160,000円</td><td>6か月</td></tr>
+              <tr><td>64万円以上〜128万円未満</td><td>350,000円</td><td>13か月</td></tr>
+              <tr><td>128万円以上〜256万円未満</td><td>640,000円</td><td>2年</td></tr>
+              <tr><td>256万円以上</td><td>1,280,000円</td><td>4年</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="notes" style="margin-top: 12px">
+          <li>無償利用最大期間は、その参加金額で利用可能な最大期間です。</li>
+          <li>通信不良やメンテナンスで利用できない期間が発生しても、無償利用期間は消費されます。</li>
+          <li>利用にはMac本体や特定の外部ツールが必要になる場合があります。</li>
+          <li>Mac Studioの一部は実施者「何でも屋」が活用するため、全メモリ・全ストレージを利用できるわけではありません。</li>
+          <li>ベースパッククレジットは他の基金と共通で、「何でも屋」の基本料金に適用できます。</li>
+          <li>1か月=30日、1年=365日で計算しています。</li>
+        </ul>
+
+        <h3>スペック</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>選択された仕様</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>プロセッサ (CPU)</td><td>32コアCPU</td></tr>
+              <tr><td>グラフィックス (GPU)</td><td>80コアGPU</td></tr>
+              <tr><td>AIプロセッサ</td><td>32コアNeural Engine</td></tr>
+              <tr><td>メモリ (RAM)</td><td>96GB ユニファイドメモリ</td></tr>
+              <tr><td>ストレージ (SSD)</td><td>16TB SSDストレージ</td></tr>
+              <tr><td>前面ポート</td><td>Thunderbolt 5ポート x 2、SDXCカードスロット</td></tr>
+              <tr><td>背面ポート</td><td>Thunderbolt 5ポート x 4、USB-Aポート x 2、HDMIポート、10Gb Ethernetポート、3.5mmヘッドフォンジャック</td></tr>
+              <tr><td>外部ディスプレイ</td><td>最大8台の外部ディスプレイに対応</td></tr>
+              <tr><td>プリインストールアプリ</td><td>なし（Final Cut Pro / Logic Pro ともに「選択しない」）</td></tr>
+              <tr><td>下取り (Trade In)</td><td>利用しない</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>MacStudioShere'sとは</h3>
+        <p>
+          MacStudioShere'sは、上記スペックのMac Studioへインターネット経由でリモート接続し、メモリおよびストレージの一部を利用できるサービスです。価格は予定であり、変更となる場合があります。
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>貸出単位</th>
+                <th>メモリ1GBあたり</th>
+                <th>ストレージ1GBあたり</th>
+                <th>セット貸し</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>時間貸し</td><td>500円</td><td>100円</td><td>550円</td></tr>
+              <tr><td>日貸し</td><td>5,000円</td><td>1,000円</td><td>5,500円</td></tr>
+              <tr><td>週貸し</td><td>25,000円</td><td>5,000円</td><td>27,000円</td></tr>
+              <tr><td>月貸し</td><td>100,000円</td><td>20,000円</td><td>110,000円</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small-note">セット貸しはメモリとストレージをセットにして、それぞれ1GB単位で提供します。</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>必要数 (GB)</th>
+                <th>メモリ単体 (月額)</th>
+                <th>ストレージ単体 (月額)</th>
+                <th>セット貸し (月額)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>100,000円</td><td>20,000円</td><td>110,000円</td></tr>
+              <tr><td>2</td><td>110,000円</td><td>30,000円</td><td>130,000円</td></tr>
+              <tr><td>4</td><td>130,000円</td><td>50,000円</td><td>150,000円</td></tr>
+              <tr><td>8</td><td>150,000円</td><td>70,000円</td><td>200,000円</td></tr>
+              <tr><td>16</td><td>200,000円</td><td>100,000円</td><td>270,000円</td></tr>
+              <tr><td>32</td><td>270,000円</td><td>130,000円</td><td>330,000円</td></tr>
+              <tr><td>64</td><td>330,000円</td><td>170,000円</td><td>450,000円</td></tr>
+              <tr><td>128</td><td>-</td><td>230,000円</td><td>要相談</td></tr>
+              <tr><td>256</td><td>-</td><td>280,000円</td><td>要相談</td></tr>
+              <tr><td>512</td><td>-</td><td>340,000円</td><td>要相談</td></tr>
+              <tr><td>1024</td><td>-</td><td>400,000円</td><td>要相談</td></tr>
+              <tr><td>2048</td><td>-</td><td>470,000円</td><td>要相談</td></tr>
+              <tr><td>4096</td><td>-</td><td>550,000円</td><td>要相談</td></tr>
+              <tr><td>8192</td><td>-</td><td>650,000円</td><td>要相談</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>最後に</h3>
+        <p>
+          「何でも屋」は現在休業中ですが、手持ちPCのスペック不足が顕著です。このクラウドファンディングへのご参加・ご支援をよろしくお願いいたします。
+        </p>
       </section>
 
       <!-- 下部のPayPal決済セクション -->
