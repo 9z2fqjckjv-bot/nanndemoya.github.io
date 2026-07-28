@@ -157,10 +157,10 @@
     
     overlay.innerHTML = '<div class="nm-lead-modal">'
       + '<button type="button" class="nm-lead-close" aria-label="閉じる">✕</button>'
-      + '<h2 id="nm-lead-title">お気軽にお問い合わせください</h2>'
-      + '<p class="nm-lead-subtitle">ご連絡先をご入力のうえ、ボット確認に回答すると外部ページへ移動します。</p>'
+      + '<h2 id="nm-lead-title">お問い合わせ・事前登録</h2>'
+      + '<p class="nm-lead-subtitle">入力は必要な範囲だけで大丈夫です。ご連絡先はお問い合わせ対応の目的で大切に扱います。</p>'
       + '<div class="nm-lead-google">'
-      + '<p class="nm-lead-google-note">Googleアカウントでログインして入力を省略できます。</p>'
+      + '<p class="nm-lead-google-note">Googleアカウントでログインすると、お名前やメールアドレスの入力を省略できます。</p>'
       + '<div id="g_id_onload" data-client_id="' + GOOGLE_CLIENT_ID + '" data-context="signin" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>'
       + '<div class="g_id_signin" data-type="standard" data-shape="rounded" data-theme="outline" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>'
       + '</div>'
