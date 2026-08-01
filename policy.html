@@ -208,10 +208,53 @@
             border: 1px solid #f6d58c;
         }
 
+        .note-blue {
+            margin-top: 16px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e3a8a;
+        }
+
         .date {
             margin-top: 28px;
             color: var(--muted);
             font-size: 0.95rem;
+        }
+
+        .section-divider {
+            margin: 28px 0;
+            border: none;
+            border-top: 1px solid var(--border);
+        }
+
+        .policy-section {
+            margin-bottom: 28px;
+        }
+
+        .policy-section h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+            margin-bottom: 12px;
+        }
+
+        .policy-section p,
+        .policy-section ul,
+        .policy-section ol {
+            margin-bottom: 12px;
+            padding-left: 0;
+        }
+
+        .policy-section ul,
+        .policy-section ol {
+            padding-left: 1.4em;
+        }
+
+        .policy-section li {
+            margin-bottom: 6px;
         }
 
         footer {
@@ -274,7 +317,6 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P56Q566B"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P56Q566B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <header class="hero">
         <div class="container">
@@ -289,7 +331,7 @@
     <nav class="tab-nav" aria-label="ページ切り替え">
         <div class="container">
             <div class="tab-list" role="tablist" aria-label="案内タブ">
-                <button class="tab-button active" id="tab-page1" type="button" role="tab" aria-selected="true" aria-controls="page1" onclick="showPage('page1')">事業情報</button>
+                <button class="tab-button active" id="tab-page1" type="button" role="tab" aria-selected="true" aria-controls="page1" onclick="showPage('page1')">特定商取引法</button>
                 <button class="tab-button" id="tab-page2" type="button" role="tab" aria-selected="false" aria-controls="page2" onclick="showPage('page2')">利用規約</button>
                 <button class="tab-button" id="tab-page3" type="button" role="tab" aria-selected="false" aria-controls="page3" onclick="showPage('page3')">プライバシーポリシー</button>
             </div>
@@ -298,6 +340,7 @@
 
     <main>
         <div class="container">
+            <!-- 特定商取引法 -->
             <section id="page1" class="page" role="tabpanel" aria-labelledby="tab-page1">
                 <div class="section-intro">
                     <h2>特定商取引法に基づく情報</h2>
@@ -327,7 +370,55 @@
                     </article>
                     <article class="info-card">
                         <h3>電話番号</h3>
-                        <p>070-9075-8210<br>※少人数運営のため、フォームまたはメッセージ（SMS/WhatsApp）からのお問い合わせを優先させていただいております。</p>
+                        <p>070-9075-8210<br><small>少人数運営のため、フォームまたはSMS/WhatsAppを優先しています。</small></p>
+                    </article>
+                    <article class="info-card">
+                        <h3>販売価格・料金</h3>
+                        <p>
+                            各サービスの料金は<a href="anytime_service_prices.html">利用料金表</a>をご参照ください。<br>
+                            フリーサービス：時間給¥1,000〜<br>
+                            アシスタント：時間給¥2,000〜<br>
+                            ビジネス：時間給¥1,500〜<br>
+                            子ども向け：時間給¥500〜<br>
+                            ※移動実費・オプション代が別途加算されます。
+                        </p>
+                    </article>
+                    <article class="info-card">
+                        <h3>支払方法</h3>
+                        <p>
+                            現金、銀行振込、PayPay等の電子決済に対応予定です。<br>
+                            詳細はお問い合わせ時にご確認ください。
+                        </p>
+                    </article>
+                    <article class="info-card">
+                        <h3>支払時期</h3>
+                        <p>
+                            サービス提供前のご入金、またはサービス完了後の即時払いを基本とします。<br>
+                            継続依頼の場合は事前に合意した方法・時期によります。
+                        </p>
+                    </article>
+                    <article class="info-card">
+                        <h3>サービス提供時期</h3>
+                        <p>
+                            お問い合わせ後、双方の日程合意が取れた日時にサービスを開始します。<br>
+                            プレオープン中は受付体制整備中のため、調整にお時間をいただく場合があります。
+                        </p>
+                    </article>
+                    <article class="info-card">
+                        <h3>キャンセル・返品ポリシー</h3>
+                        <p>
+                            <strong>サービス開始24時間前まで：</strong>原則全額返金。<br>
+                            <strong>サービス開始24時間以内：</strong>基本料金の50%をキャンセル料として申し受けます。<br>
+                            <strong>サービス開始後：</strong>返金不可（ただし不可抗力の場合は協議の上対応）。<br>
+                            キャンセルは必ずお問い合わせフォームまたはSMS/WhatsAppでご連絡ください。
+                        </p>
+                    </article>
+                    <article class="info-card">
+                        <h3>特記事項</h3>
+                        <p>
+                            本サービスは個人事業主（牧志鎮也）が提供する対面型サービスです。少人数体制のため、同時に受け付けできる件数に制限がある場合があります。<br>
+                            サービス対応エリアは主に埼玉県内ですが、遠方は交通費別途ご相談ください。
+                        </p>
                     </article>
                 </div>
 
@@ -339,80 +430,217 @@
                         <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=header" target="_blank" rel="noopener noreferrer">お問い合わせフォーム</a></li>
                     </ul>
                 </div>
+
+                <p class="date">最終更新：2026年8月1日</p>
             </section>
 
+            <!-- 利用規約 -->
             <section id="page2" class="page" role="tabpanel" aria-labelledby="tab-page2" hidden>
                 <div class="section-intro">
                     <h2>「何でも屋」利用規約</h2>
-                    <p>現時点で掲載されている用語定義と利用方法等を、読みやすい形に整理しています。</p>
+                    <p>本規約は、「何でも屋」（以下「当事業」）のサービスをご利用いただくにあたり、利用者の方に同意いただく条件を定めるものです。</p>
                 </div>
 
-                <h3>用語定義</h3>
-                <ul class="term-list">
-                    <li>事業者：『何でも屋』</li>
-                    <li>事業主：牧志鎮也</li>
-                    <li>利用者：『何でも屋』のサービス提供を受ける顧客</li>
-                    <li>提携者：事業主との間に『共通事業者活用規約』を締結し、事業者が掲げる所定の規定に基づき事業主から依頼されたサービス等を利用者に提供する者</li>
-                    <li>オーナー：事業主</li>
-                    <li>パートナー：提携者</li>
-                    <li>ユーザー：利用者</li>
-                    <li>『何でも屋基金』：オーナーの掲げる目的のための、ユーザーからの資金提供サービス</li>
-                    <li>サービス：オーナー及びパートナーがユーザーに提供するもの全て</li>
-                    <li>
-                        フリーサービス：サービスのうち、以下の要項を満たすもの
-                        <ul class="nested-list">
-                            <li>道具を扱うことを前提とするサービス</li>
-                            <li>料金目安：最低料金 1,000円 / 最大料金 338万円</li>
-                        </ul>
-                    </li>
-                    <li>
-                        アシスタントサービス：サービスのうち、以下の要項を満たすもの
-                        <ul class="nested-list">
-                            <li>対人中心のサービス</li>
-                            <li>料金目安：最低料金 2,000円 / 最大料金 572万円</li>
-                        </ul>
-                    </li>
-                    <li>
-                        ビジネスアシスタントサービス：サービスのうち、以下の要項を満たすもの
-                        <ul class="nested-list">
-                            <li>企業やビジネスでの活用を前提としたサービス</li>
-                            <li>料金目安：最低料金 1,500円 / 最大料金 468万円</li>
-                        </ul>
-                    </li>
-                    <li>
-                        子ども向けサービス：サービスのうち、以下の要項を満たすもの
-                        <ul class="nested-list">
-                            <li>20歳未満の方及びその兄弟姉妹の利用を前提としたサービス</li>
-                            <li>料金目安：最低料金 500円 / 最大料金 156万円</li>
-                        </ul>
-                    </li>
-                    <li>
-                        シニアサービス（高齢の方向けサービス）：サービスのうち、以下の要項を満たすもの
-                        <ul class="nested-list">
-                            <li>60歳以上の方を前提としたサービス</li>
-                            <li>料金目安：最大料金 500円</li>
-                        </ul>
-                    </li>
-                    <li>『何でも屋ハウス』：サービスのうち、ユーザーの今現在住んでいない別荘等の物件を事業者が譲受、リース、レンタルのいずれかで活用するもの</li>
-                    <li>『何でも屋基金』：<a href="NCF.html">このページを参照すること</a></li>
-                    <li>※一部のサービスは、現在提供停止中のため、掲載は行わない。</li>
-                </ul>
+                <div class="policy-section">
+                    <h3>第1条（用語定義）</h3>
+                    <ul class="term-list">
+                        <li><strong>事業者・オーナー：</strong>「何でも屋」（個人事業主：牧志鎮也）</li>
+                        <li><strong>利用者・ユーザー：</strong>当事業のサービス提供を受ける顧客</li>
+                        <li><strong>提携者・パートナー：</strong>事業主との間に『共通事業者活用規約』を締結し、所定の規定に基づきサービスを提供する者</li>
+                        <li><strong>サービス：</strong>オーナーおよびパートナーがユーザーに提供するすべての業務・代行・アシスタント行為</li>
+                        <li>
+                            <strong>フリーサービス：</strong>道具の扱いを前提とするサービス
+                            <ul class="nested-list">
+                                <li>料金目安：時間給¥1,000〜（最大料金¥338万）</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>アシスタントサービス：</strong>対人中心のサービス
+                            <ul class="nested-list">
+                                <li>料金目安：時間給¥2,000〜（最大料金¥572万）</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>ビジネスアシスタントサービス：</strong>企業・ビジネスでの活用を前提としたサービス
+                            <ul class="nested-list">
+                                <li>料金目安：時間給¥1,500〜（最大料金¥468万）</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>子ども向けサービス：</strong>20歳未満の方およびその兄弟姉妹を前提としたサービス
+                            <ul class="nested-list">
+                                <li>料金目安：時間給¥500〜（最大料金¥156万）</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>シニアサービス：</strong>60歳以上の方を前提としたサービス
+                            <ul class="nested-list">
+                                <li>料金目安：最低¥500〜</li>
+                            </ul>
+                        </li>
+                        <li><strong>「何でも屋ハウス」：</strong>ユーザーが現在居住していない別荘等の物件を事業者が譲受・リース・レンタルのいずれかで活用するサービス</li>
+                        <li><strong>「何でも屋基金」：</strong>オーナーが掲げる目的のためのユーザーからの資金提供サービス（<a href="NCF.html">詳細ページ参照</a>）</li>
+                    </ul>
+                </div>
 
-                <h3>利用方法等</h3>
-                <p>今現在、オーナーである私は、将来的なユーザーとなる見込みの者たちから、資金提供を受け付けている。そのうち、以下の基金が満額となった場合に、順次サービスの提供準備を開始する。</p>
+                <hr class="section-divider">
 
-                <p class="date">規約作成日：2026年6月20日</p>
+                <div class="policy-section">
+                    <h3>第2条（利用方法・サービスの開始）</h3>
+                    <p>サービスのご利用は、お問い合わせフォームまたはWhatsApp・電話によるご連絡から始まります。以下のステップでサービスが提供されます。</p>
+                    <ol>
+                        <li>お問い合わせ・ご依頼内容の確認</li>
+                        <li>日程・料金の合意（見積もり提示）</li>
+                        <li>事前入金または支払方法の確認</li>
+                        <li>サービス実施</li>
+                        <li>完了報告・お支払い（後払いの場合）</li>
+                    </ol>
+                    <p>現在はプレオープン期間につき、一部のサービスは受付を停止している場合があります。</p>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="policy-section">
+                    <h3>第3条（禁止事項）</h3>
+                    <p>利用者は以下の行為を行ってはなりません。</p>
+                    <ul>
+                        <li>法令または公序良俗に反する依頼</li>
+                        <li>犯罪行為・違法行為に関連する依頼</li>
+                        <li>事業者や第三者への誹謗中傷・迷惑行為</li>
+                        <li>虚偽の情報を提供してのサービス利用</li>
+                        <li>サービスの不正利用・転売・再販</li>
+                        <li>事業者の知的財産権を侵害する行為</li>
+                        <li>その他、当事業が不適切と判断する行為</li>
+                    </ul>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="policy-section">
+                    <h3>第4条（キャンセル・変更）</h3>
+                    <ul>
+                        <li><strong>サービス開始24時間前までのキャンセル：</strong>全額返金</li>
+                        <li><strong>サービス開始24時間以内のキャンセル：</strong>基本料金の50%をキャンセル料として申し受けます</li>
+                        <li><strong>サービス開始後のキャンセル：</strong>返金不可（不可抗力による場合は協議）</li>
+                        <li>日程変更は、開始24時間前までにご連絡いただければ原則無料で対応します。</li>
+                    </ul>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="policy-section">
+                    <h3>第5条（免責事項）</h3>
+                    <p>当事業は以下の事項について責任を負いません。</p>
+                    <ul>
+                        <li>天災・感染症拡大等の不可抗力によるサービス提供の遅延・中止</li>
+                        <li>利用者が提供した情報の誤りに起因するトラブル</li>
+                        <li>利用者が第三者に生じさせた損害</li>
+                        <li>サービス利用により生じた間接損害・逸失利益</li>
+                    </ul>
+                    <p>当事業が責任を負う場合でも、その賠償額は当該サービスの料金を上限とします。</p>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="policy-section">
+                    <h3>第6条（規約の変更）</h3>
+                    <p>本規約は、必要に応じて予告なく変更される場合があります。変更後の規約はこのページで公開され、掲載時点から効力を持ちます。</p>
+                </div>
+
+                <div class="note-blue">
+                    ご不明な点は<a href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=header" target="_blank" rel="noopener noreferrer">お問い合わせフォーム</a>からお気軽にご連絡ください。
+                </div>
+
+                <p class="date">規約制定日：2026年6月20日 ／ 最終更新：2026年8月1日</p>
             </section>
 
+            <!-- プライバシーポリシー -->
             <section id="page3" class="page" role="tabpanel" aria-labelledby="tab-page3" hidden>
                 <div class="section-intro">
                     <h2>プライバシーポリシー</h2>
-                    <p>お問い合わせやサービス利用に関連して取得した情報の基本的な取扱いを記載しています。</p>
+                    <p>「何でも屋」（個人事業主：牧志鎮也）は、お客様の個人情報の保護を重要な責務と考え、以下の方針に従って適切に取り扱います。</p>
                 </div>
 
-                <p>『何でも屋』に寄せられたすべての情報は、オーナーのもとに届き、ユーザーとの連絡や詳細事項のやり取りのために使用されます。また、法令に基づく場合を除き、本人の同意なく第三者へ提供しません。</p>
+                <div class="policy-section">
+                    <h3>第1条（取得する情報）</h3>
+                    <p>当事業では、サービスのご利用にあたり以下の情報を取得することがあります。</p>
+                    <ul>
+                        <li>氏名・ニックネーム</li>
+                        <li>連絡先（電話番号・メールアドレス・SNSアカウント等）</li>
+                        <li>住所・訪問先情報（サービス提供に必要な場合）</li>
+                        <li>依頼内容・ご要望の詳細</li>
+                        <li>お問い合わせフォームへの入力内容</li>
+                        <li>サイト訪問時のアクセスログ（Google Tag Manager経由）</li>
+                    </ul>
+                </div>
 
-                <p class="date">制定日：2026年6月20日</p>
+                <hr class="section-divider">
+
+                <div class="policy-section">
+                    <h3>第2条（情報の利用目的）</h3>
+                    <p>取得した情報は以下の目的のためにのみ使用します。</p>
+                    <ul>
+                        <li>サービスの提供・日程調整・連絡</li>
+                        <li>お見積もり・請求書の発行</li>
+                        <li>サービス品質の向上・改善</li>
+                        <li>新サービスや重要なお知らせのご案内（同意を得た場合のみ）</li>
+                        <li>法令上必要な対応</li>
+                    </ul>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="policy-section">
+                    <h3>第3条（第三者への提供）</h3>
+                    <p>取得した個人情報は、以下の場合を除き第三者に提供しません。</p>
+                    <ul>
+                        <li>ご本人の同意がある場合</li>
+                        <li>法令に基づき開示が必要な場合</li>
+                        <li>サービス提供のためパートナー（提携者）に委託する場合（情報管理契約を締結した上で必要最小限の情報のみ共有）</li>
+                    </ul>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="policy-section">
+                    <h3>第4条（情報の保管・保持期間）</h3>
+                    <p>取得した個人情報は、利用目的の達成に必要な期間のみ保管します。サービス完了後、原則として1年以内に削除またはご本人からの削除依頼に対応します。法令上の保管義務がある情報については、当該期間内は保管します。</p>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="policy-section">
+                    <h3>第5条（ご本人の権利）</h3>
+                    <p>お客様は以下の権利を有します。</p>
+                    <ul>
+                        <li>保有する個人情報の開示を請求する権利</li>
+                        <li>個人情報の訂正・削除を請求する権利</li>
+                        <li>個人情報の利用停止を請求する権利</li>
+                    </ul>
+                    <p>これらの請求は<a href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=header" target="_blank" rel="noopener noreferrer">お問い合わせフォーム</a>または<a href="mailto:japan.saitama.nanndemoya@gmail.com">メール</a>にて受け付けます。</p>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="policy-section">
+                    <h3>第6条（Cookieおよびアクセス解析）</h3>
+                    <p>当サイトでは、サービス改善のためGoogle Tag Manager（GTM-P56Q566B）を通じてアクセス解析（Google Analytics等）を行っています。これらのツールはCookieを使用してデータを収集しますが、個人を特定する情報は含まれません。Cookieの使用を拒否する場合は、ブラウザの設定から無効にすることができます。</p>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="policy-section">
+                    <h3>第7条（お問い合わせ）</h3>
+                    <p>個人情報の取扱いに関するご質問・ご要望は以下までご連絡ください。</p>
+                    <ul>
+                        <li>事業名：何でも屋</li>
+                        <li>事業主：牧志鎮也</li>
+                        <li>メール：<a href="mailto:japan.saitama.nanndemoya@gmail.com">japan.saitama.nanndemoya@gmail.com</a></li>
+                        <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=header" target="_blank" rel="noopener noreferrer">お問い合わせフォーム</a></li>
+                    </ul>
+                </div>
+
+                <p class="date">制定日：2026年6月20日 ／ 最終更新：2026年8月1日</p>
             </section>
         </div>
     </main>
