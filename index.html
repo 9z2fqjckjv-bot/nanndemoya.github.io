@@ -11,8 +11,8 @@
   <script src="lead-form-popup.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="『何でも屋』の概要、事業史、クラウドファンディング、事業方針をまとめたページです。">
-  <title>何でも屋 | 概要</title>
+  <meta name="description" content="埼玉発「何でも屋」。引越し・買い物代行・子どもの送迎・書類整理など何でもお任せ。時間給¥1,000〜、開業届提出済みの安心サービス。プレオープン中・ご相談無料。">
+  <title>何でも屋 | 埼玉のなんでも代行・お手伝いサービス</title>
   <style>
     :root {
       --bg: #f6f8fb;
@@ -24,6 +24,11 @@
       --border: #dbe3ee;
       --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
       --radius: 18px;
+      --green: #16a34a;
+      --green-bg: #f0fdf4;
+      --green-border: #bbf7d0;
+      --amber: #b45309;
+      --amber-bg: #fffbeb;
     }
 
     * {
@@ -51,7 +56,7 @@
     }
 
     .hero {
-      padding: 72px 20px 48px;
+      padding: 64px 20px 48px;
       text-align: center;
       background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 55%, #60a5fa 100%);
       color: #fff;
@@ -120,6 +125,43 @@
       border: 1px solid rgba(255, 255, 255, 0.35);
     }
 
+    .button-cta {
+      display: inline-block;
+      padding: 15px 28px;
+      border-radius: 999px;
+      background: #2563eb;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: transform 0.2s ease, background 0.2s ease;
+      box-shadow: 0 6px 20px rgba(37,99,235,0.3);
+    }
+
+    .button-cta:hover {
+      background: #1d4ed8;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .button-cta-outline {
+      display: inline-block;
+      padding: 14px 26px;
+      border-radius: 999px;
+      background: transparent;
+      color: #2563eb;
+      border: 2px solid #2563eb;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.0rem;
+      transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .button-cta-outline:hover {
+      background: #2563eb;
+      color: #fff;
+    }
+
     .container {
       max-width: 980px;
       margin: 0 auto;
@@ -146,6 +188,12 @@
       line-height: 1.4;
     }
 
+    h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 1.15rem;
+    }
+
     p {
       margin: 0 0 14px;
     }
@@ -164,6 +212,182 @@
       color: #1e3a8a;
     }
 
+    /* Trust badges */
+    .trust-bar {
+      background: var(--green-bg);
+      border-bottom: 1px solid var(--green-border);
+      padding: 14px 20px;
+    }
+
+    .trust-bar-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    .trust-badge .icon {
+      font-size: 1.2rem;
+    }
+
+    /* CTA stripe */
+    .cta-stripe {
+      background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+      padding: 32px 20px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .cta-stripe h2 {
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .cta-stripe p {
+      color: rgba(255,255,255,0.88);
+      margin-bottom: 20px;
+    }
+
+    .cta-stripe-actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .cta-stripe .button-white {
+      background: #fff;
+      color: #1d4ed8;
+      padding: 14px 26px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1.0rem;
+      transition: transform 0.2s ease;
+    }
+
+    .cta-stripe .button-white:hover {
+      transform: translateY(-2px);
+      color: #1d4ed8;
+    }
+
+    .cta-stripe .button-outline-white {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.6);
+      padding: 13px 24px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 1.0rem;
+      transition: background 0.2s ease;
+    }
+
+    .cta-stripe .button-outline-white:hover {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+    }
+
+    /* Comparison table */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+    }
+
+    .compare-table th,
+    .compare-table td {
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .compare-table th {
+      background: #1e3a8a;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .compare-table th:first-child,
+    .compare-table td:first-child {
+      text-align: left;
+      font-weight: 600;
+    }
+
+    .compare-table .col-ours {
+      background: #eff6ff;
+      color: #1e3a8a;
+      font-weight: 700;
+    }
+
+    .compare-table tr:nth-child(even) td {
+      background: #f8faff;
+    }
+
+    .compare-table tr:nth-child(even) td.col-ours {
+      background: #dbeafe;
+    }
+
+    .check { color: #16a34a; font-weight: 700; }
+    .cross { color: #dc2626; }
+    .partial { color: #b45309; }
+
+    /* FAQ */
+    .faq-item {
+      border-top: 1px solid var(--border);
+      padding: 16px 0;
+    }
+
+    .faq-item:last-child {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-q {
+      font-weight: 700;
+      font-size: 1.02rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .faq-q::after {
+      content: '＋';
+      flex-shrink: 0;
+      font-size: 1.2rem;
+      color: var(--accent);
+      transition: transform 0.2s ease;
+    }
+
+    .faq-item.open .faq-q::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-a {
+      display: none;
+      margin-top: 10px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .faq-item.open .faq-a {
+      display: block;
+    }
+
+    /* Timeline */
     .timeline {
       list-style: none;
       padding: 0;
@@ -207,9 +431,77 @@
       background: #f8fbff;
     }
 
+    /* Service tags */
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .service-tag {
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* Sticky bottom CTA */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: #1e3a8a;
+      color: #fff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+    }
+
+    .sticky-cta p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .sticky-cta a {
+      flex-shrink: 0;
+      background: #fff;
+      color: #1d4ed8;
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+
+    .sticky-cta a:hover {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .sticky-cta-close {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
     .footer {
       text-align: center;
-      padding: 8px 20px 48px;
+      padding: 8px 20px 80px;
       color: var(--muted);
     }
 
@@ -235,6 +527,19 @@
       .button {
         width: min(100%, 320px);
       }
+
+      .compare-table {
+        font-size: 0.78rem;
+      }
+
+      .compare-table th,
+      .compare-table td {
+        padding: 8px 6px;
+      }
+
+      .sticky-cta p {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -243,28 +548,147 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P56Q566B"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P56Q566B" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
   <header class="hero">
     <div class="hero-inner">
-      <div class="status">プレオープン / 事前登録受付中</div>
+      <div class="status">🟢 プレオープン中 / 事前相談・予約受付中</div>
       <h1>「何でも屋」</h1>
       <p class="lead">
-        「何でも屋」は、多様な働き方・柔軟な価値観・心身の健康を大切にしながら、
-        一人ひとりが自分らしく生きていくための土台づくりを目指す事業です。
+        引越し・買い物代行・子どもの送迎・書類整理・話し相手まで。<br>
+        埼玉発、時間給¥1,000〜の何でもお任せサービスです。
       </p>
       <div class="hero-actions">
-        <a class="button button-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">お問い合わせはこちら</a>
-        <a class="button button-secondary" href="https://youtu.be/JqKdKD46WHU" target="_blank" rel="noopener noreferrer">詳細動画を見る</a>
-        <a class="button button-secondary" href="information.html">📞 連絡先</a>
-        <a class="button button-secondary" href="site-links.html">🔗 サイトリンク</a>
+        <a class="button button-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" onclick="gtag && gtag('event','click',{event_category:'CTA',event_label:'hero_contact'})">✉️ 無料でご相談・お見積もり</a>
+        <a class="button button-secondary" href="anytime_service_prices.html">💴 料金シミュレーター</a>
+        <a class="button button-secondary" href="https://youtu.be/JqKdKD46WHU" target="_blank" rel="noopener noreferrer">▶ 詳細動画を見る</a>
+        <a class="button button-secondary" href="site-links.html">🔗 全ページリンク</a>
       </div>
     </div>
   </header>
 
+  <!-- 信頼性バッジ -->
+  <div class="trust-bar">
+    <div class="trust-bar-inner">
+      <span class="trust-badge"><span class="icon">📋</span>開業届提出済み</span>
+      <span class="trust-badge"><span class="icon">🏠</span>埼玉さいたま市拠点</span>
+      <span class="trust-badge"><span class="icon">📞</span>070-9075-8210（SMS可）</span>
+      <span class="trust-badge"><span class="icon">🔒</span>個人情報保護方針あり</span>
+      <span class="trust-badge"><span class="icon">🤝</span>利用規約・特定商取引法明示</span>
+      <span class="trust-badge"><span class="icon">👶</span>子ども・シニア向けプランあり</span>
+    </div>
+  </div>
+
   <main class="container">
     <div class="grid">
+      <!-- 依頼できる仕事 -->
       <section class="card">
-        <h2>概要</h2>
+        <h2>📦 こんなお仕事、全部お任せください</h2>
+        <p>「何でも屋」は日常の困りごとをまるごと代行します。一例をご紹介します。</p>
+        <div class="service-tags">
+          <span class="service-tag">🚚 引越し・荷物運び</span>
+          <span class="service-tag">🛒 買い物代行</span>
+          <span class="service-tag">🧹 掃除・片付け</span>
+          <span class="service-tag">🌿 庭の草むしり</span>
+          <span class="service-tag">🚗 送迎・付き添い</span>
+          <span class="service-tag">📄 書類整理・PC作業</span>
+          <span class="service-tag">💬 話し相手・外出同行</span>
+          <span class="service-tag">👶 子どもの習い事送迎</span>
+          <span class="service-tag">🏥 通院付き添い</span>
+          <span class="service-tag">📦 不用品の整理・搬出</span>
+          <span class="service-tag">🖥️ スマホ・PC設定</span>
+          <span class="service-tag">🏢 ビジネスサポート</span>
+        </div>
+        <p style="margin-top:16px;">上記以外もご相談ください。できる限り対応します。</p>
+        <div style="margin-top:16px;">
+          <a class="button-cta" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" onclick="gtag && gtag('event','click',{event_category:'CTA',event_label:'service_list_contact'})">今すぐ無料でご相談する →</a>
+        </div>
+      </section>
+
+      <!-- 競合比較 -->
+      <section class="card">
+        <h2>🏆 他社・同業者との違い</h2>
+        <p>「何でも屋」は、従来の家事代行・便利屋・アルバイト依頼と何が違うのでしょうか？主な比較をご覧ください。</p>
+        <div style="overflow-x:auto;">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>比較ポイント</th>
+                <th class="col-ours">✅ 何でも屋</th>
+                <th>家事代行<br>サービス</th>
+                <th>一般的な<br>便利屋</th>
+                <th>アルバイト<br>・派遣</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>時間給の最低料金</td>
+                <td class="col-ours"><strong>¥500〜</strong></td>
+                <td>¥2,500〜</td>
+                <td>¥3,000〜</td>
+                <td>¥1,100〜</td>
+              </tr>
+              <tr>
+                <td>最短1時間からOK</td>
+                <td class="col-ours"><span class="check">✔ 対応</span></td>
+                <td><span class="partial">△ 2〜3h最低</span></td>
+                <td><span class="partial">△ 最低料金あり</span></td>
+                <td><span class="cross">✘ シフト制</span></td>
+              </tr>
+              <tr>
+                <td>夜間・休日の対応</td>
+                <td class="col-ours"><span class="check">✔ 夜間プランあり</span></td>
+                <td><span class="cross">✘ 平日のみ多い</span></td>
+                <td><span class="partial">△ 要相談</span></td>
+                <td><span class="cross">✘ 基本なし</span></td>
+              </tr>
+              <tr>
+                <td>子ども・シニア専用プラン</td>
+                <td class="col-ours"><span class="check">✔ 専用料金あり</span></td>
+                <td><span class="partial">△ 一部のみ</span></td>
+                <td><span class="cross">✘ なし</span></td>
+                <td><span class="cross">✘ なし</span></td>
+              </tr>
+              <tr>
+                <td>家事・買い物・送迎など<br>幅広い業務に対応</td>
+                <td class="col-ours"><span class="check">✔ 何でもOK</span></td>
+                <td><span class="partial">△ 家事限定</span></td>
+                <td><span class="check">✔ 対応</span></td>
+                <td><span class="cross">✘ 業務限定</span></td>
+              </tr>
+              <tr>
+                <td>ビジネスサポート対応</td>
+                <td class="col-ours"><span class="check">✔ 専用プランあり</span></td>
+                <td><span class="cross">✘ なし</span></td>
+                <td><span class="partial">△ 限定的</span></td>
+                <td><span class="partial">△ 職種による</span></td>
+              </tr>
+              <tr>
+                <td>1対1の担当者制</td>
+                <td class="col-ours"><span class="check">✔ 事業主が直接対応</span></td>
+                <td><span class="partial">△ 派遣スタッフ</span></td>
+                <td><span class="partial">△ 会社所属</span></td>
+                <td><span class="cross">✘ 会社管理</span></td>
+              </tr>
+              <tr>
+                <td>WhatsApp等で気軽に連絡</td>
+                <td class="col-ours"><span class="check">✔ 対応</span></td>
+                <td><span class="cross">✘ 専用アプリのみ</span></td>
+                <td><span class="partial">△ 電話のみ多い</span></td>
+                <td><span class="cross">✘ 会社経由</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin-top:14px; font-size:0.88rem; color:var(--muted);">※上記比較は一般的な市場傾向に基づくものです。各社の条件はご確認ください。</p>
+        <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
+          <a class="button-cta" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" onclick="gtag && gtag('event','click',{event_category:'CTA',event_label:'compare_contact'})">お得な何でも屋を試す →</a>
+          <a class="button-cta-outline" href="anytime_service_prices.html">料金表を見る</a>
+        </div>
+      </section>
+
+      <!-- 概要 -->
+      <section class="card">
+        <h2>📖 概要</h2>
         <p>
           「何でも屋」は2025年3月末に構想が出来上がり、同年夏ごろにWordPressにてサイトが公開され、
           2026年1月から3月まで実際に営まれた事業です。
@@ -280,11 +704,68 @@
         </p>
         <div class="info-note">
           このページでは、「何でも屋」の概要、事業史、支援のお願い、そして事業方針についてまとめています。
+          詳細は各ページもご覧ください：
+          <a href="anytime_service_prices.html">料金表</a> ／
+          <a href="policy.html">利用規約・ポリシー</a> ／
+          <a href="information.html">連絡先</a>
         </div>
       </section>
 
+      <!-- FAQ -->
       <section class="card">
-        <h2>事業史</h2>
+        <h2>❓ よくあるご質問（FAQ）</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">どんな仕事を依頼できますか？</div>
+            <div class="faq-a">
+              引越し・買い物代行・掃除・庭の草むしり・送迎・書類整理・スマホ設定・話し相手・通院付き添い・ビジネスサポートなど幅広く対応しています。「こんなことも頼めるの？」と思うような依頼もまずはお問い合わせください。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">料金はどうやって決まりますか？</div>
+            <div class="faq-a">
+              サービスの種類（フリー・アシスタント・ビジネス・子ども・シニア）と時間帯（日中・夜間）、依頼期間によって基本料金が決まります。さらに移動実費などのオプションが加算されます。詳しくは<a href="anytime_service_prices.html">料金シミュレーターページ</a>でご確認ください。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">急な依頼でも対応できますか？</div>
+            <div class="faq-a">
+              プレオープン中のため現在は受付整備中ですが、お急ぎの場合もまずはWhatsAppまたはお問い合わせフォームからご連絡ください。できる限り柔軟に対応します。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">支払い方法は何がありますか？</div>
+            <div class="faq-a">
+              現金、銀行振込、PayPay等の電子決済に対応予定です。詳細はお問い合わせ時にご確認ください。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">子どもやシニアへのサービスもありますか？</div>
+            <div class="faq-a">
+              はい。20歳未満の方向けの「子ども向けサービス（時間給¥500〜）」と、60歳以上の方向けの「シニアサービス（最大料金¥500）」があります。お子様の習い事送迎や、シニアの通院付き添いなどにご活用ください。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">キャンセルや変更はできますか？</div>
+            <div class="faq-a">
+              サービス開始24時間前までにご連絡いただいた場合は原則として全額返金対応いたします。24時間以内のキャンセルはキャンセル料が発生する場合があります。詳細は<a href="policy.html">利用規約</a>をご確認ください。
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-q" onclick="toggleFaq(this)">事業者の情報を確認したいのですが？</div>
+            <div class="faq-a">
+              事業名：何でも屋、事業主：牧志鎮也、所在地：埼玉県さいたま市桜区田島1丁目16番15-2号。開業届提出済みです。詳細は<a href="policy.html">特定商取引法に基づく表記</a>をご覧ください。
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:20px;">
+          <a class="button-cta" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" onclick="gtag && gtag('event','click',{event_category:'CTA',event_label:'faq_contact'})">その他のご質問・ご依頼はこちら →</a>
+        </div>
+      </section>
+
+      <!-- 事業史 -->
+      <section class="card">
+        <h2>📅 事業史</h2>
         <ol class="timeline">
           <li>
             <span class="year">2025年</span>
@@ -306,16 +787,15 @@
             <ul>
               <li>1月1日：「何でも屋」の開業日。</li>
               <li>3月31日：新体制準備のため、一時的に受付を休止しました。</li>
+              <li>現在：プレオープン期間として事前相談・予約受付中。</li>
             </ul>
           </li>
         </ol>
-        <p>
-          現在はプレオープン期間として、事前相談・予約を受け付けながら、安定した運営体制の構築を進めています。
-        </p>
       </section>
 
+      <!-- クラウドファンディング -->
       <section class="card">
-        <h2>クラウドファンディング</h2>
+        <h2>🏗️ クラウドファンディング（拠点開設プロジェクト）</h2>
         <p>
           現在、多様な働き方と一時的な居場所を提供する事業拠点（兼シェルター）の開設プロジェクトに向けた準備を進めています。
           支援金は、拠点づくりに必要な初期設備や運営準備費用として活用する予定です。
@@ -328,14 +808,15 @@
           <p>
             より詳しい背景や思いについては、
             <a href="https://youtu.be/JqKdKD46WHU" target="_blank" rel="noopener noreferrer">こちらの詳細動画</a>
-            もご覧ください。
+            もご覧ください。また、<a href="NCF.html">何でも屋基金のページ</a>もご参照ください。
           </p>
         </div>
       </section>
 
+      <!-- 事業方針 -->
       <section class="card">
-        <h2>事業方針</h2>
-        <p>「何でも屋」の事業方針は以下の通りです。</p>
+        <h2>🌟 事業方針・ビジョン</h2>
+        <p>「何でも屋」は単なる代行サービスに留まらず、以下の方針のもとで社会に新しい価値を提供します。</p>
         <ul class="policy-list">
           <li>
             <strong>顧客とスタッフのバランス重視</strong><br>
@@ -350,7 +831,7 @@
             精神的・身体的な健康を土台とし、無理のない働き方ができるよう配慮します。
           </li>
           <li>
-            <strong>既存制度、公的機関、行政の仕組みによらぬ人生を歩む</strong><br>
+            <strong>既存制度に縛られない自由な働き方</strong><br>
             既存の制度や仕組みに過度に縛られず、自分なりの生き方や働き方を模索します。
           </li>
           <li>
@@ -358,7 +839,7 @@
             社交性や会話の得意・不得意にかかわらず、それぞれの特性を生かして働ける形を重視します。
           </li>
           <li>
-            <strong>AIの積極的活用と、仕事効率化</strong><br>
+            <strong>AIの積極的活用と仕事効率化</strong><br>
             AI技術を積極的に活用し、作業効率の向上と新しい仕事の可能性を広げていきます。
           </li>
           <li>
@@ -366,24 +847,54 @@
             AIを含めた新しい仕組みを取り入れながら、独自の価値交換や経済活動のあり方を探っていきます。
           </li>
           <li>
-            <strong>何者にも囚われない自分を作り出す</strong><br>
+            <strong>何者にも囚われない個を大切に</strong><br>
             既存の肩書きや社会的な枠組みに縛られず、一人ひとりが自分らしさを育てられる場を目指します。
           </li>
           <li>
             <strong>全体より個人を重視</strong><br>
             組織や体裁よりも、まず一人ひとりの生活・感情・意思を大切にする姿勢を重視します。
           </li>
-          <li>その他の詳細や、上記方針についての補足は、お気軽にお問い合わせください。</li>
         </ul>
+        <div style="margin-top:20px;">
+          <a class="button-cta" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" onclick="gtag && gtag('event','click',{event_category:'CTA',event_label:'policy_contact'})">このビジョンに共感したら → お問い合わせ</a>
+        </div>
       </section>
     </div>
   </main>
 
+  <!-- CTA ストライプ -->
+  <div class="cta-stripe">
+    <h2>さあ、今すぐ「何でも屋」を使ってみませんか？</h2>
+    <p>プレオープン中につき、ご相談・お見積もりは無料です。お気軽にどうぞ。</p>
+    <div class="cta-stripe-actions">
+      <a class="button-white" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" onclick="gtag && gtag('event','click',{event_category:'CTA',event_label:'bottom_stripe_contact'})">✉️ 無料でご相談する</a>
+      <a class="button-outline-white" href="anytime_service_prices.html">💴 料金シミュレーター</a>
+      <a class="button-outline-white" href="https://wa.me/817090758210" target="_blank" rel="noopener noreferrer">💬 WhatsAppで連絡</a>
+    </div>
+  </div>
+
   <footer class="footer">
-    <a href="https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/information.html">連絡先</a>
+    <a href="information.html">連絡先</a>
     &nbsp;·&nbsp;
-    <a href="https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/site-links.html">サイトリンク</a>
+    <a href="site-links.html">サイトリンク</a>
+    &nbsp;·&nbsp;
+    <a href="policy.html">利用規約・ポリシー</a>
+    &nbsp;·&nbsp;
+    <a href="NCF.html">何でも屋基金</a>
     <p>© 2026 Nanndemoya | Anyways, Anywhere, Anytimes</p>
   </footer>
+
+  <!-- スティッキーCTA -->
+  <div class="sticky-cta" id="stickyCta">
+    <p>📋 プレオープン中・ご相談無料</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" onclick="gtag && gtag('event','click',{event_category:'CTA',event_label:'sticky_contact'})">今すぐ相談する</a>
+    <button class="sticky-cta-close" onclick="document.getElementById('stickyCta').style.display='none'" aria-label="閉じる">×</button>
+  </div>
+
+  <script>
+    function toggleFaq(el) {
+      el.parentElement.classList.toggle('open');
+    }
+  </script>
 </body>
 </html>
