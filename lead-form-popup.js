@@ -10,6 +10,8 @@
   var APPEND_RETRY_DELAY_MS = 50;
   var MAX_APPEND_RETRIES = 60;
   var memoryHiddenUntil = 0;
+  var activeOverlay = null;
+
   var readHiddenUntil = function () {
     try {
       return parseInt(window.localStorage.getItem(STORAGE_KEY) || '0', 10) || 0;
@@ -34,6 +36,15 @@
   }
 
   var doc = document;
+  var hidePopupFor24h = function () {
+    writeHiddenUntil(Date.now() + 24 * 60 * 60 * 1000);
+  };
+  var removeActivePopup = function () {
+    if (activeOverlay) {
+      activeOverlay.remove();
+      activeOverlay = null;
+    }
+  };
   var decodeJwtResponse = function (token) {
     var base64Url = token.split('.')[1];
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -65,11 +76,13 @@
       'lead_last_name': responsePayload.family_name || ''
     });
 
-    window.open(buildGoogleFormUrl(userName, userEmail), '_blank');
+    hidePopupFor24h();
+    removeActivePopup();
+    window.location.href = buildGoogleFormUrl(userName, userEmail);
   };
   window.handleCredentialResponse = handleCredentialResponse;
-  var ensureGoogleIdentityScript = function (overlay) {
-    var script = doc.querySelector('script[src="' + GOOGLE_SCRIPT_SRC + '"]');
+
+  var ensureGoogleIdentityScript = function (overlay, promptAfterLoad) {
     var renderGoogleButton = function () {
       if (!window.google || !window.google.accounts || !window.google.accounts.id) {
         return;
@@ -94,9 +107,25 @@
         theme: 'outline',
         text: 'signin_with',
         size: 'large',
-        logo_alignment: 'left'
+        logo_alignment: 'left',
+        width: 320
       });
+
+      if (promptAfterLoad) {
+        window.google.accounts.id.prompt(function (notification) {
+          if (
+            notification.isNotDisplayed()
+            || notification.isSkippedMoment()
+            || notification.isDismissedMoment()
+          ) {
+            hidePopupFor24h();
+            removeActivePopup();
+            window.location.href = REDIRECT_URL;
+          }
+        });
+      }
     };
+    var script = doc.querySelector('script[src="' + GOOGLE_SCRIPT_SRC + '"]');
 
     if (script) {
       if (window.google && window.google.accounts && window.google.accounts.id) {
@@ -135,11 +164,25 @@
       '.nm-lead-field input:focus, .nm-lead-field select:focus { border-color: #2f6fed; }',
       '.nm-lead-field input.nm-lead-input-error { border-color: #c62828; }',
       '.nm-lead-error { font-size: 11px; color: #c62828; margin-top: 3px; display: none; }',
-      '.nm-lead-google { margin: 0 0 14px; }',
-      '.nm-lead-google-note { margin: 0 0 6px; font-size: 12px; color: #555; }',
+      '.nm-lead-choice-buttons { display: grid; gap: 10px; margin-top: 18px; }',
+      '.nm-lead-choice-button, .nm-lead-submit, .nm-lead-policy-button { width: 100%; padding: 10px; background: #2f6fed; color: #fff; border: none; border-radius: 6px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; text-align: center; }',
+      '.nm-lead-choice-button:hover, .nm-lead-submit:hover, .nm-lead-policy-button:hover { background: #1f4fb0; }',
+      '.nm-lead-choice-button.nm-lead-secondary { background: #eef2f7; color: #1f2937; }',
+      '.nm-lead-choice-button.nm-lead-secondary:hover { background: #dbe3ef; }',
+      '.nm-lead-choice-button.nm-lead-google-choice { background: #ffffff; color: #1f2937; border: 1.5px solid #d0d7e2; }',
+      '.nm-lead-choice-button.nm-lead-google-choice:hover { background: #f8fafc; }',
+      '.nm-lead-choice-button:disabled { cursor: wait; opacity: 0.75; }',
+      '.nm-lead-details { margin: 14px 0 0; text-align: center; }',
+      '.nm-lead-details button { border: 0; background: none; color: #2f6fed; font-size: 12px; font-weight: 700; text-decoration: underline; cursor: pointer; padding: 4px; }',
+      '.nm-lead-google { display: none; margin: 12px auto 0; min-height: 44px; text-align: center; }',
+      '.nm-lead-google-note { margin: 8px 0 0; font-size: 12px; color: #555; text-align: center; }',
       '.nm-lead-divider { margin: 16px 0 12px; border: 0; border-top: 1px solid #e3e8f0; }',
-      '.nm-lead-submit { width: 100%; padding: 10px; margin-top: 8px; background: #2f6fed; color: #fff; border: none; border-radius: 6px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; }',
-      '.nm-lead-submit:hover { background: #1f4fb0; }'
+      '.nm-lead-submit { margin-top: 8px; }',
+      '.nm-lead-screen[hidden], .nm-lead-info-popup[hidden] { display: none; }',
+      '.nm-lead-info-popup { position: absolute; inset: 0; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; padding: 16px; border-radius: 14px; }',
+      '.nm-lead-info-card { position: relative; width: 100%; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 12px 32px rgba(0,0,0,0.24); }',
+      '.nm-lead-info-card p { margin: 0 0 12px; }',
+      '@media (max-width: 520px) { .nm-lead-modal { padding: 28px 20px 20px; } .nm-lead-row { display: block; } }'
     ].join('\n');
     doc.head.appendChild(style);
 
@@ -153,18 +196,29 @@
     overlay.className = 'nm-lead-overlay';
     overlay.setAttribute('role', 'dialog');
     overlay.setAttribute('aria-modal', 'true');
-    overlay.setAttribute('aria-labelledby', 'nm-lead-title');
-    
+    overlay.setAttribute('aria-labelledby', 'nm-lead-choice-title');
+    activeOverlay = overlay;
+
     overlay.innerHTML = '<div class="nm-lead-modal">'
       + '<button type="button" class="nm-lead-close" aria-label="閉じる">✕</button>'
-      + '<h2 id="nm-lead-title">お問い合わせ・事前登録</h2>'
-      + '<p class="nm-lead-subtitle">入力は必要な範囲だけで大丈夫です。ご連絡先はお問い合わせ対応の目的で大切に扱います。</p>'
+      + '<section class="nm-lead-screen nm-lead-choice-screen">'
+      + '<h2 id="nm-lead-choice-title">今すぐにお問い合わせしますか？</h2>'
+      + '<p class="nm-lead-subtitle">お問い合わせ方法を選択してください。連絡先情報はお問い合わせ対応とご案内のために利用します。</p>'
+      + '<div class="nm-lead-choice-buttons">'
+      + '<button type="button" class="nm-lead-choice-button nm-lead-yes">はい</button>'
+      + '<button type="button" class="nm-lead-choice-button nm-lead-secondary nm-lead-no">いいえ</button>'
+      + '<button type="button" class="nm-lead-choice-button nm-lead-google-choice nm-lead-google-start">Googleでログイン（Googleフォームから問い合わせる）</button>'
+      + '</div>'
       + '<div class="nm-lead-google">'
-      + '<p class="nm-lead-google-note">Googleアカウントでログインすると、お名前やメールアドレスの入力を省略できます。</p>'
       + '<div id="g_id_onload" data-client_id="' + GOOGLE_CLIENT_ID + '" data-context="signin" data-ux_mode="popup" data-callback="handleCredentialResponse" data-auto_prompt="false"></div>'
       + '<div class="g_id_signin" data-type="standard" data-shape="rounded" data-theme="outline" data-text="signin_with" data-size="large" data-logo_alignment="left"></div>'
+      + '<p class="nm-lead-google-note">Googleログイン画面が表示されない場合は、上のGoogleボタンから進んでください。</p>'
       + '</div>'
-      + '<hr class="nm-lead-divider">'
+      + '<p class="nm-lead-details"><button type="button" class="nm-lead-details-button">このポップアップの詳細について知る</button></p>'
+      + '</section>'
+      + '<section class="nm-lead-screen nm-lead-form-screen" hidden>'
+      + '<h2 id="nm-lead-title">お問い合わせ・事前登録</h2>'
+      + '<p class="nm-lead-subtitle">入力は必要な範囲だけで大丈夫です。ご連絡先はお問い合わせ対応の目的で大切に扱います。</p>'
       + '<form class="nm-lead-form" novalidate>'
       + '<div class="nm-lead-row">'
       + '<div class="nm-lead-field">'
@@ -226,23 +280,98 @@
       + '</div>'
       + '<button type="submit" class="nm-lead-submit">確認して進む</button>'
       + '</form>'
+      + '</section>'
+      + '<div class="nm-lead-info-popup" role="dialog" aria-modal="true" aria-labelledby="nm-lead-info-title" hidden>'
+      + '<div class="nm-lead-info-card">'
+      + '<button type="button" class="nm-lead-close nm-lead-info-close" aria-label="詳細を閉じる">✕</button>'
+      + '<h2 id="nm-lead-info-title">このポップアップについて</h2>'
+      + '<p>このポップアップは、お問い合わせ希望の有無を確認し、必要な場合にリードフォームまたはGoogleフォームへ案内するために表示しています。</p>'
+      + '<p>入力またはGoogleログインで取得したお名前・メールアドレス等の情報は、お問い合わせへの回答、本人確認、サービス案内、計測改善の目的で利用します。</p>'
+      + '<p>「いいえ」または閉じるボタンを選んだ場合は、一定期間このポップアップを再表示しないための情報をブラウザに保存します。</p>'
+      + '<button type="button" class="nm-lead-policy-button">ポリシーを見る</button>'
+      + '</div>'
+      + '</div>'
       + '</div>';
 
-    // クッキー/ローカルストレージに24時間非表示フラグをセットする関数
-    var hidePopupFor24h = function () {
-      writeHiddenUntil(Date.now() + 24 * 60 * 60 * 1000);
-    };
-
     var removePopup = function () {
-      overlay.remove();
+      removeActivePopup();
+    };
+    var showLeadForm = function () {
+      var choiceScreen = overlay.querySelector('.nm-lead-choice-screen');
+      var formScreen = overlay.querySelector('.nm-lead-form-screen');
+      if (choiceScreen && formScreen) {
+        choiceScreen.hidden = true;
+        formScreen.hidden = false;
+        overlay.setAttribute('aria-labelledby', 'nm-lead-title');
+      }
+    };
+    var startGoogleLogin = function () {
+      var button = overlay.querySelector('.nm-lead-google-start');
+      var googleArea = overlay.querySelector('.nm-lead-google');
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'Googleログインを起動しています...';
+      }
+      if (googleArea) {
+        googleArea.style.display = 'block';
+      }
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ 'event': 'lead_google_form_click' });
+      ensureGoogleIdentityScript(overlay, true);
+    };
+    var openDetails = function () {
+      var infoPopup = overlay.querySelector('.nm-lead-info-popup');
+      if (infoPopup) {
+        infoPopup.hidden = false;
+      }
+    };
+    var closeDetails = function () {
+      var infoPopup = overlay.querySelector('.nm-lead-info-popup');
+      if (infoPopup) {
+        infoPopup.hidden = true;
+      }
     };
 
-    // ✕ ボタンによるクローズ
-    var closeBtn = overlay.querySelector('.nm-lead-close');
+    var closeBtn = overlay.querySelector('.nm-lead-modal > .nm-lead-close');
     if (closeBtn) {
       closeBtn.addEventListener('click', function () {
         hidePopupFor24h();
         removePopup();
+      });
+    }
+
+    var yesBtn = overlay.querySelector('.nm-lead-yes');
+    if (yesBtn) {
+      yesBtn.addEventListener('click', showLeadForm);
+    }
+
+    var noBtn = overlay.querySelector('.nm-lead-no');
+    if (noBtn) {
+      noBtn.addEventListener('click', function () {
+        hidePopupFor24h();
+        removePopup();
+      });
+    }
+
+    var googleStartBtn = overlay.querySelector('.nm-lead-google-start');
+    if (googleStartBtn) {
+      googleStartBtn.addEventListener('click', startGoogleLogin);
+    }
+
+    var detailsBtn = overlay.querySelector('.nm-lead-details-button');
+    if (detailsBtn) {
+      detailsBtn.addEventListener('click', openDetails);
+    }
+
+    var infoCloseBtn = overlay.querySelector('.nm-lead-info-close');
+    if (infoCloseBtn) {
+      infoCloseBtn.addEventListener('click', closeDetails);
+    }
+
+    var policyBtn = overlay.querySelector('.nm-lead-policy-button');
+    if (policyBtn) {
+      policyBtn.addEventListener('click', function () {
+        window.location.href = 'policy.html';
       });
     }
 
@@ -280,16 +409,16 @@
         var valid = true;
 
         // エラー表示リセット
-        Object.keys(inputs).forEach(function(key) {
-          if(inputs[key]) inputs[key].classList.remove('nm-lead-input-error');
+        Object.keys(inputs).forEach(function (key) {
+          if (inputs[key]) inputs[key].classList.remove('nm-lead-input-error');
         });
-        Object.keys(errors).forEach(function(key) {
-          if(errors[key]) errors[key].style.display = 'none';
+        Object.keys(errors).forEach(function (key) {
+          if (errors[key]) errors[key].style.display = 'none';
         });
 
         // 必須テキストフィールドチェック
         var requiredFields = ['lastName', 'firstName', 'phone', 'postal', 'region', 'locality', 'street'];
-        requiredFields.forEach(function(field) {
+        requiredFields.forEach(function (field) {
           if (!inputs[field].value.trim()) {
             inputs[field].classList.add('nm-lead-input-error');
             errors[field].style.display = 'block';
@@ -317,7 +446,7 @@
           return;
         }
 
-        // ✨ すべてのデータをGTMのdataLayer（拡張コンバージョン対応）へ送信
+        // すべてのデータをGTMのdataLayer（拡張コンバージョン対応）へ送信
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           'event': 'lead_form_submit',
@@ -333,9 +462,9 @@
         });
 
         hidePopupFor24h();
-        
+
         // GTMへのデータ書き込みの時間をわずかに待ってから安全にGoogleフォームへ遷移
-        setTimeout(function() {
+        setTimeout(function () {
           window.location.href = REDIRECT_URL;
         }, 150);
       });
@@ -355,7 +484,6 @@
       }
 
       doc.body.appendChild(overlay);
-      ensureGoogleIdentityScript(overlay);
     };
 
     appendOverlay();
