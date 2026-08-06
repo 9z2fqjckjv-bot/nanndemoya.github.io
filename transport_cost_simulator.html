@@ -543,17 +543,12 @@
       </aside>
     </div>
 
-    <section class="card" style="margin-top:22px;">
-      <h2>Google Maps API連携について</h2>
-      <p>このページは Routes API で住所間の距離・所要時間を取得し、Places Autocomplete で住所入力候補を表示する構成です。入力中にはAPIを呼ばず、「距離・所要時間を自動取得」ボタン押下時だけ Routes API を実行して利用回数を抑えます。</p>
-      <p class="note">公開前に、HTML内の <code>YOUR_GOOGLE_MAPS_API_KEY</code> をHTTPリファラー制限・API制限・割り当て上限を設定したGoogle Maps Platform APIキーへ置き換えてください。</p>
-    </section>
   </main>
 
   <a class="back-top" href="#top">↑ トップへ</a>
 
   <script>
-    const GOOGLE_MAPS_API_KEY = 'YOUR_GOOGLE_MAPS_API_KEY';
+    const GOOGLE_MAPS_API_KEY = 'AIzaSyB2SmrDXLXeYEaYnf_fNcor9T1I98-0cS4';
 
     const RATES = {
       public: { label: '公共交通機関', base: 0, perKm: 30, minimum: 300 },
@@ -650,7 +645,7 @@
         return;
       }
 
-      if (GOOGLE_MAPS_API_KEY === 'YOUR_GOOGLE_MAPS_API_KEY') {
+      if (GOOGLE_MAPS_API_KEY === 'AIzaSyB2SmrDXLXeYEaYnf_fNcor9T1I98-0cS4') {
         setRouteStatus('Google Maps APIキーを設定すると自動取得できます。現在は手動入力をご利用ください。', 'error');
         return;
       }
@@ -689,7 +684,7 @@
     window.initPlaces = initPlaces;
 
     function loadGoogleMapsScript() {
-      if (GOOGLE_MAPS_API_KEY === 'YOUR_GOOGLE_MAPS_API_KEY') {
+      if (GOOGLE_MAPS_API_KEY === 'AIzaSyB2SmrDXLXeYEaYnf_fNcor9T1I98-0cS4') {
         return;
       }
 
