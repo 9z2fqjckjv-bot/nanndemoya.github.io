@@ -429,7 +429,7 @@
           </div>
 
           <div class="field full">
-            <label>Google Maps APIで距離を取得</label>
+            <label>住所から距離を自動取得</label>
             <div class="route-actions">
               <button class="button button-api" type="button" id="routeSearchButton">距離・所要時間を自動取得</button>
               <p class="route-status" id="routeStatus">住所を入力してボタンを押すと、距離と所要時間を自動反映します。</p>
@@ -445,7 +445,7 @@
           <div class="field">
             <label for="travelMinutes">片道移動時間（分）</label>
             <input type="number" id="travelMinutes" min="0" step="1" value="20" inputmode="numeric">
-            <span class="hint">API取得後に自動入力されます。移動代金には自動加算しません。</span>
+            <span class="hint">API取得後に自動入力されます。移動時間は料金確認時の参考値です。</span>
           </div>
 
           <div class="field">
@@ -549,6 +549,7 @@
 
   <script>
     const GOOGLE_MAPS_API_KEY = 'AIzaSyB2SmrDXLXeYEaYnf_fNcor9T1I98-0cS4';
+    const GOOGLE_MAPS_API_KEY_PLACEHOLDER = 'YOUR_GOOGLE_MAPS_API_KEY';
 
     const RATES = {
       public: { label: '公共交通機関', base: 0, perKm: 30, minimum: 300 },
@@ -560,13 +561,14 @@
 
     const ROUTE_TRAVEL_MODES = {
       public: 'TRANSIT',
-      car: 'DRIVE',
-      bike: 'BICYCLE',
-      taxi: 'DRIVE',
-      customerCar: 'DRIVE'
+      car: 'DRIVING',
+      bike: 'BICYCLING',
+      taxi: 'DRIVING',
+      customerCar: 'DRIVING'
     };
 
     const routeCache = new Map();
+    let mapsScriptLoadingPromise = null;
     const yen = (value) => '¥' + Math.round(value).toLocaleString('ja-JP');
     const numberValue = (id) => {
       const value = Number(document.getElementById(id).value);
@@ -584,17 +586,77 @@
       status.className = `route-status${type ? ` ${type}` : ''}`;
     }
 
+    function hasGoogleMapsApiKey() {
+      return GOOGLE_MAPS_API_KEY && GOOGLE_MAPS_API_KEY !== GOOGLE_MAPS_API_KEY_PLACEHOLDER;
+    }
+
     function getRouteTravelMode() {
       const type = document.getElementById('transportType').value;
-      return ROUTE_TRAVEL_MODES[type] || 'DRIVE';
+      return ROUTE_TRAVEL_MODES[type] || 'DRIVING';
+    }
+
+    function getDirectionsTravelMode(travelMode) {
+      if (!window.google || !google.maps || !google.maps.TravelMode) {
+        return travelMode;
+      }
+
+      return google.maps.TravelMode[travelMode] || google.maps.TravelMode.DRIVING;
     }
 
     function buildRouteCacheKey(origin, destination, travelMode) {
       return [origin.trim(), destination.trim(), travelMode].join('|').toLowerCase();
     }
 
-    function parseDurationToMinutes(duration) {
-      return Math.ceil(Number(duration.replace('s', '')) / 60);
+    function getDirectionsErrorMessage(status) {
+      const messages = {
+        INVALID_REQUEST: '住所または交通手段の指定に不備があります。入力内容をご確認ください。',
+        MAX_WAYPOINTS_EXCEEDED: '経由地の上限を超えています。住所を入力し直してください。',
+        NOT_FOUND: '住所が見つかりませんでした。建物名や番地まで入力してください。',
+        OVER_QUERY_LIMIT: 'Google Maps APIの利用上限に達しました。時間をおいて再度お試しください。',
+        REQUEST_DENIED: 'Google Maps APIキー、HTTPリファラー制限、有効化APIの設定をご確認ください。',
+        UNKNOWN_ERROR: '一時的にルートを取得できませんでした。少し時間をおいて再度お試しください。',
+        ZERO_RESULTS: '該当するルートが見つかりませんでした。交通手段を変えるか、距離と時間を手動入力してください。'
+      };
+
+      return messages[status] || 'ルート情報を取得できませんでした。距離と時間を手動入力してください。';
+    }
+
+    function summarizeDirectionsRoute(route) {
+      const legs = route && route.legs ? route.legs : [];
+      const totals = legs.reduce((sum, leg) => {
+        sum.distanceMeters += leg.distance && leg.distance.value ? leg.distance.value : 0;
+        sum.durationSeconds += leg.duration && leg.duration.value ? leg.duration.value : 0;
+        return sum;
+      }, { distanceMeters: 0, durationSeconds: 0 });
+
+      if (!totals.distanceMeters || !totals.durationSeconds) {
+        throw new Error('距離または所要時間を取得できませんでした。距離と時間を手動入力してください。');
+      }
+
+      return {
+        distanceKm: totals.distanceMeters / 1000,
+        durationMinutes: Math.ceil(totals.durationSeconds / 60)
+      };
+    }
+
+    function requestDirections(origin, destination, travelMode) {
+      const service = new google.maps.DirectionsService();
+
+      return new Promise((resolve, reject) => {
+        service.route({
+          origin,
+          destination,
+          travelMode: getDirectionsTravelMode(travelMode),
+          region: 'JP'
+        }, (result, status) => {
+          if (status === 'OK' && result && result.routes && result.routes[0]) {
+            resolve(summarizeDirectionsRoute(result.routes[0]));
+            return;
+          }
+
+          reject(new Error(getDirectionsErrorMessage(status)));
+        });
+      });
     }
 
     async function fetchRoute(origin, destination, travelMode) {
@@ -603,34 +665,8 @@
         return routeCache.get(cacheKey);
       }
 
-      const response = await fetch('https://routes.googleapis.com/directions/v2:computeRoutes', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
-          'X-Goog-FieldMask': 'routes.distanceMeters,routes.duration'
-        },
-        body: JSON.stringify({
-          origin: { address: origin },
-          destination: { address: destination },
-          travelMode
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('ルート情報を取得できませんでした。距離と時間を手動入力してください。');
-      }
-
-      const data = await response.json();
-      const route = data.routes && data.routes[0];
-      if (!route) {
-        throw new Error('該当するルートが見つかりませんでした。番地まで入力して再度お試しください。');
-      }
-
-      const result = {
-        distanceKm: route.distanceMeters / 1000,
-        durationMinutes: parseDurationToMinutes(route.duration)
-      };
+      await loadGoogleMapsScript();
+      const result = await requestDirections(origin, destination, travelMode);
       routeCache.set(cacheKey, result);
       return result;
     }
@@ -645,7 +681,7 @@
         return;
       }
 
-      if (GOOGLE_MAPS_API_KEY === 'AIzaSyB2SmrDXLXeYEaYnf_fNcor9T1I98-0cS4') {
+      if (!hasGoogleMapsApiKey()) {
         setRouteStatus('Google Maps APIキーを設定すると自動取得できます。現在は手動入力をご利用ください。', 'error');
         return;
       }
@@ -677,22 +713,44 @@
       };
 
       ['originAddress', 'destinationAddress'].forEach((id) => {
-        new google.maps.places.Autocomplete(document.getElementById(id), options);
+        const input = document.getElementById(id);
+        if (input) {
+          new google.maps.places.Autocomplete(input, options);
+        }
       });
     }
 
-    window.initPlaces = initPlaces;
-
     function loadGoogleMapsScript() {
-      if (GOOGLE_MAPS_API_KEY === 'AIzaSyB2SmrDXLXeYEaYnf_fNcor9T1I98-0cS4') {
-        return;
+      if (!hasGoogleMapsApiKey()) {
+        return Promise.reject(new Error('Google Maps APIキーを設定すると自動取得できます。現在は手動入力をご利用ください。'));
       }
 
-      const script = document.createElement('script');
-      script.async = true;
-      script.defer = true;
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(GOOGLE_MAPS_API_KEY)}&libraries=places&callback=initPlaces`;
-      document.head.appendChild(script);
+      if (window.google && google.maps && google.maps.DirectionsService) {
+        initPlaces();
+        return Promise.resolve();
+      }
+
+      if (mapsScriptLoadingPromise) {
+        return mapsScriptLoadingPromise;
+      }
+
+      mapsScriptLoadingPromise = new Promise((resolve, reject) => {
+        window.initGoogleMapsApi = () => {
+          initPlaces();
+          resolve();
+        };
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.defer = true;
+        script.onerror = () => {
+          reject(new Error('Google Maps APIを読み込めませんでした。APIキーとリファラー制限をご確認ください。'));
+        };
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(GOOGLE_MAPS_API_KEY)}&libraries=places&callback=initGoogleMapsApi`;
+        document.head.appendChild(script);
+      });
+
+      return mapsScriptLoadingPromise;
     }
 
     function calcTransportCost() {
@@ -735,7 +793,9 @@
     });
 
     calcTransportCost();
-    loadGoogleMapsScript();
+    loadGoogleMapsScript().catch((error) => {
+      setRouteStatus(error.message, 'error');
+    });
   </script>
 </body>
 </html>
