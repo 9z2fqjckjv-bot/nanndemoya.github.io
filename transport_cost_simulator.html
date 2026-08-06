@@ -95,6 +95,9 @@
       border-radius: 999px;
       font-weight: 700;
       text-decoration: none;
+      border: 0;
+      font: inherit;
+      cursor: pointer;
       transition: transform 0.2s ease, background 0.2s ease;
     }
 
@@ -216,6 +219,40 @@
     .hint {
       color: var(--muted);
       font-size: 0.88rem;
+    }
+
+    .route-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .button-api {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .button-api:disabled {
+      cursor: not-allowed;
+      opacity: 0.68;
+      transform: none;
+    }
+
+    .route-status {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .route-status.error {
+      color: #b91c1c;
+      font-weight: 700;
+    }
+
+    .route-status.success {
+      color: var(--green);
+      font-weight: 700;
     }
 
     .result-card {
@@ -366,7 +403,7 @@
     <div class="hero-inner">
       <span class="badge">移動実費の目安をすぐ計算</span>
       <h1>移動代金シミュレーター</h1>
-      <p class="lead">スタッフがお客様の指定場所へ伺うための移動代金を、距離・交通手段・往復有無から概算します。Google Maps API連携前でも使える手動入力版です。</p>
+      <p class="lead">スタッフがお客様の指定場所へ伺うための移動代金を、住所から取得した距離・所要時間と交通手段・往復有無から概算します。</p>
       <div class="hero-actions">
         <a class="button button-primary" href="#simulator">計算を始める</a>
         <a class="button button-secondary" href="anytime_service_prices.html">基本料金シミュレーターへ</a>
@@ -380,15 +417,35 @@
         <h2>条件を入力してください</h2>
         <div class="form-grid">
           <div class="field">
+            <label for="originAddress">出発地住所</label>
+            <input type="text" id="originAddress" placeholder="例：東京都渋谷区道玄坂1丁目">
+            <span class="hint">スタッフの出発地・拠点などを入力してください。</span>
+          </div>
+
+          <div class="field">
+            <label for="destinationAddress">目的地住所</label>
+            <input type="text" id="destinationAddress" placeholder="例：東京都新宿区西新宿2丁目">
+            <span class="hint">お客様の指定場所を入力してください。</span>
+          </div>
+
+          <div class="field full">
+            <label>Google Maps APIで距離を取得</label>
+            <div class="route-actions">
+              <button class="button button-api" type="button" id="routeSearchButton">距離・所要時間を自動取得</button>
+              <p class="route-status" id="routeStatus">住所を入力してボタンを押すと、距離と所要時間を自動反映します。</p>
+            </div>
+          </div>
+
+          <div class="field">
             <label for="distanceKm">片道距離（km）</label>
             <input type="number" id="distanceKm" min="0" step="0.1" value="5" inputmode="decimal">
-            <span class="hint">Google Mapsなどで確認した片道の走行距離・移動距離を入力してください。</span>
+            <span class="hint">API取得後に自動入力されます。取得できない場合は手動で修正できます。</span>
           </div>
 
           <div class="field">
             <label for="travelMinutes">片道移動時間（分）</label>
             <input type="number" id="travelMinutes" min="0" step="1" value="20" inputmode="numeric">
-            <span class="hint">拘束時間の参考として表示します。移動代金には自動加算しません。</span>
+            <span class="hint">API取得後に自動入力されます。移動代金には自動加算しません。</span>
           </div>
 
           <div class="field">
@@ -488,14 +545,16 @@
 
     <section class="card" style="margin-top:22px;">
       <h2>Google Maps API連携について</h2>
-      <p>添付資料の通り、住所入力から距離・所要時間を自動計算する場合は Routes API、Places Autocomplete、Geocoding API などの利用が想定されます。小規模運用では無料枠内に収まる可能性がありますが、APIキーのHTTPリファラー制限と利用上限設定は必須です。</p>
-      <p class="note">現在のページはAPIキーを公開せずに使える安全な手動入力版です。将来APIキーを設定する場合も、制限済みキーだけを利用し、予算上限を設定してください。</p>
+      <p>このページは Routes API で住所間の距離・所要時間を取得し、Places Autocomplete で住所入力候補を表示する構成です。入力中にはAPIを呼ばず、「距離・所要時間を自動取得」ボタン押下時だけ Routes API を実行して利用回数を抑えます。</p>
+      <p class="note">公開前に、HTML内の <code>YOUR_GOOGLE_MAPS_API_KEY</code> をHTTPリファラー制限・API制限・割り当て上限を設定したGoogle Maps Platform APIキーへ置き換えてください。</p>
     </section>
   </main>
 
   <a class="back-top" href="#top">↑ トップへ</a>
 
   <script>
+    const GOOGLE_MAPS_API_KEY = 'YOUR_GOOGLE_MAPS_API_KEY';
+
     const RATES = {
       public: { label: '公共交通機関', base: 0, perKm: 30, minimum: 300 },
       car: { label: '自家用車・事業車', base: 0, perKm: 35, minimum: 300 },
@@ -504,6 +563,15 @@
       customerCar: { label: "Let's Go Car's!", base: 0, perKm: 0, minimum: 0 }
     };
 
+    const ROUTE_TRAVEL_MODES = {
+      public: 'TRANSIT',
+      car: 'DRIVE',
+      bike: 'BICYCLE',
+      taxi: 'DRIVE',
+      customerCar: 'DRIVE'
+    };
+
+    const routeCache = new Map();
     const yen = (value) => '¥' + Math.round(value).toLocaleString('ja-JP');
     const numberValue = (id) => {
       const value = Number(document.getElementById(id).value);
@@ -513,6 +581,123 @@
     function renderBreakdown(items) {
       const list = document.getElementById('breakdown');
       list.innerHTML = items.map((item) => `<li><span>${item.label}</span><strong>${item.value}</strong></li>`).join('');
+    }
+
+    function setRouteStatus(message, type = '') {
+      const status = document.getElementById('routeStatus');
+      status.textContent = message;
+      status.className = `route-status${type ? ` ${type}` : ''}`;
+    }
+
+    function getRouteTravelMode() {
+      const type = document.getElementById('transportType').value;
+      return ROUTE_TRAVEL_MODES[type] || 'DRIVE';
+    }
+
+    function buildRouteCacheKey(origin, destination, travelMode) {
+      return [origin.trim(), destination.trim(), travelMode].join('|').toLowerCase();
+    }
+
+    function parseDurationToMinutes(duration) {
+      return Math.ceil(Number(duration.replace('s', '')) / 60);
+    }
+
+    async function fetchRoute(origin, destination, travelMode) {
+      const cacheKey = buildRouteCacheKey(origin, destination, travelMode);
+      if (routeCache.has(cacheKey)) {
+        return routeCache.get(cacheKey);
+      }
+
+      const response = await fetch('https://routes.googleapis.com/directions/v2:computeRoutes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
+          'X-Goog-FieldMask': 'routes.distanceMeters,routes.duration'
+        },
+        body: JSON.stringify({
+          origin: { address: origin },
+          destination: { address: destination },
+          travelMode
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('ルート情報を取得できませんでした。距離と時間を手動入力してください。');
+      }
+
+      const data = await response.json();
+      const route = data.routes && data.routes[0];
+      if (!route) {
+        throw new Error('該当するルートが見つかりませんでした。番地まで入力して再度お試しください。');
+      }
+
+      const result = {
+        distanceKm: route.distanceMeters / 1000,
+        durationMinutes: parseDurationToMinutes(route.duration)
+      };
+      routeCache.set(cacheKey, result);
+      return result;
+    }
+
+    async function updateRouteEstimate() {
+      const origin = document.getElementById('originAddress').value.trim();
+      const destination = document.getElementById('destinationAddress').value.trim();
+      const button = document.getElementById('routeSearchButton');
+
+      if (!origin || !destination) {
+        setRouteStatus('出発地住所と目的地住所を入力してください。', 'error');
+        return;
+      }
+
+      if (GOOGLE_MAPS_API_KEY === 'YOUR_GOOGLE_MAPS_API_KEY') {
+        setRouteStatus('Google Maps APIキーを設定すると自動取得できます。現在は手動入力をご利用ください。', 'error');
+        return;
+      }
+
+      button.disabled = true;
+      setRouteStatus('Google Maps APIから距離・所要時間を取得しています...');
+
+      try {
+        const route = await fetchRoute(origin, destination, getRouteTravelMode());
+        document.getElementById('distanceKm').value = route.distanceKm.toFixed(1);
+        document.getElementById('travelMinutes').value = route.durationMinutes;
+        calcTransportCost();
+        setRouteStatus('距離・所要時間を自動反映しました。', 'success');
+      } catch (error) {
+        setRouteStatus(error.message, 'error');
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    function initPlaces() {
+      if (!window.google || !google.maps || !google.maps.places) {
+        return;
+      }
+
+      const options = {
+        componentRestrictions: { country: 'jp' },
+        fields: ['formatted_address', 'geometry', 'name']
+      };
+
+      ['originAddress', 'destinationAddress'].forEach((id) => {
+        new google.maps.places.Autocomplete(document.getElementById(id), options);
+      });
+    }
+
+    window.initPlaces = initPlaces;
+
+    function loadGoogleMapsScript() {
+      if (GOOGLE_MAPS_API_KEY === 'YOUR_GOOGLE_MAPS_API_KEY') {
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.async = true;
+      script.defer = true;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(GOOGLE_MAPS_API_KEY)}&libraries=places&callback=initPlaces`;
+      document.head.appendChild(script);
     }
 
     function calcTransportCost() {
@@ -547,12 +732,15 @@
       ]);
     }
 
+    document.getElementById('routeSearchButton').addEventListener('click', updateRouteEstimate);
+
     document.querySelectorAll('input, select').forEach((element) => {
       element.addEventListener('input', calcTransportCost);
       element.addEventListener('change', calcTransportCost);
     });
 
     calcTransportCost();
+    loadGoogleMapsScript();
   </script>
 </body>
 </html>
