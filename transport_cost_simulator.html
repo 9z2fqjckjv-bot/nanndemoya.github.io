@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P56Q566B');</script>
+  <!-- End Google Tag Manager -->
+  <script src="lead-form-popup.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="何でも屋の移動代金シミュレーター。距離・交通手段・往復有無から、スタッフ移動費の目安を計算できます。">
+  <title>何でも屋 ｜ 移動代金シミュレーター</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #64748b;
+      --accent: #2563eb;
+      --accent-dark: #1d4ed8;
+      --border: #dbe3ee;
+      --green: #16a34a;
+      --amber: #b45309;
+      --shadow: 0 12px 32px rgba(15, 23, 42, 0.09);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", Arial, sans-serif;
+      background: linear-gradient(180deg, #eaf2ff 0%, var(--bg) 280px);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    .hero {
+      padding: 52px 20px 36px;
+      color: #fff;
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 58%, #60a5fa 100%);
+      text-align: center;
+    }
+
+    .hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.2;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 16px auto 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 1.02rem;
+    }
+
+    .hero-actions,
+    .result-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button-primary {
+      background: #fff;
+      color: #1d4ed8;
+    }
+
+    .button-secondary {
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 30px 20px 64px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      color: #1e3a8a;
+      font-size: 1.45rem;
+      line-height: 1.35;
+    }
+
+    h3 {
+      margin: 22px 0 10px;
+      font-size: 1.05rem;
+      color: #334155;
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-weight: 700;
+      color: #334155;
+      font-size: 0.94rem;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      font: inherit;
+      background: #fff;
+      color: var(--text);
+    }
+
+    input:focus,
+    select:focus {
+      outline: 3px solid rgba(37, 99, 235, 0.18);
+      border-color: var(--accent);
+    }
+
+    .inline-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .check-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #f8fbff;
+      cursor: pointer;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .check-option input {
+      width: auto;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .result-card {
+      position: sticky;
+      top: 18px;
+      background: linear-gradient(180deg, #1e3a8a 0%, #2563eb 100%);
+      color: #fff;
+      border: none;
+    }
+
+    .result-card h2 {
+      color: #fff;
+    }
+
+    .result-total {
+      padding: 22px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.14);
+      text-align: center;
+    }
+
+    .result-total .label {
+      color: rgba(255, 255, 255, 0.78);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .result-total .price {
+      display: block;
+      margin-top: 6px;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .breakdown {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .breakdown li {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .breakdown li:last-child {
+      border-bottom: none;
+    }
+
+    .breakdown strong {
+      white-space: nowrap;
+    }
+
+    .button-contact {
+      background: #fff;
+      color: #1d4ed8;
+    }
+
+    .button-outline {
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.56);
+      color: #fff;
+    }
+
+    .note {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+    }
+
+    .warning {
+      background: #fffbeb;
+      border-color: #fde68a;
+      color: #92400e;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.93rem;
+    }
+
+    th,
+    td {
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+
+    th {
+      background: #1e3a8a;
+      color: #fff;
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fbff;
+    }
+
+    .back-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 20;
+      display: inline-flex;
+      padding: 11px 16px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.28);
+    }
+
+    @media (max-width: 820px) {
+      .grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .result-card {
+        position: static;
+      }
+
+      .card {
+        padding: 22px 18px;
+      }
+    }
+  </style>
+</head>
+<body id="top">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P56Q566B"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <header class="hero">
+    <div class="hero-inner">
+      <span class="badge">移動実費の目安をすぐ計算</span>
+      <h1>移動代金シミュレーター</h1>
+      <p class="lead">スタッフがお客様の指定場所へ伺うための移動代金を、距離・交通手段・往復有無から概算します。Google Maps API連携前でも使える手動入力版です。</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#simulator">計算を始める</a>
+        <a class="button button-secondary" href="anytime_service_prices.html">基本料金シミュレーターへ</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="grid" id="simulator">
+      <section class="card">
+        <h2>条件を入力してください</h2>
+        <div class="form-grid">
+          <div class="field">
+            <label for="distanceKm">片道距離（km）</label>
+            <input type="number" id="distanceKm" min="0" step="0.1" value="5" inputmode="decimal">
+            <span class="hint">Google Mapsなどで確認した片道の走行距離・移動距離を入力してください。</span>
+          </div>
+
+          <div class="field">
+            <label for="travelMinutes">片道移動時間（分）</label>
+            <input type="number" id="travelMinutes" min="0" step="1" value="20" inputmode="numeric">
+            <span class="hint">拘束時間の参考として表示します。移動代金には自動加算しません。</span>
+          </div>
+
+          <div class="field">
+            <label for="transportType">交通手段</label>
+            <select id="transportType">
+              <option value="public">公共交通機関</option>
+              <option value="car">自家用車・事業車</option>
+              <option value="bike">自転車・徒歩</option>
+              <option value="taxi">タクシー</option>
+              <option value="customerCar">Let's Go Car's!（お客様の車）</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="roundTrip">往復設定</label>
+            <select id="roundTrip">
+              <option value="2">往復で計算</option>
+              <option value="1">片道のみで計算</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="parkingFee">駐車場・高速代など（円）</label>
+            <input type="number" id="parkingFee" min="0" step="10" value="0" inputmode="numeric">
+          </div>
+
+          <div class="field">
+            <label for="extraFee">その他実費（円）</label>
+            <input type="number" id="extraFee" min="0" step="10" value="0" inputmode="numeric">
+          </div>
+
+          <div class="field full">
+            <label>追加条件</label>
+            <div class="inline-options">
+              <label class="check-option"><input type="checkbox" id="useMinimum" checked> 最低移動代金を適用</label>
+              <label class="check-option"><input type="checkbox" id="rushSurcharge"> 急ぎ・深夜など割増（20%）</label>
+            </div>
+          </div>
+        </div>
+
+        <h3>交通手段ごとの初期単価</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>交通手段</th>
+                <th>計算方法</th>
+                <th>目安</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>公共交通機関</td>
+                <td>片道距離 × 30円/km × 往復</td>
+                <td>近距離電車・バスの概算</td>
+              </tr>
+              <tr>
+                <td>自家用車・事業車</td>
+                <td>片道距離 × 35円/km × 往復</td>
+                <td>燃料費相当の概算</td>
+              </tr>
+              <tr>
+                <td>自転車・徒歩</td>
+                <td>0円</td>
+                <td>近隣対応向け</td>
+              </tr>
+              <tr>
+                <td>タクシー</td>
+                <td>初乗り500円 + 片道距離 × 400円/km × 往復</td>
+                <td>実際はタクシー会社の運賃が優先</td>
+              </tr>
+              <tr>
+                <td>Let's Go Car's!</td>
+                <td>0円</td>
+                <td>お客様の自家用車による送迎</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="note warning">このシミュレーターは見積もり前の概算です。公共交通機関・タクシー・高速道路・駐車場などの実費が確定している場合は、その実費を優先して調整します。</p>
+      </section>
+
+      <aside class="card result-card" aria-live="polite">
+        <h2>計算結果</h2>
+        <div class="result-total">
+          <div class="label">移動代金の目安</div>
+          <span class="price" id="totalPrice">¥300</span>
+        </div>
+        <ul class="breakdown" id="breakdown"></ul>
+        <div class="result-actions">
+          <a class="button button-contact" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">この条件で相談する</a>
+          <a class="button button-outline" href="index.html">トップへ戻る</a>
+        </div>
+      </aside>
+    </div>
+
+    <section class="card" style="margin-top:22px;">
+      <h2>Google Maps API連携について</h2>
+      <p>添付資料の通り、住所入力から距離・所要時間を自動計算する場合は Routes API、Places Autocomplete、Geocoding API などの利用が想定されます。小規模運用では無料枠内に収まる可能性がありますが、APIキーのHTTPリファラー制限と利用上限設定は必須です。</p>
+      <p class="note">現在のページはAPIキーを公開せずに使える安全な手動入力版です。将来APIキーを設定する場合も、制限済みキーだけを利用し、予算上限を設定してください。</p>
+    </section>
+  </main>
+
+  <a class="back-top" href="#top">↑ トップへ</a>
+
+  <script>
+    const RATES = {
+      public: { label: '公共交通機関', base: 0, perKm: 30, minimum: 300 },
+      car: { label: '自家用車・事業車', base: 0, perKm: 35, minimum: 300 },
+      bike: { label: '自転車・徒歩', base: 0, perKm: 0, minimum: 0 },
+      taxi: { label: 'タクシー', base: 500, perKm: 400, minimum: 1000 },
+      customerCar: { label: "Let's Go Car's!", base: 0, perKm: 0, minimum: 0 }
+    };
+
+    const yen = (value) => '¥' + Math.round(value).toLocaleString('ja-JP');
+    const numberValue = (id) => {
+      const value = Number(document.getElementById(id).value);
+      return Number.isFinite(value) && value > 0 ? value : 0;
+    };
+
+    function renderBreakdown(items) {
+      const list = document.getElementById('breakdown');
+      list.innerHTML = items.map((item) => `<li><span>${item.label}</span><strong>${item.value}</strong></li>`).join('');
+    }
+
+    function calcTransportCost() {
+      const distance = numberValue('distanceKm');
+      const minutes = numberValue('travelMinutes');
+      const multiplier = Number(document.getElementById('roundTrip').value);
+      const type = document.getElementById('transportType').value;
+      const parkingFee = numberValue('parkingFee');
+      const extraFee = numberValue('extraFee');
+      const useMinimum = document.getElementById('useMinimum').checked;
+      const rushSurcharge = document.getElementById('rushSurcharge').checked;
+      const rate = RATES[type];
+
+      const distanceCost = (rate.base + distance * rate.perKm) * multiplier;
+      const minimumCost = useMinimum ? rate.minimum : 0;
+      const subtotal = Math.max(distanceCost, minimumCost) + parkingFee + extraFee;
+      const surcharge = rushSurcharge ? Math.round(subtotal * 0.2) : 0;
+      const total = subtotal + surcharge;
+      const totalDistance = distance * multiplier;
+      const totalMinutes = minutes * multiplier;
+
+      document.getElementById('totalPrice').textContent = yen(total);
+      renderBreakdown([
+        { label: '交通手段', value: rate.label },
+        { label: '計算距離', value: `${totalDistance.toLocaleString('ja-JP')} km` },
+        { label: '移動時間の目安', value: `${totalMinutes.toLocaleString('ja-JP')} 分` },
+        { label: '距離・交通手段分', value: yen(distanceCost) },
+        { label: '最低移動代金', value: useMinimum ? yen(minimumCost) : '適用なし' },
+        { label: '駐車場・高速代など', value: yen(parkingFee) },
+        { label: 'その他実費', value: yen(extraFee) },
+        { label: '割増', value: rushSurcharge ? yen(surcharge) : 'なし' }
+      ]);
+    }
+
+    document.querySelectorAll('input, select').forEach((element) => {
+      element.addEventListener('input', calcTransportCost);
+      element.addEventListener('change', calcTransportCost);
+    });
+
+    calcTransportCost();
+  </script>
+</body>
+</html>
