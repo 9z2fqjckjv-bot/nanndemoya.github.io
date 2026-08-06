@@ -2,7 +2,7 @@ Cloud Shell では、**Google Maps Platform の各APIに「1日あたりのク�
 
 ```bash
 # 1. 対象プロジェクトを設定
-PROJECT_ID="あなたのプロジェクトID"
+PROJECT_ID="nanndemoya-transport-simulator"
 gcloud config set project "$PROJECT_ID"
 
 # 2. 必要なAPI名を確認
@@ -27,7 +27,7 @@ gcloud services quota list \
 Cloud Shell から直接変更できる場合は、以下のように `gcloud beta services quota override create` を使います。ただし、クォータ項目名はAPIごとに異なるため、先に `quota list` で対象metric/unitを確認してください。
 
 ```bash
-PROJECT_ID="あなたのプロジェクトID"
+PROJECT_ID="nanndemoya-transport-simulator"
 DAILY_LIMIT="300"
 
 # 例: Routes API の日次リクエスト上限を設定する形式
@@ -43,7 +43,7 @@ gcloud beta services quota override create \
 より確実に「課金を止めたい」場合は、**Cloud Billing Budget の通知 + Cloud Function で Maps API を無効化**します。Cloud Shell で作る最小構成は次の考え方です。
 
 ```bash
-PROJECT_ID="あなたのプロジェクトID"
+PROJECT_ID="nanndemoya-transport-simulator"
 gcloud config set project "$PROJECT_ID"
 
 # Pub/Sub トピック作成
