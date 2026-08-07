@@ -8,7 +8,6 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-P56Q566B');</script>
     <!-- End Google Tag Manager -->
-    <script src="google-tag-manager.js"></script>
     <script src="lead-form-popup.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -208,6 +207,30 @@
       color: var(--muted);
       }
 
+      .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+      }
+
+      .video-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      background: #fff;
+      }
+
+      .video-card h3 {
+      margin-bottom: 10px;
+      }
+
+      .video-card video {
+      width: 100%;
+      border-radius: 12px;
+      background: #0f172a;
+      }
+
       .footer {
       text-align: center;
       color: var(--muted);
@@ -263,7 +286,7 @@
         <div class="notice">
           優先順位：事業拠点・職住一体型シェルター開設 ＞ 日常生活および事業維持費 ＞ PC ＞ スマートフォン ＞ 電動三輪車 ＞ 広告 ＞ 資本
         </div>
-        <a href="https://youtu.be/SQmtGzzLjB4">何でも屋基金について動画で見る</a>
+        <a href="#fund-videos">何でも屋基金について動画で見る</a>
       </header>
 
       <section class="section">
@@ -272,6 +295,30 @@
           各基金は、事業拠点の整備、制作環境の強化、移動手段の確保、広告投資、安定的な事業継続を目的としています。ご支援いただくことで、活動効率の向上とサービス品質向上につながります。
         </p>
         <div class="priority-box">重要：集まった支援金は、上記の優先順位に沿って活用されます。</div>
+      </section>
+
+      <section class="section" id="fund-videos">
+        <h2>基金紹介動画</h2>
+        <p class="lead">基金に関する重複説明は、添付フォルダ内の動画ファイルを優先して掲載しています。</p>
+        <div class="video-grid">
+          <article class="video-card">
+            <h3>何でも基金編 その1</h3>
+            <video controls preload="metadata" src="documet/1分紹介 何でも基金編 その１ 「何でも屋」.mp4"></video>
+          </article>
+          <article class="video-card">
+            <h3>何でも基金編 その2</h3>
+            <video controls preload="metadata" src="documet/1分紹介 何でも基金編 その２「何でも屋」.mp4"></video>
+          </article>
+          <article class="video-card">
+            <h3>何でも基金編 その3</h3>
+            <video controls preload="metadata" src="documet/1分紹介 何でも基金編 その３「何でも屋」.mp4"></video>
+          </article>
+          <article class="video-card">
+            <h3>PC基金の特例扱い</h3>
+            <video controls preload="metadata" src="documet/PC基金の特例扱い.mp4"></video>
+          </article>
+        </div>
+        <p class="small-note"><a href="documents.html#fund-videos">動画・資料一覧でも確認できます。</a></p>
       </section>
 
       <!-- 上部のPayPal決済セクション -->
