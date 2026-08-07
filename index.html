@@ -431,6 +431,35 @@
       background: #f8fbff;
     }
 
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .video-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      background: #fff;
+    }
+
+    .video-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .video-card video {
+      width: 100%;
+      border-radius: 12px;
+      background: #0f172a;
+    }
+
+    .video-card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
     /* Service tags */
     .service-tags {
       display: flex;
@@ -561,7 +590,7 @@
         <a class="button button-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" onclick="typeof gtag === 'function' && gtag('event','click',{event_category:'CTA',event_label:'hero_contact'})">✉️ 無料でご相談・お見積もり</a>
         <a class="button button-secondary" href="anytime_service_prices.html">💴 料金シミュレーター</a>
         <a class="button button-secondary" href="transport_cost_simulator.html">🚗 移動代金シミュレーター</a>
-        <a class="button button-secondary" href="https://youtu.be/JqKdKD46WHU" target="_blank" rel="noopener noreferrer">▶ 詳細動画を見る</a>
+        <a class="button button-secondary" href="#document-videos">▶ 紹介動画を見る</a>
         <a class="button button-secondary" href="site-links.html">🔗 全ページリンク</a>
       </div>
     </div>
@@ -602,6 +631,26 @@
         <p style="margin-top:16px;">上記以外もご相談ください。できる限り対応します。</p>
         <div style="margin-top:16px;">
           <a class="button-cta" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" onclick="typeof gtag === 'function' && gtag('event','click',{event_category:'CTA',event_label:'service_list_contact'})">今すぐ無料でご相談する →</a>
+        </div>
+      </section>
+
+      <section class="card" id="document-videos">
+        <h2>▶ 動画で見るサービス紹介</h2>
+        <p>サービス内容が重複する場合は、添付フォルダ内の動画ファイルの区分を優先して掲載しています。</p>
+        <div class="video-grid">
+          <article class="video-card">
+            <h3>各サービスの内容</h3>
+            <video controls preload="metadata" src="documet/1分サービス紹介 各サービスの内容.mp4"></video>
+            <p>フリー、アシスタント、ビジネス、子ども向け、シニアの全体像です。</p>
+          </article>
+          <article class="video-card">
+            <h3>事業方針と目的</h3>
+            <video controls preload="metadata" src="documet/事業方針と目的.mp4"></video>
+            <p>事業方針・目的・サービス運営の考え方です。</p>
+          </article>
+        </div>
+        <div style="margin-top:16px;">
+          <a class="button-cta-outline" href="documents.html">動画・資料一覧を見る</a>
         </div>
       </section>
 
@@ -810,7 +859,7 @@
         <div class="support-box">
           <p>
             より詳しい背景や思いについては、
-            <a href="https://youtu.be/JqKdKD46WHU" target="_blank" rel="noopener noreferrer">こちらの詳細動画</a>
+            <a href="documents.html#fund-videos">添付フォルダ内の基金紹介動画</a>
             もご覧ください。また、<a href="NCF.html">何でも屋基金のページ</a>もご参照ください。
           </p>
         </div>
@@ -885,6 +934,8 @@
     <a href="policy.html">利用規約・ポリシー</a>
     &nbsp;·&nbsp;
     <a href="NCF.html">何でも屋基金</a>
+    &nbsp;·&nbsp;
+    <a href="documents.html">動画・資料一覧</a>
     <p>© 2026 Nanndemoya | Anyways, Anywhere, Anytimes</p>
   </footer>
 

@@ -12,6 +12,7 @@
 | `anytime_service_prices.html` | [利用料金表・基本料金シミュレーター](https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/anytime_service_prices.html) | サービス別の料金表、基本料金シミュレーター、依頼例 |
 | `transport_cost_simulator.html` | [移動代金シミュレーター](https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/transport_cost_simulator.html) | Google Maps API連携による距離・所要時間取得、交通手段別の移動代金概算 |
 | `service_pricing_tables.html` | [各サービスの料金体制](https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/service_pricing_tables.html) | フリー、アシスタント、ビジネス、子ども向け、シニアなどの料金体制一覧 |
+| `documents.html` | [動画・資料一覧](https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/documents.html) | `documet/` 配下のサービス紹介動画、基金動画、事業方針動画、Keynote・Googleスライド・Numbers資料 |
 | `house.html` | [何でも屋ハウス](https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/house.html) | 住まい・生活支援に関する福祉的サービスの案内 |
 | `NCF.html` | [何でも屋基金](https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/NCF.html) | 事業拠点、スマートフォン、電動三輪車、PCなどの基金案内 |
 | `policy.html` | [事業情報・利用規約・プライバシーポリシー](https://9z2fqjckjv-bot.github.io/nanndemoya.github.io/policy.html) | 特定商取引法に基づく表記、利用規約、プライバシーポリシー |
@@ -24,6 +25,7 @@
 - `lead-form-popup.js` による問い合わせフォーム・Googleログイン導線のポップアップ表示
 - 基本料金シミュレーターと移動代金シミュレーターによる概算見積もり
 - Googleフォーム、メール、WhatsAppなど外部サービスへの問い合わせ導線
+- 添付フォルダ `documet/` の動画・資料を優先情報源として掲載する資料一覧ページ
 - GitHub Pagesでそのまま公開できる、ビルド不要の静的サイト
 
 ## Google Maps API連携
@@ -45,11 +47,26 @@
 ├── anytime_service_prices.html
 ├── transport_cost_simulator.html
 ├── service_pricing_tables.html
+├── documents.html
 ├── house.html
 ├── NCF.html
 ├── policy.html
 ├── information.html
 ├── site-links.html
+├── documet/
+│   ├── 1分サービス紹介 各サービスの内容.mp4
+│   ├── 1分サービス紹介 フリーサービス.mp4
+│   ├── 1分サービス紹介 アシスタントサービス.mp4
+│   ├── 1分サービス紹介 ビジネスアシスタントサービス.mp4
+│   ├── 1分サービス紹介 子ども向けサービスとシニアサービス.mp4
+│   ├── 1分紹介 何でも基金編 その１ 「何でも屋」.mp4
+│   ├── 1分紹介 何でも基金編 その２「何でも屋」.mp4
+│   ├── 1分紹介 何でも基金編 その３「何でも屋」.mp4
+│   ├── PC基金の特例扱い.mp4
+│   ├── 事業方針と目的.mp4
+│   ├── 「何でも屋」　〜事業方針、目的、サービス、基金、そしてメッセージ〜.key
+│   ├── ライフイベント支援基金と何でも屋ハウス基金.gslides
+│   └── 何でも屋｜利用料金表.numbers
 ├── lead-form-popup.js
 ├── gmapi.md
 └── README.md
@@ -59,7 +76,7 @@
 
 1. 対象ページのHTMLを編集する
 2. 共通ポップアップや問い合わせ導線を変更する場合は `lead-form-popup.js` も確認する
-3. 料金・事業状態・連絡先・規約を変更した場合は、関連ページ間の表記ゆれを確認する
+3. 料金・事業状態・連絡先・規約を変更した場合は、関連ページ間の表記ゆれを確認する。重複する内容は `documet/` 配下の動画ファイル情報を優先する
 4. ブラウザで表示崩れ、リンク、フォーム導線、シミュレーターの計算結果を確認する
 5. `main` ブランチへ反映するとGitHub Pagesに公開される
 
