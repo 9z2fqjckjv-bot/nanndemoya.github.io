@@ -218,6 +218,11 @@
             cursor: pointer;
         }
 
+        .sim-options label.is-disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
         .sim-result {
             background: rgba(255,255,255,0.15);
             border-radius: 12px;
@@ -241,6 +246,12 @@
             margin-top: 8px;
             font-size: 0.85em;
             color: rgba(255,255,255,0.7);
+        }
+
+        .sim-result .notice {
+            margin-top: 8px;
+            font-size: 0.8em;
+            color: rgba(255,255,255,0.72);
         }
 
         .sim-cta {
@@ -395,7 +406,7 @@
                         <option value="free">フリーサービス</option>
                         <option value="assistant">アシスタントサービス</option>
                         <option value="business">ビジネスアシスタント</option>
-                        <option value="kids">子ども向けサービス</option>
+                        <option value="kids">子ども向け・シニアサービス</option>
                     </select>
                 </div>
                 <div class="sim-field">
@@ -429,12 +440,13 @@
             <div class="sim-options">
                 <label><input type="checkbox" id="optTaxi" onchange="calcSim()"> タクシー移動（+¥2,000目安）</label>
                 <label><input type="checkbox" id="optGuarantee" onchange="calcSim()"> サービス保証（要見積り）</label>
-                <label><input type="checkbox" id="optMulti" onchange="calcSim()"> マルチサービス（×1.5）</label>
+                <label id="optMultiLabel"><input type="checkbox" id="optMulti" onchange="calcSim()"> <span id="optMultiText">マルチサービス（×1.5）</span></label>
             </div>
             <div class="sim-result">
                 <div class="label">基本料金の目安</div>
                 <div class="price" id="simPrice">¥1,000</div>
                 <div class="breakdown" id="simBreakdown">フリーサービス日中 × 1時間</div>
+                <div class="notice" id="simNotice">移動代金・保証料・実費は内容確定後に調整します。</div>
             </div>
             <div style="margin-top:16px; text-align:center;">
                 <a class="sim-cta" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" onclick="typeof gtag === 'function' && gtag('event','click',{event_category:'CTA',event_label:'sim_contact'})">この料金でご依頼・ご相談はこちら →</a>
@@ -1507,9 +1519,10 @@
 
     const QTY_IDX = { '1': 0, '3': 1, '6': 2, '12': 3 };
 
-    const SERVICE_LABELS = { free: 'フリーサービス', assistant: 'アシスタント', business: 'ビジネスアシスタント', kids: '子ども向け' };
+    const SERVICE_LABELS = { free: 'フリーサービス', assistant: 'アシスタント', business: 'ビジネスアシスタント', kids: '子ども向け・シニアサービス' };
     const SLOT_LABELS = { day: '日中', dayPrem: '日中プレミアム', night: '夜間', nightPrem: '夜間プレミアム' };
     const UNIT_LABELS = { hour: '時間', day: '日', week: '週', month: 'ヶ月' };
+    const MULTI_MULTIPLIERS = { free: 1.5, kids: 1.05 };
 
     function calcSim() {
       const svc = document.getElementById('simServiceType').value;
@@ -1517,8 +1530,20 @@
       const unit = document.getElementById('simUnit').value;
       const qty = document.getElementById('simQty').value;
       const optTaxi = document.getElementById('optTaxi').checked;
-      const optMulti = document.getElementById('optMulti').checked;
+      const optGuarantee = document.getElementById('optGuarantee').checked;
+      const optMultiInput = document.getElementById('optMulti');
+      const optMultiLabel = document.getElementById('optMultiLabel');
+      const optMultiText = document.getElementById('optMultiText');
       const idx = QTY_IDX[qty];
+      const multiMultiplier = MULTI_MULTIPLIERS[svc] || null;
+
+      optMultiInput.disabled = !multiMultiplier;
+      optMultiLabel.classList.toggle('is-disabled', !multiMultiplier);
+      optMultiText.textContent = multiMultiplier
+        ? `マルチサービス（×${multiMultiplier}）`
+        : 'マルチサービス（対象外）';
+      if (!multiMultiplier) optMultiInput.checked = false;
+      const optMulti = optMultiInput.checked;
 
       let table;
       if (unit === 'hour') table = PRICES;
@@ -1528,16 +1553,21 @@
 
       let base = table[svc][slot][idx];
       let total = base;
-      if (optMulti) total = Math.round(total * 1.5);
+      if (optMulti && multiMultiplier) total = Math.round(total * multiMultiplier);
       if (optTaxi) total += 2000;
 
       const fmt = (n) => '¥' + n.toLocaleString('ja-JP');
       document.getElementById('simPrice').textContent = fmt(total);
 
       let breakdown = `${SERVICE_LABELS[svc]}・${SLOT_LABELS[slot]} × ${qty}${UNIT_LABELS[unit]}`;
-      if (optMulti) breakdown += '（マルチ×1.5）';
+      if (optMulti && multiMultiplier) breakdown += `（マルチ×${multiMultiplier}）`;
       if (optTaxi) breakdown += ' + タクシー¥2,000目安';
       document.getElementById('simBreakdown').textContent = breakdown;
+
+      const notices = ['移動代金・実費は内容確定後に調整します。'];
+      if (optGuarantee) notices.push('サービス保証は要見積りのため合計に含めていません。');
+      if (!multiMultiplier) notices.push('このサービス種別にマルチサービス料金は設定されていません。');
+      document.getElementById('simNotice').textContent = notices.join(' ');
     }
 
     // 初期計算
