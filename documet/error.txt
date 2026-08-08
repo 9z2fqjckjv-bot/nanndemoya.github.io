@@ -1,0 +1,132 @@
+Code.gs
+// Webページ（URL）にアクセスしたときにHTMLを表示する関数
+function doGet() {
+  return HtmlService.createHtmlOutputFromFile('index')
+      .setTitle('利用申込フォーム')
+      .addMetaTag('viewport', 'width=device-width, initial-scale=1'); // スマホ対応
+}
+
+// HTMLのフォームから送信されたデータを受け取り、シートに追加する関数
+function processForm(formObject) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName("転記先シート");
+  
+  if (!sheet) {
+    throw new Error("「転記先シート」が見つかりません。");
+  }
+  
+  // フォームの入力内容を配列にしてシートの最終行に追加
+  // ※実際の列の順番に合わせてformObjectのプロパティを並べてください
+  const rowData = [
+    formObject.name,      // A列: 名前 (sample)
+    formObject.email,     // B列: メール (sample@nanndemoya.site)
+    formObject.phone,     // C列: 電話番号 (7090758210)
+    formObject.date,      // D列: 日付 (20260101)
+    formObject.post       // E列: 郵便番号(3380837)
+    formObject.house_name, // F列: 物件名(samplehouse)
+    formObject.house_post, // G列: 郵便番号(3360035)
+    fomrObject.contact_type, //H列: 連絡手段（メール）
+    formObject.houseType, // I列: 住居タイプ (一軒家)
+    fomrObject.house_info, //J列: 備考
+    // 必要に応じてフォームのname属性と合わせて追加してください
+  ];
+  
+  sheet.appendRow(rowData);
+  
+  return "お申し込みが完了しました！";
+}
+
+index.html
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body { font-family: sans-serif; padding: 20px; max-width: 400px; margin: auto; }
+      label { display: block; margin-top: 10px; font-weight: bold; }
+      input, select { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+      button { margin-top: 20px; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; width: 100%; }
+      button:hover { background-color: #45a049; }
+      #message { margin-top: 15px; font-weight: bold; text-align: center; }
+    </style>
+    <script>
+      // フォーム送信ボタンが押されたときの処理
+      function handleFormSubmit(formObject) {
+        // 送信ボタンを無効化して二重送信を防ぐ
+        document.getElementById('submitBtn').disabled = true;
+        document.getElementById('submitBtn').innerText = "送信中...";
+        document.getElementById('message').innerText = "";
+
+        // GASの processForm 関数を呼び出す
+        google.script.run
+          .withSuccessHandler(function(msg) {
+            document.getElementById('message').style.color = "green";
+            document.getElementById('message').innerText = msg;
+            document.getElementById('myForm').reset(); // フォームをクリア
+            resetButton();
+          })
+          .withFailureHandler(function(err) {
+            document.getElementById('message').style.color = "red";
+            document.getElementById('message').innerText = "エラーが発生しました: " + err.message;
+            resetButton();
+          })
+          .processForm(formObject);
+      }
+
+      function resetButton() {
+        document.getElementById('submitBtn').disabled = false;
+        document.getElementById('submitBtn').innerText = "送信する";
+      }
+    </script>
+  </head>
+  <body>
+    <h2>利用申込フォーム</h2>
+    <!-- フォーム送信時にデフォルトの画面遷移を防ぎ、JavaScriptの関数を呼ぶ -->
+    <form id="myForm" onsubmit="event.preventDefault(); handleFormSubmit(this);">
+      
+      <label for="name">お名前</label>
+      <input type="text" id="name" name="name" required>
+      
+      <label for="email">メールアドレス</label>
+      <input type="email" id="email" name="email" required>
+      
+      <label for="phone">電話番号</label>
+      <input type="tel" id="phone" name="phone">
+
+      <label for="date">生年月日</label>
+      <input type="date" id="date" name="date">
+
+      <label for="post">郵便番号</label>
+      <input type="tel" id="post" name="post">
+
+      <label for="house_name">物件名</label>
+      <input type="text" id="house_name" name="house_name" required>
+
+      <label for="house_post">郵便番号</label>
+      <input type="tel" id="house_post" name="house_post">
+
+``````<label for="contact_type">連絡手段</label>
+      <select id="contact_type" name="contact_type">
+        <option value="一軒家">一軒家</option>
+        <option value="マンション">マンション</option>
+        <option value="アパート">アパート</option>
+      </select>
+
+      <label for="houseType">住居タイプ</label>
+      <select id="houseType" name="houseType">
+        <option value="メール">メール</option>
+        <option value="SMS">SMS</option>
+        <option value="電話">電話</option>
+      </select>
+
+      <label for="house_info">備考</label>
+      <input type="text" id="house_info" name="house_info">
+
+      <button type="submit" id="submitBtn">送信する</button>
+    </form>
+    
+    <div id="message"></div>
+  </body>
+</html>
+
