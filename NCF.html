@@ -24,6 +24,11 @@
     a { color: var(--accent); font-weight: 700; }
     .button { display: inline-block; margin-top: 12px; padding: 12px 18px; border-radius: 999px; background: var(--accent); color: #fff; text-decoration: none; }
     .button:hover { background: var(--accent-dark); }
+    .link-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 12px; }
+    .link-card { min-height: 118px; padding: 16px; border: 1px solid #bfdbfe; border-radius: 14px; background: #f8fbff; color: var(--text); text-decoration: none; transition: border-color .2s ease, transform .2s ease; }
+    .link-card:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
+    .link-card span { display: block; margin-top: 6px; color: var(--muted); font-size: .92rem; font-weight: 400; }
+    @media (max-width: 760px) { .link-grid { grid-template-columns: 1fr; } }
     footer { padding: 0 20px 42px; color: var(--muted); text-align: center; }
   </style>
 </head>
@@ -35,11 +40,47 @@
 
   <header><h1>何でも屋基金</h1></header>
   <main>
-    <section>
-      <h2>基金案内</h2>
-      <p>何でも屋基金の内容を掲載するページです。</p>
-      <a class="button" href="site-links.html">サイトリンクへ</a>
-    </section>
+      <section class="card" id="links">
+          <h2>基金一覧</h2>
+            <p>各基金のページにアクセスできます。</p>
+          <div class="link-grid">
+              <a class="link-card" href="guide/N.C.F~Nanndemoya_Crowd_Funding/base-shelter-fund.html">
+                  <h3>事業拠点・職住一体型シェルター開設基金</h3>
+                  <span>「何でも屋」の事業拠点と、職場と住居が一体化したシェルターを開設するための基金です。</span>
+              </a>
+              <a class="link-card" href="guide/N.C.F~Nanndemoya_Crowd_Funding/advertisement.html">
+                  <h3>広告基金</h3>
+                  <span>「何でも屋」の事業宣伝に必要な広告費へ充てる基金です。目標金額は1ヶ月あたり50万円です。</span>
+              </a>
+              <a class="link-card" href="guide/N.C.F~Nanndemoya_Crowd_Funding/capital.html">
+                  <h3>資本基金</h3>
+                  <span>「何でも屋」の資本金として計上し、事業基盤の構築と信頼性向上につなげる基金です。目標金額は1000万円です。</span>
+              </a>
+              <a class="link-card" href="guide/N.C.F~Nanndemoya_Crowd_Funding/electric-tricycle.html">
+                  <h3>電動三輪車基金</h3>
+                  <span>電動三輪車 AINOHOT ST3 の購入資金に充てる基金です。目標金額は21万円です。</span>
+              </a>
+              <a class="link-card" href="guide/N.C.F~Nanndemoya_Crowd_Funding/Handyman-House.html">
+                  <h3>何でも屋ハウス基金</h3>
+                  <span>「何でも屋ハウス」のサービス提供費用に充てる基金です。目標金額は1物件1ヶ月あたり100万円です。</span>
+              </a>
+              <a class="link-card" href="guide/N.C.F~Nanndemoya_Crowd_Funding/Life-Event-Support.html">
+                  <h3>ライフイベント支援基金</h3>
+                  <span>結婚、妊娠、出産、育児、教育費、大学進学費用など、人生の節目に必要な費用を支援する基金です。目標金額は1億円です。</span>
+              </a>
+              <a class="link-card" href="guide/N.C.F~Nanndemoya_Crowd_Funding/living-business-costs.html">
+                  <h3>日常生活費及び事業費基金</h3>
+                  <span>日常生活や事業運営を続けるために必要な費用へ充てる基金です。目標金額は30万円です。</span>
+              </a>
+              <a class="link-card" href="guide/N.C.F~Nanndemoya_Crowd_Funding/PC.html">
+                  <h3>PC基金</h3>
+                  <span>「何でも屋」の業務効率化のために利用するMac Studio環境の購入資金に充てる基金です。目標金額は260万円です。</span>
+              </a>
+              <a class="link-card" href="guide/N.C.F~Nanndemoya_Crowd_Funding/Smartphone.html">
+                  <h3>スマートフォン基金</h3>
+                  <span>DIGNO SX5 KC-S306を購入するための基金です。目標金額は5万円です。</span>
+              </a>
+        </div></section>
   </main>
   <footer><p>© 2026 Nanndemoya | Anyways, Anywhere, Anytimes</p></footer>
 </body>
