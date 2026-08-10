@@ -10,22 +10,300 @@
   <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="何でも屋の事業情報、利用規約、プライバシーポリシーのページです。">
+  <meta name="description" content="GitHub Pages向けのNanndemoya共通HTMLテンプレートです。">
   <title>ポリシー | 何でも屋</title>
   <style>
-    :root { --bg: #f6f8fb; --card: #fff; --text: #1f2937; --muted: #5b6472; --accent: #2563eb; --accent-dark: #1d4ed8; --border: #dbe3ee; --shadow: 0 10px 30px rgba(15, 23, 42, 0.08); }
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif; background: var(--bg); color: var(--text); line-height: 1.8; }
-    header { padding: 48px 20px; background: linear-gradient(135deg, #1e3a8a, #2563eb); color: #fff; text-align: center; }
-    main { max-width: 900px; margin: 0 auto; padding: 28px 20px 56px; }
-    section { padding: 28px; border: 1px solid var(--border); border-radius: 16px; background: var(--card); box-shadow: var(--shadow); }
-    h1 { margin: 0; font-size: clamp(2rem, 5vw, 3rem); }
-    h2 { margin-top: 0; }
-    a { color: var(--accent); font-weight: 700; }
-    .button { display: inline-block; margin-top: 12px; padding: 12px 18px; border-radius: 999px; background: var(--accent); color: #fff; text-decoration: none; }
-    .button:hover { background: var(--accent-dark); }
-    footer { padding: 0 20px 42px; color: var(--muted); text-align: center; }
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #5b6472;
+      --accent: #2563eb;
+      --accent-dark: #1d4ed8;
+      --border: #dbe3ee;
+      --soft: #eff6ff;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 240px);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    a:hover {
+      color: var(--accent-dark);
+    }
+
+    .hero {
+      padding: 64px 20px 44px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 58%, #60a5fa 100%);
+      color: #fff;
+      text-align: center;
+    }
+
+    .hero-inner {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 7px 13px;
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.25;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px auto 0;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: 1.06rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .button-primary {
+      background: #fff;
+      color: #1d4ed8;
+    }
+
+    .button-secondary {
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 20px 56px;
+    }
+
+    .page-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .page-nav a {
+      display: inline-block;
+      padding: 9px 13px;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      background: var(--soft);
+      color: #1e40af;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .card {
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 1.5rem;
+      line-height: 1.4;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 1.12rem;
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    p:last-child,
+    ul:last-child {
+      margin-bottom: 0;
+    }
+
+    .note {
+      padding: 14px 16px;
+      border-left: 4px solid #60a5fa;
+      border-radius: 12px;
+      background: var(--soft);
+      color: #1e3a8a;
+    }
+
+    .item-list {
+      margin: 0;
+      padding-left: 1.2em;
+    }
+
+    .item-list li {
+      margin-bottom: 10px;
+    }
+
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .link-card {
+      min-height: 118px;
+      padding: 16px;
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      background: #f8fbff;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .link-card:hover {
+      border-color: var(--accent);
+      color: var(--text);
+      transform: translateY(-2px);
+    }
+
+    .link-card span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 400;
+    }
+
+    .cta {
+      border-color: #93c5fd;
+      background: #eff6ff;
+      text-align: center;
+    }
+
+    .cta .button {
+      margin-top: 6px;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .footer {
+      padding: 8px 20px 46px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .footer a {
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .back-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 100;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      min-height: 48px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+    }
+
+    .back-top:hover {
+      background: var(--accent-dark);
+      color: #fff;
+    }
+
+    @media (max-width: 760px) {
+      .link-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding-top: 54px;
+      }
+
+      .card {
+        padding: 22px 18px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .button {
+        width: min(100%, 320px);
+      }
+
+      .back-top {
+        right: 16px;
+        bottom: 16px;
+      }
+    }
   </style>
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="lead-form-popup.js" defer></script>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -33,14 +311,73 @@
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-  <header><h1>ポリシー</h1></header>
-  <main>
-    <section>
-      <h2>事業情報・規約</h2>
-      <p>事業情報、利用規約、プライバシーポリシーを掲載するページです。</p>
-      <a class="button" href="site-links.html">サイトリンクへ</a>
-    </section>
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <div class="eyebrow">GitHub Pages Template</div>
+      <h1>ポリシートップ</h1>
+      <p class="lead">
+        「何でも屋」の各ポリシーのリンクを掲載しています。
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">お問い合わせはこちら</a>
+        <a class="button button-secondary" href="index.html">トップページ</a>
+        <a class="button button-secondary" href="site-links.html">サイトリンク</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="grid">
+
+      <section class="card" id="links">
+        <h2>ポリシー一覧</h2>
+        <p>各ポリシーのページへと推移することができます。</p>
+        <div class="link-grid">
+          <a class="link-card" href="guide/policy/Act-on-Specified-Commercial-Transactions.html">
+            <h3>特定商取引法に基づく表記</h3>
+            <span>特定商取引法に基づく表記とキャンセル・返金規定、後払いサービスの注意点を掲載しています。</span>
+          </a>
+          <a class="link-card" href="guide/policy/terms-of-service.html">
+            <h3>利用規約</h3>
+            <span>「何でも屋」の利用規約です。「何でも屋」ご利用前にお読みください。</span>
+          </a>
+          <a class="link-card" href="guide/service/digital-service/MacStudioSheres.html">
+            <h3>MacStudioShere'sの追加規定</h3>
+            <span>MacStudioShere'sのサービスと追加規定が掲載されています。</span>
+          </a>
+          <a class="link-card" href="guide/service/Life-Events/rule.html">
+            <h3>ライフイベント支援の贈与要件</h3>
+            <span>ライフイベント支援の贈与対象となるための要件（ライフイベント支援サービスの追加規定変わり）が掲載されています。</span>
+          </a>
+          <a class="link-card" href="NCF.html">
+            <h3>何でも屋基金規定</h3>
+            <span>「何でも屋基金」における追加規定が掲載されています。</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="card cta" id="contact">
+        <h2>お問い合わせ</h2>
+        <p>
+          ご相談、ご質問、掲載内容についての確認は、お問い合わせフォームからご連絡ください。
+        </p>
+        <a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">フォームを開く</a>
+      </section>
+    </div>
   </main>
-  <footer><p>© 2026 Nanndemoya | Anyways, Anywhere, Anytimes</p></footer>
+
+  <footer class="footer">
+    <a href="index.html">トップページ</a>
+    &nbsp;·&nbsp;
+    <a href="information.html">連絡先</a>
+    &nbsp;·&nbsp;
+    <a href="site-links.html">サイトリンク</a>
+    <p>© 2026 Nanndemoya | Anyways, Anywhere, Anytimes</p>
+  </footer>
+
+  <a class="back-top" href="#top" aria-label="ページ上部へ戻る">↑</a>
+  <script src="assets/site-enhancements.js" defer></script>
 </body>
-</html>
+</html>d
+

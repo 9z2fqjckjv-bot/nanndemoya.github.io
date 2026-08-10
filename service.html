@@ -6,7 +6,7 @@
   <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="何でも屋の主要サービスと料金ページへのリンク一覧です。">
+  <meta name="description" content="何でも屋の各サービスと料金ページへのリンク一覧です。">
   <title>サービス | 何でも屋</title>
   <style>
     :root { --bg: #f6f8fb; --card: #ffffff; --text: #1f2937; --muted: #5b6472; --accent: #2563eb; --accent-dark: #1d4ed8; --border: #dbe3ee; --soft: #eff6ff; --shadow: 0 10px 30px rgba(15, 23, 42, 0.08); }
@@ -41,6 +41,8 @@
     footer a { font-weight: 700; text-decoration: none; }
     @media (max-width: 760px) { .service-grid { grid-template-columns: 1fr; } .card { padding: 22px 18px; } }
   </style>
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="lead-form-popup.js" defer></script>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -49,14 +51,14 @@
 
   <header>
     <h1>サービス</h1>
-    <p class="lead">何でも屋の主要サービスと、各サービスの料金表へのリンク一覧です。</p>
+    <p class="lead">何でも屋の各サービスと、関連する料金・案内ページへのリンク一覧です。</p>
   </header>
 
   <main>
     <div class="grid">
       <section class="card">
         <h2>サービス案内</h2>
-        <p>ご依頼内容に近いサービスを選ぶと、基本料金、プレミアム料金、夜間料金、オプション料金を確認できます。</p>
+        <p>ご依頼内容に近いサービスを選ぶと、基本料金、プレミアム料金、夜間料金、オプション料金、関連する案内を確認できます。</p>
         <div class="service-grid">
           <a class="service-card" href="guide/service/main/free-service.html">
             <h3>フリーサービス</h3>
@@ -78,12 +80,25 @@
             <h3>シニアサービス</h3>
             <p>高齢の方の日常生活、外出、デジタル利用、相談を支えるサービスです。</p>
           </a>
+          <a class="service-card" href="guide/service/digital-service/MacStudioSheres.html">
+            <h3>MacStudioShere’s</h3>
+            <p>MacStudioへのリモート接続で、メモリやストレージを利用できる予定のデジタルサービスです。</p>
+          </a>
+          <a class="service-card" href="guide/service/Life-Events/info.html">
+            <h3>ライフイベント支援とは</h3>
+            <p>生活上の大きな節目や困りごとに対する支援内容と考え方を確認できます。</p>
+          </a>
+          <a class="service-card" href="guide/service/Life-Events/rule.html">
+            <h3>ライフイベント支援の贈与対象要件</h3>
+            <p>ライフイベント支援で贈与対象となる条件や確認事項を確認できます。</p>
+          </a>
         </div>
       </section>
 
       <section class="card">
         <h2>料金の目安</h2>
         <p>料金は添付の「何でも屋｜利用料金表」を元にしています。詳細は各サービスページで確認してください。</p>
+        <p><a class="button" href="anytime_service_prices.html">基本料金・プレミアム料金を計算する</a></p>
         <div class="table-wrap">
           <table>
             <thead>
@@ -124,5 +139,6 @@
     <a href="index.html">トップページ</a>&nbsp;·&nbsp;<a href="information.html">連絡先</a>&nbsp;·&nbsp;<a href="site-links.html">サイトリンク</a>
     <p>© 2026 Nanndemoya | Anyways, Anywhere, Anytimes</p>
   </footer>
+  <script src="assets/site-enhancements.js" defer></script>
 </body>
 </html>

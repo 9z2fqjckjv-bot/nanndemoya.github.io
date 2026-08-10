@@ -24,13 +24,19 @@
     a { color: var(--accent); font-weight: 700; }
     .button { display: inline-block; margin-top: 12px; padding: 12px 18px; border-radius: 999px; background: var(--accent); color: #fff; text-decoration: none; }
     .button:hover { background: var(--accent-dark); }
+    .card + .card { margin-top: 24px; }
     .link-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 12px; }
     .link-card { min-height: 118px; padding: 16px; border: 1px solid #bfdbfe; border-radius: 14px; background: #f8fbff; color: var(--text); text-decoration: none; transition: border-color .2s ease, transform .2s ease; }
     .link-card:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
     .link-card span { display: block; margin-top: 6px; color: var(--muted); font-size: .92rem; font-weight: 400; }
+    .rule-list { margin: 16px 0 0; padding-left: 1.2em; }
+    .rule-list li + li { margin-top: 10px; }
+    .note { margin-top: 18px; padding: 14px 16px; border-left: 4px solid var(--accent); background: #eff6ff; color: var(--muted); }
     @media (max-width: 760px) { .link-grid { grid-template-columns: 1fr; } }
     footer { padding: 0 20px 42px; color: var(--muted); text-align: center; }
   </style>
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="lead-form-popup.js" defer></script>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -81,7 +87,23 @@
                   <span>DIGNO SX5 KC-S306を購入するための基金です。目標金額は5万円です。</span>
               </a>
         </div></section>
+      <section class="card" id="fund-rules">
+          <h2>何でも屋基金規定</h2>
+          <p>何でも屋基金は、「何でも屋」の事業運営、設備購入、広告、資本形成、ライフイベント支援、何でも屋ハウス運営など、各基金ページに記載された目的のために資金提供を受ける制度です。</p>
+          <ol class="rule-list">
+              <li>基金参加者には、原則として参加金額の75%相当のベースパッククレジットを付与します。PC基金など、個別ページで特例が定められている基金は、その特例を優先します。</li>
+              <li>ベースパッククレジット付与額は「参加金額 × 75%」で算出します。希望する値引き額から参加金額を逆算する場合は「希望付与額 ÷ 75%」で算出します。</li>
+              <li>ベースパッククレジットは「何でも屋」の基本料金の支払いに利用できます。オプション料金には利用できません。</li>
+              <li>基金の参加方法は、口座振り込み、PayPal、ベースパックなど、各案内で利用可能とされている支払方法に準じます。現金および送金による支払いは、基金参加には利用できません。</li>
+              <li>各基金の目標金額を一度に提供した場合、基金ごとに定められたコンプリートボーナスの対象になります。内容はデジタルチケット、サービス利用枠、スポンサー枠など基金ごとに異なります。</li>
+              <li>スポンサー枠は、資本基金やライフイベント支援基金などで条件を満たした場合に付与される特典枠です。プロモーション、後払い、常時還元、スタッフ指名、特別サービス、資金のベースパック化、常設的なサービス活用などを含みます。</li>
+              <li>ライフイベント支援基金は、結婚、妊娠、出産、育児、教育、大学進学などのライフイベントに必要な費用を支援する目的で活用します。</li>
+              <li>何でも屋ハウス基金は、水道光熱費、物件の登録・維持・契約費用、通信費、居住者の生活維持費など、「何でも屋ハウス」の安定運営に必要な費用へ充てます。</li>
+          </ol>
+          <p class="note">基金ごとの目標金額、特典、コンプリートボーナス、特例の詳細は、上記の各基金ページをご確認ください。</p>
+      </section>
   </main>
   <footer><p>© 2026 Nanndemoya | Anyways, Anywhere, Anytimes</p></footer>
+  <script src="assets/site-enhancements.js" defer></script>
 </body>
 </html>

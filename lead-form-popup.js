@@ -6,7 +6,7 @@
   var GOOGLE_NAME_ENTRY_KEY = 'entry.1152315817';
   var GOOGLE_EMAIL_ENTRY_KEY = 'entry.1404478992';
   var STORAGE_KEY = 'nanndemoya_lead_form_hidden_until';
-  var DELAY_MS = 2500;
+  var DELAY_MS = 30000;
   var APPEND_RETRY_DELAY_MS = 50;
   var MAX_APPEND_RETRIES = 60;
   var memoryHiddenUntil = 0;
