@@ -24,5 +24,6 @@ jobs:
           REMOTE_HOST: ${{ env.REMOTE_HOST }}
           REMOTE_USER: ${{ env.REMOTE_USER }}
           REMOTE_PORT: ${{ env.REMOTE_PORT }}
-          TARGET: /home/${{ env.REMOTE_USER }}/${{ env.REMOTE_HOST }}/public_html/
+          # 転送先を実際のドメイン名（nanndemoya.net）に修正
+          TARGET: /home/${{ env.REMOTE_USER }}/nanndemoya.net/public_html/
           EXCLUDE: "/.git/, /.github/, /node_modules/"
