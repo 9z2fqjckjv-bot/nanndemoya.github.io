@@ -17,7 +17,7 @@ jobs:
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.SFTP_HOST }}
-          REMOTE_USERNAME: ${{ secrets.SFTP_USERNAME }}
+          REMOTE_USER: ${{ secrets.SFTP_USERNAME }}
           REMOTE_PORT: ${{ secrets.SFTP_PORT }}
           # Xserver上の転送先絶対パスを指定
           TARGET: /home/${{ secrets.SFTP_USERNAME }}/${{ secrets.SFTP_HOST }}/public_html/
