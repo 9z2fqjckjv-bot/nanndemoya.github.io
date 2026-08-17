@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-P56Q566B');</script>
-  <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="GitHub Pages向けのNanndemoya共通HTMLテンプレートです。">
+  <meta name="description" content="NanndemoyaCloudの追加規定ページです。ご利用にあたっての重要事項を定めています。">
   <title>NanndemoyaCloud-追加規定 | 何でも屋</title>
   <style>
     :root {
@@ -25,15 +23,8 @@
       --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
       --radius: 16px;
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
@@ -41,27 +32,15 @@
       color: var(--text);
       line-height: 1.8;
     }
-
-    a {
-      color: var(--accent);
-    }
-
-    a:hover {
-      color: var(--accent-dark);
-    }
-
+    a { color: var(--accent); }
+    a:hover { color: var(--accent-dark); }
     .hero {
       padding: 64px 20px 44px;
       background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 58%, #60a5fa 100%);
       color: #fff;
       text-align: center;
     }
-
-    .hero-inner {
-      max-width: 860px;
-      margin: 0 auto;
-    }
-
+    .hero-inner { max-width: 860px; margin: 0 auto; }
     .eyebrow {
       display: inline-block;
       margin-bottom: 16px;
@@ -72,28 +51,9 @@
       font-size: 0.92rem;
       font-weight: 700;
     }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      line-height: 1.25;
-    }
-
-    .lead {
-      max-width: 760px;
-      margin: 18px auto 0;
-      color: rgba(255, 255, 255, 0.94);
-      font-size: 1.06rem;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 28px;
-    }
-
+    h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.25; }
+    .lead { max-width: 760px; margin: 18px auto 0; color: rgba(255, 255, 255, 0.94); font-size: 1.06rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
     .button {
       display: inline-block;
       padding: 12px 18px;
@@ -102,36 +62,15 @@
       text-decoration: none;
       transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
     }
-
-    .button:hover {
-      transform: translateY(-1px);
-      opacity: 0.96;
-    }
-
-    .button-primary {
-      background: #fff;
-      color: #1d4ed8;
-    }
-
+    .button:hover { transform: translateY(-1px); opacity: 0.96; }
+    .button-primary { background: #fff; color: #1d4ed8; }
     .button-secondary {
       border: 1px solid rgba(255, 255, 255, 0.36);
       background: rgba(255, 255, 255, 0.14);
       color: #fff;
     }
-
-    .container {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 28px 20px 56px;
-    }
-
-    .page-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 22px;
-    }
-
+    .container { max-width: 980px; margin: 0 auto; padding: 28px 20px 56px; }
+    .page-nav { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
     .page-nav a {
       display: inline-block;
       padding: 9px 13px;
@@ -142,12 +81,7 @@
       font-weight: 700;
       text-decoration: none;
     }
-
-    .grid {
-      display: grid;
-      gap: 22px;
-    }
-
+    .grid { display: grid; gap: 22px; }
     .card {
       padding: 28px;
       border: 1px solid var(--border);
@@ -155,27 +89,9 @@
       background: var(--card);
       box-shadow: var(--shadow);
     }
-
-    h2 {
-      margin: 0 0 14px;
-      font-size: 1.5rem;
-      line-height: 1.4;
-    }
-
-    h3 {
-      margin: 0 0 8px;
-      font-size: 1.12rem;
-    }
-
-    p {
-      margin: 0 0 14px;
-    }
-
-    p:last-child,
-    ul:last-child {
-      margin-bottom: 0;
-    }
-
+    h2 { margin: 0 0 14px; font-size: 1.5rem; line-height: 1.4; }
+    h3 { margin: 18px 0 8px; font-size: 1.15rem; color: #1e40af; }
+    p { margin: 0 0 14px; }
     .note {
       padding: 14px 16px;
       border-left: 4px solid #60a5fa;
@@ -183,23 +99,11 @@
       background: var(--soft);
       color: #1e3a8a;
     }
-
-    .item-list {
-      margin: 0;
-      padding-left: 1.2em;
-    }
-
-    .item-list li {
-      margin-bottom: 10px;
-    }
-
-    .link-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 12px;
-    }
-
+    .item-list { margin: 0; padding-left: 1.2em; }
+    .item-list li { margin-bottom: 12px; }
+    .item-list ul { margin-top: 6px; padding-left: 1.2em; }
+    .item-list ul li { margin-bottom: 6px; }
+    .link-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 12px; }
     .link-card {
       min-height: 118px;
       padding: 16px;
@@ -210,44 +114,12 @@
       text-decoration: none;
       transition: border-color 0.2s ease, transform 0.2s ease;
     }
-
-    .link-card:hover {
-      border-color: var(--accent);
-      color: var(--text);
-      transform: translateY(-2px);
-    }
-
-    .link-card span {
-      display: block;
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 0.92rem;
-      font-weight: 400;
-    }
-
-    .cta {
-      border-color: #93c5fd;
-      background: #eff6ff;
-      text-align: center;
-    }
-
-    .cta .button {
-      margin-top: 6px;
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .footer {
-      padding: 8px 20px 46px;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .footer a {
-      font-weight: 700;
-      text-decoration: none;
-    }
-
+    .link-card:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
+    .link-card span { display: block; margin-top: 6px; color: var(--muted); font-size: 0.92rem; font-weight: 400; }
+    .cta { border-color: #93c5fd; background: #eff6ff; text-align: center; }
+    .cta .button { margin-top: 6px; background: var(--accent); color: #fff; }
+    .footer { padding: 8px 20px 46px; color: var(--muted); text-align: center; }
+    .footer a { font-weight: 700; text-decoration: none; }
     .back-top {
       position: fixed;
       right: 22px;
@@ -266,57 +138,28 @@
       text-decoration: none;
       box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
     }
-
-    .back-top:hover {
-      background: var(--accent-dark);
-      color: #fff;
-    }
-
-    @media (max-width: 760px) {
-      .link-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
+    .back-top:hover { background: var(--accent-dark); color: #fff; }
+    @media (max-width: 760px) { .link-grid { grid-template-columns: 1fr; } }
     @media (max-width: 640px) {
-      .hero {
-        padding-top: 54px;
-      }
-
-      .card {
-        padding: 22px 18px;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .button {
-        width: min(100%, 320px);
-      }
-
-      .back-top {
-        right: 16px;
-        bottom: 16px;
-      }
+      .hero { padding-top: 54px; }
+      .card { padding: 22px 18px; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .button { width: min(100%, 320px); }
+      .back-top { right: 16px; bottom: 16px; }
     }
   </style>
   <link rel="stylesheet" href="assets/site.css">
   <script src="lead-form-popup.js" defer></script>
 </head>
 <body>
-  <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P56Q566B"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-
   <header class="hero" id="top">
     <div class="hero-inner">
       <div class="eyebrow">GitHub Pages Template</div>
       <h1>NanndemoyaCloudの追加規定</h1>
       <p class="lead">
-        このページでは、NanndemoyaCloudのご利用にあたって同意が必要な追加規定が記載されています。
+        NanndemoyaCloudのご利用にあたって適用される追加条項および運用規定です。
       </p>
       <div class="hero-actions">
         <a class="button button-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">お問い合わせはこちら</a>
@@ -329,44 +172,95 @@
   <main class="container">
     <nav class="page-nav" aria-label="ページ内メニュー">
       <a href="#summary">概要</a>
-      <a href="#details">詳細</a>
+      <a href="#details">追加規定詳細</a>
       <a href="#links">関連リンク</a>
       <a href="#contact">お問い合わせ</a>
     </nav>
 
     <div class="grid">
       <section class="card" id="summary">
-        <h2>NanndemoyaCloudの追加規定</h2>
+        <h2>概要</h2>
         <p>
-          以下には、お客様がNanndemoyaCloudのご利用にあたって同意が必要な追加規定がございます。
-        </p>
-        <p>
-          NanndemoyaCloudのご利用を始める前に必ずご確認ください。
+          本規定は、「何でも屋」が提供するクラウド基盤型サブスクリプションサービス「NanndemoyaCloud」をご利用いただくすべての契約者様（以下「利用者」）に適用されます。
         </p>
         <div class="note">
-          このサービスの利用には追加規定に加えて、「何でも屋」のプライバシーポリシー及び利用規約の同意も必要です。
+          本サービスの利用にあたっては、本規定に加えて「何でも屋」全体のプライバシーポリシー、基本利用規約、およびGoogle Workspace利用規約への同意が必要です。
         </div>
       </section>
 
       <section class="card" id="details">
-        <p>ここに追加規定を記します。</p>
+        <h2>NanndemoyaCloud サービス利用追加規定</h2>
+        
+        <ul class="item-list">
+          <li>
+            <strong>第1条（サービス構成およびアカウント形態）</strong>
+            <ul>
+              <li>NanndemoyaCloudは、Google Workspaceの基本機能に「何でも屋」独自のサポートおよび付帯サービスを統合したサブスクリプションサービスです。</li>
+              <li>「Lite」および「Normal」プランでは、「何でも屋」が管理する同一組織ドメイン内に利用者の個別アカウントを発行・配分します。</li>
+              <li>「Mini」「Standard」「Plus」プランでは、利用者独自の組織（独自ドメイン）を新設した上でアカウントを払い出し・運用管理を行います。独自ドメイン設定機能（レンタルサーバー付帯）を利用する場合は、所定の追加実費・設定費用が発生します。</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>第2条（料金および価格改定）</strong>
+            <ul>
+              <li>本サービスの利用料金は月額制とし、各プランに定められた基本月額料金および選択されたオプション料金をお支払いいただきます。</li>
+              <li>Google社によるGoogle Workspaceライセンス料の改定、為替変動、または公租公課の変動が生じた場合、「何でも屋」は事前にサイト上で通知・公表することにより、料金を改定できるものとします。</li>
+              <li>ハードウェア本体代金や通信契約を含むオプション料金の一部は、NTTドコモ等の通信事業者および各ハードウェアベンダー等のパートナー利用料に充当されます。</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>第3条（決済方法およびベースパック連携）</strong>
+            <ul>
+              <li>本サービスの定期月額料金の決済には、デポジット型決済基盤「ベースパック」の利用、銀行振込、または所定のオンライン決済が適用されます。</li>
+              <li>「何でも屋基金」や各キャンペーン特典等により付与された「ベースパッククレジット」は、NanndemoyaCloudの通常基本料金の支払いに充当可能です（ハードウェア購入費・通信実費等のオプション費用への充当はできません）。</li>
+              <li>PayPal等一部の決済手段を選択された場合、決済手数料相当額が加算される場合があります。</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>第4条（サポート範囲および提供基準）</strong>
+            <ul>
+              <li>「何でも屋」が無償で提供する標準サポート（メール、チャット、ビデオ会議・対面サポート）の範囲は、契約プランに応じて規定されます。</li>
+              <li>「専用スマートフォンサポート（DIGNO SX5等）」「MacBook Neo / VAIO Pro PGセット」「home 5G連携」等の端末・通信サポートオプションは、機器本体の初期設定、定期サポート、通信回線管理等を対象とします。</li>
+              <li>料金表に「※」印が付されたサポートオプションは最大上限価格の目安表記であり、利用環境・台数・保守要件に応じて個別見積もりにより確定します。</li>
+              <li>より高度な運用・手厚い保守体制を希望される場合、月額制の「サポートプレミアム」を追加契約することができます。</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>第5条（データの管理および免責事項）</strong>
+            <ul>
+              <li>各プランのドライブ容量（30GB、2TB、5TB等）は組織内プール容量として管理されます。利用者は容量上限を超過しないよう適切にデータを管理するものとします。</li>
+              <li>Google Cloudサービスの障害、通信インフラの不通、その他当店の責に帰すべからざる事由によるデータ消失や業務中断について、「何でも屋」は直接的な損害を除き原則として責任を負いかねます。重要なデータは利用者側でも定期的にバックアップを実施してください。</li>
+            </ul>
+          </li>
+
+          <li>
+            <strong>第6条（規定の改定）</strong>
+            <ul>
+              <li>「何でも屋」は、社会情勢の変動、法令の改廃、提供サービス内容の変更に伴い、利用者への事前通知またはウェブサイト上での公表をもって本規定を改定できるものとします。</li>
+            </ul>
+          </li>
+        </ul>
       </section>
 
       <section class="card" id="links">
         <h2>関連リンク</h2>
-        <p>NanndemoyaCloudの詳細などについては以下のリンクをご参照ください。</p>
+        <p>NanndemoyaCloudの詳細や各プランの紹介は以下のリンクよりご確認ください。</p>
         <div class="link-grid">
           <a class="link-card" href="guide/service/subscription/NanndemoyaCloud/info.html">
             <h3>NanndemoyaCloudの紹介</h3>
-            <span>NanndemoyaCloudの紹介ページへ移動します。</span>
+            <span>NanndemoyaCloudの料金および各プランの概要。</span>
           </a>
           <a class="link-card" href="guide/service/subscription/NanndemoyaCloud/guide.html">
             <h3>NanndemoyaCloudの詳細</h3>
-            <span>NanndemoyaCloudの詳細を確認できます。</span>
+            <span>機能比較・サポート仕様の一覧表を確認できます。</span>
           </a>
           <a class="link-card" href="NanndemoyaCloud.html">
             <h3>NanndemoyaCloudトップ</h3>
-            <span>NanndemoyaCloudのトップページに飛びます。</span>
+            <span>NanndemoyaCloudの総合トップページです。</span>
           </a>
         </div>
       </section>
@@ -374,7 +268,7 @@
       <section class="card cta" id="contact">
         <h2>お問い合わせ</h2>
         <p>
-          ご相談、ご質問、掲載内容についての確認は、お問い合わせフォームからご連絡ください。
+          規定に関するご不明点やプランの導入相談は、お問い合わせフォームからご連絡ください。
         </p>
         <a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">フォームを開く</a>
       </section>
