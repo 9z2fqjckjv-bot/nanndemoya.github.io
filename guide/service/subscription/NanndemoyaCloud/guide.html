@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P56Q566B');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GitHub Pages向けのNanndemoya共通HTMLテンプレートです。">
+  <title>NanndemoyaCloud-詳細 | 何でも屋</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #5b6472;
+      --accent: #2563eb;
+      --accent-dark: #1d4ed8;
+      --border: #dbe3ee;
+      --soft: #eff6ff;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 240px);
+      color: var(--text);
+      line-height: 1.8;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    a:hover {
+      color: var(--accent-dark);
+    }
+
+    .hero {
+      padding: 64px 20px 44px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 58%, #60a5fa 100%);
+      color: #fff;
+      text-align: center;
+    }
+
+    .hero-inner {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 7px 13px;
+      border: 1px solid rgba(255, 255, 255, 0.34);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.25;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px auto 0;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: 1.06rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s ease, color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .button-primary {
+      background: #fff;
+      color: #1d4ed8;
+    }
+
+    .button-secondary {
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 20px 56px;
+    }
+
+    .page-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .page-nav a {
+      display: inline-block;
+      padding: 9px 13px;
+      border: 1px solid #bfdbfe;
+      border-radius: 999px;
+      background: var(--soft);
+      color: #1e40af;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .card {
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 1.5rem;
+      line-height: 1.4;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 1.12rem;
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    p:last-child,
+    ul:last-child {
+      margin-bottom: 0;
+    }
+
+    .note {
+      padding: 14px 16px;
+      border-left: 4px solid #60a5fa;
+      border-radius: 12px;
+      background: var(--soft);
+      color: #1e3a8a;
+    }
+
+    .item-list {
+      margin: 0;
+      padding-left: 1.2em;
+    }
+
+    .item-list li {
+      margin-bottom: 10px;
+    }
+
+    .link-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .link-card {
+      min-height: 118px;
+      padding: 16px;
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      background: #f8fbff;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .link-card:hover {
+      border-color: var(--accent);
+      color: var(--text);
+      transform: translateY(-2px);
+    }
+
+    .link-card span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      font-weight: 400;
+    }
+
+    .cta {
+      border-color: #93c5fd;
+      background: #eff6ff;
+      text-align: center;
+    }
+
+    .cta .button {
+      margin-top: 6px;
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .footer {
+      padding: 8px 20px 46px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .footer a {
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .back-top {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 100;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 48px;
+      min-height: 48px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
+    }
+
+    .back-top:hover {
+      background: var(--accent-dark);
+      color: #fff;
+    }
+
+    @media (max-width: 760px) {
+      .link-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding-top: 54px;
+      }
+
+      .card {
+        padding: 22px 18px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .button {
+        width: min(100%, 320px);
+      }
+
+      .back-top {
+        right: 16px;
+        bottom: 16px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="lead-form-popup.js" defer></script>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P56Q566B"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <div class="eyebrow">GitHub Pages Template</div>
+      <h1>NanndemoyaCloudの詳細</h1>
+      <p class="lead">
+        NanndemoyaCloudの詳細情報が記載されたページです。
+      </p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">お問い合わせはこちら</a>
+        <a class="button button-secondary" href="index.html">トップページ</a>
+        <a class="button button-secondary" href="site-links.html">サイトリンク</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="page-nav" aria-label="ページ内メニュー">
+      <a href="#summary">概要</a>
+      <a href="#details">詳細</a>
+      <a href="#links">関連リンク</a>
+      <a href="#contact">お問い合わせ</a>
+    </nav>
+
+    <div class="grid">
+      <section class="card" id="summary">
+        <h2>概要</h2>
+        <p>
+          このページでは、NanndemoyaCloudの詳細をご紹介します。
+        </p>
+        <p>
+          各プランの違いは以下の表のとおりです。
+        </p>
+        <div class="note">
+          この表は、GoogleWorkSpaceのヘルプ記事に記載のものです。出典元のリンクは関連リンクに記載されています。
+        </div>
+      </section>
+
+      <section class="card" id="details">
+        <h2>詳細</h2>
+        <!-- 1. サービスの可用性 -->
+        <h2>サービスの可用性</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>機能・サービス</th>
+              <th>Lite & Mini</th>
+              <th>Normal & Standard</th>
+              <th>Plus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Chat と Chat スペース</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>ドライブ ストレージとドキュメント エディタ</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Meet によるビデオ会議</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>ディレクトリ管理</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Google サイト</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>ToDo リスト</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Keep でのメモ作成</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Colab（データ サイエンスと機械学習モデルを共同開発）</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>データ保護が備わった Gemini アプリ</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Gmail とカレンダー</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Google Workspace Studio</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>ビジネス向け Google グループ</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>AppSheet Core</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>その他の Google サービス</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Colab Pro と Colab Pro+（アドオン）</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Google Vids</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Google Cloud Search によるドメイン内検索とアシスト機能</td>
+              <td></td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Google Vault による電子情報開示と情報ガバナンス</td>
+              <td></td>
+              <td></td>
+              <td>✔</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 2. 使用とサポート -->
+        <h2>使用とサポート</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>Lite & Mini</th>
+              <th>Normal & Standard</th>
+              <th>Plus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ユーザー数</td>
+              <td>1～300</td>
+              <td>1～300</td>
+              <td>1～300</td>
+            </tr>
+            <tr>
+              <td>ユーザーあたりの保存容量</td>
+              <td>30 GB（プール済み）</td>
+              <td>2 TB（プール済み）</td>
+              <td>5 TB（プール済み）</td>
+            </tr>
+            <tr>
+              <td>追加のストレージ プールの購入</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>99.9% の稼働率保証</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>スタンダード サポート</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 3. ユーザー アクセスのオプション -->
+        <h2>ユーザー アクセスのオプション</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>Lite & Mini</th>
+              <th>Normal & Standard</th>
+              <th>Plus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>サポートされているブラウザ</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>各種デバイス（パソコン、スマホ、タブレット）からのアクセス</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>オフライン アクセス</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Microsoft Outlook</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>IMAP クライアントと POP クライアント</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 4. 移行プロダクト -->
+        <h2>移行プロダクト</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>Lite & Mini</th>
+              <th>Normal & Standard</th>
+              <th>Plus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>メールを移行する（ユーザー数 100 未満）</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>メール、カレンダー、連絡先、ファイルを移行する（各種ツール）</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Gmail またはその他のウェブメールから移行する</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Outlook から移行する</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>ユーザーにデータを移行してもらう</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Exchange から移行する</td>
+              <td></td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Google Workspace Migrate を使用してデータを移行する</td>
+              <td></td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 5. レポートと監視 -->
+        <h2>レポートと監視</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>Lite & Mini</th>
+              <th>Normal & Standard</th>
+              <th>Plus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>指標とトレンドをまとめたハイライト レポート</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>アプリの使用状況レポート（組織全体）</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>ユーザー固有／管理者固有のアクティビティ レポート</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>温室効果ガス排出量のレポート</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>監査と調査のツール ログイベント レポート</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>ドライブ DLP のデータ保護に関する分析情報レポート</td>
+              <td></td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Google Meet の出席レポート</td>
+              <td></td>
+              <td></td>
+              <td>✔</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 6. セキュリティ ポリシーとデータ保護 -->
+        <h2>セキュリティ ポリシーとデータ保護</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>Lite & Mini</th>
+              <th>Normal & Standard</th>
+              <th>Plus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Google Cloud サービスのセッション継続時間を設定する</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>SSL 接続の適用</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>2 段階認証プロセス</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>パスワードの監視と安全度の管理</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>基本的なデータのエクスポート</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>2 段階認証プロセス用のセキュリティ キー</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>信頼できる外部ドメインとの連携</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>ドライブのデータ保護に関する分析レポート</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>Google サービスのセッション継続時間を設定する</td>
+              <td></td>
+              <td></td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>セキュリティ アドバイザーのデータ保護</td>
+              <td></td>
+              <td></td>
+              <td>✔</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 7. データ リージョン -->
+        <h2>データ リージョン</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>Lite & Mini</th>
+              <th>Normal & Standard</th>
+              <th>Plus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>組織内のすべてのユーザーを対象に、保存データに関する単一のリージョン ポリシーを設定する</td>
+              <td></td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <!-- 8. 「何でも屋」　サポート-->
+        <h2>「何でも屋」のサポート</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>Lite & Mini</th>
+              <th>Normal & Standard</th>
+              <th>Plus</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>独自ドメイン設定機能（レンタルサーバー付き）</td>
+              <td>Miniのみ（追加料金が必要です。）</td>
+              <td>Standardのみ（追加料金が必要です。）</td>
+              <td>✔（追加料金が必要です。）</td>
+            </tr>
+            <tr>
+              <td>メールサポート</td>
+              <td>✔</td>
+              <td>✔</td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>チャットサポート</td>
+              <td></td>
+              <td>✔</td>
+              <td>✔</td>
+            <tr>
+              <td>ビデオ会議と対面でのサポート</td>
+              <td></td>
+              <td></td>
+              <td>✔</td>
+            </tr>
+            <tr>
+              <td>専用スマートフォンサポートオプション（下記料金には割引を含んでません。また、NTTdocomoBusinessを利用します。下記の追加料金が必要です。）</td>
+              <td>本体サポートのみ対象で5万円(DIGNO SX5)（初期設定のみサポート対象、その他のサポートはつきません。）</td>
+              <td>※本体・通信契約のサポート付きで、導入価格は5万円、定期費用は1回線につき月額1万円（無制限）</td>
+              <td>※本体・通信契約・ホームルーター(home5G)のサポート付きで、導入価格は15万円、定期費用は1回線につき月額1.6万円(無制限、home5Gも含む)</td>
+            </tr>
+            <tr>
+              <td>専用スマートフォン＋MacBookNeo（上記の専用スマートフォンオプションに加え、MacBookNeoがセットのオプションです。）</td>
+              <td>本体サポートのみで20万円</td>
+              <td>※本体・通信契約・PCサポート付きで、導入価格は20万円、定期費用は1回線につき月額1.5万円（無制限）</td>
+              <td>※本体・通信契約・ホームルーター(home5G)・PCのサポート付きで、導入価格は30万円、定期費用は1回線につき月額2万円(無制限、home5Gも含む)</td>
+            <tr>
+              <td>専用スマートフォン＋PC（専用スマートフォンオプションに加え、VAIOProPGがセットのオプションです。）</td>
+              <td>本体サポートのみで28万円</td>
+              <td>※本体・通信契約・PCサポート付きで、導入価格は28万円、定期費用は2回線につき月額2.5万円（スマホ＋PCの2回線、無制限）</td>
+              <td>※本体・通信契約・ホームルーター(home5G)・PCのサポート付きで、導入価格は36万円、定期費用は3回線につき月額3万円(無制限、スマホ+PC+home5G)</td>
+            </tr>
+            <tr>
+              <td>サポート単体（既存のスマートフォン、通信回線、ホームルーターのサポートオプションで、追加料金が必要です。）</td>
+              <td>スマートフォンのみ：無償</td>
+              <td>※スマートフォン＋通信回線サポート（1回線につき）：月額1万円（無制限）</td>
+              <td>※スマートフォン＋通信回線＋ホームルーター(home5G)：月額2万円（無制限、通信回線＋home5Gの通信料含む）</td>
+            </tr>
+            <tr>
+              <td>サポート単体＋PCサポート及び管理（上記の３種類に加え、PCの管理機能などのサポートが含まれたオプションで、追加料金が必要です。）</td>
+              <td>スマートフォンとPC本体のみのサポート：無償</td>
+              <td>※スマートフォン+PC+通信回線サポート（2回線ごとに）：月額2万円（PCとスマートフォンの2回線、無制限）</td>
+            　<td>※スマートフォン+PC+通信回線+ホームルーター：月額3万円（無制限、通信回線+home5G+PCの通信料を含む。）</td>
+            </tr>
+            <tr>
+              <td>サポートプレミアム（上記のサポートをベースにより手厚いサポートをご提供します。</td>
+              <td>1ヶ月につき9000円（1アカウントごとに）</td>
+              <td>1ヶ月につき6000円（1アカウントごとに）</td>
+              <td>1ヶ月につき3000円（1アカウントごとに）</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+        「何でも屋」のサポートのうち、※が付いているものは、その内容などに応じて、価格が変動するもので最大価格表記です。詳細についてはお問い合わせください。<br>
+        また、上記料金の一部は「何でも屋」の一部パートナーの利用料金に当てられます。
+        </p>
+      </section>
+
+      <section class="card" id="links">
+        <h2>関連リンク</h2>
+        <p>必要なページへのリンクを配置します。不要な項目は削除してください。</p>
+        <div class="link-grid">
+          <a class="link-card" href="guide/service/subscription/NanndemoyaCloud/info.html">
+            <h3>NanndemoyaCloudの紹介</h3>
+            <span>NanndemoyaCloudの紹介ページへ移動します。</span>
+          </a>
+          <a class="link-card" href="guide/service/subscription/NanndemoyaCloud/rule.html">
+            <h3>NanndemoyaCloudの追加規定</h3>
+            <span>NanndemoyaCloudの追加規定を確認できます。</span>
+          </a>
+          <a class="link-card" href="NanndemoyaCloud.html">
+            <h3>NanndemoyaCloudトップ</h3>
+            <span>NanndemoyaCloudのトップページです。</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="card cta" id="contact">
+        <h2>お問い合わせ</h2>
+        <p>
+          ご相談、ご質問、掲載内容についての確認は、お問い合わせフォームからご連絡ください。
+        </p>
+        <a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">フォームを開く</a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <a href="index.html">トップページ</a>
+    &nbsp;·&nbsp;
+    <a href="information.html">連絡先</a>
+    &nbsp;·&nbsp;
+    <a href="site-links.html">サイトリンク</a>
+    <p>© 2026 Nanndemoya | Anyways, Anywhere, Anytimes</p>
+  </footer>
+
+  <a class="back-top" href="#top" aria-label="ページ上部へ戻る">↑</a>
+  <script src="assets/site-enhancements.js" defer></script>
+</body>
+</html>
+
