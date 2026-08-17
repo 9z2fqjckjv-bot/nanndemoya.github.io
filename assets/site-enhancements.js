@@ -4,6 +4,7 @@
     { title: '資料一覧', path: 'documet/index.html' },
     { title: 'サイトリンク', path: 'site-links.html' },
     { title: '連絡先', path: 'information.html' },
+    { title: 'フォーム一覧', path: 'form.html' },
     { title: 'サービス', path: 'service.html' },
     { title: '基本料金・プレミアム料金シミュレーター', path: 'anytime_service_prices.html' },
     { title: '移動代金シミュレーター', path: 'transport_cost_simulator.html' },
@@ -36,7 +37,7 @@
     { title: 'PC基金の参加特典', path: 'guide/N.C.F~Nanndemoya_Crowd_Funding/PC_Fund_Participation_Benefits.html' },
     { title: 'スマートフォン基金', path: 'guide/N.C.F~Nanndemoya_Crowd_Funding/Smartphone.html' },
     { title: 'スポンサー枠について', path: 'guide/N.C.F~Nanndemoya_Crowd_Funding/Sponsor.html' },
-    { title: 'MacStudioShere’s', path: 'guide/service/digital-service/MacStudioSheres.html' },
+    { title: 'MacStudioShere’s', path: 'guide/service/subscription/digital-service/MacStudioSheres.html' },
     { title: 'NanndemoyaCloud サービス概要', path: 'guide/service/subscription/NanndemoyaCloud/info.html' },
     { title: 'NanndemoyaCloud 詳細ガイド', path: 'guide/service/subscription/NanndemoyaCloud/guide.html' },
     { title: 'NanndemoyaCloud 利用ルール', path: 'guide/service/subscription/NanndemoyaCloud/rule.html' },
@@ -73,6 +74,59 @@
   };
 
   const normalizeText = (text) => text.toLowerCase().replace(/\s+/g, ' ').trim();
+
+  const normalizeSiteLinks = () => {
+    const rootFiles = new Set([
+      'index.html',
+      'site-links.html',
+      'information.html',
+      'service.html',
+      'policy.html',
+      'form.html',
+      'Nanndemoya365.html',
+      'NanndemoyaCloud.html',
+      'NCF.html',
+      'house.html',
+      'anytime_service_prices.html',
+      'transport_cost_simulator.html',
+      'UserGuide.html'
+    ]);
+
+    const pathFixes = new Map([
+      ['../service/digital-service/MacStudioSheres.html', 'guide/service/subscription/digital-service/MacStudioSheres.html'],
+      ['../../guide/service/digital-service/MacStudioSheres.html', 'guide/service/subscription/digital-service/MacStudioSheres.html'],
+      ['guide/service/digital-service/MacStudioSheres.html', 'guide/service/subscription/digital-service/MacStudioSheres.html'],
+      ['guide/policy/praivacy-policy.html', 'guide/policy/privacy-policy.html'],
+      ['guide/service/subscription/Lite.html', 'guide/service/subscription/Nanndemoya365/Lite.html'],
+      ['guide/service/subscription/Normal.html', 'guide/service/subscription/Nanndemoya365/Normal.html'],
+      ['guide/service/subscription/Plus.html', 'guide/service/subscription/Nanndemoya365/Plus.html'],
+      ['guide/service/subscription/Business.html', 'guide/service/subscription/Nanndemoya365/Business.html'],
+      ['documet/Life-Event-Support_apply-book', 'form.html#life-event-embedded-form']
+    ]);
+
+    document.querySelectorAll('a[href]').forEach((link) => {
+      const rawHref = link.getAttribute('href');
+      if (!rawHref || rawHref.startsWith('#')) return;
+
+      const parsed = new URL(rawHref, window.location.href);
+      if (parsed.origin !== window.location.origin) return;
+
+      const hash = parsed.hash || '';
+      const relativePath = rawHref.split('#')[0].split('?')[0];
+      const cleanPath = relativePath.replace(/^\.\//, '');
+      const fileName = cleanPath.split('/').pop();
+
+      if (pathFixes.has(cleanPath)) {
+        link.href = rootHref(pathFixes.get(cleanPath)) + hash;
+      } else if (rootFiles.has(cleanPath)) {
+        link.href = rootHref(cleanPath) + hash;
+      } else if (cleanPath.startsWith('guide/') || cleanPath.startsWith('helps/') || cleanPath.startsWith('documet/')) {
+        link.href = rootHref(cleanPath) + hash;
+      } else if (rootFiles.has(fileName) && !cleanPath.startsWith('../')) {
+        link.href = rootHref(fileName) + hash;
+      }
+    });
+  };
 
   const extractPageText = (html) => {
     const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -191,7 +245,26 @@
     return section;
   };
 
+  const createActionStrip = () => {
+    const section = document.createElement('section');
+    section.className = 'action-strip';
+    section.setAttribute('aria-label', '主要アクション');
+    section.innerHTML = `
+      <div>
+        <h2>相談・申し込みはこちら</h2>
+        <p>迷った場合はフォーム一覧から目的に近い窓口を選べます。料金確認後の相談も同じ場所から進めます。</p>
+      </div>
+      <div class="action-strip-actions">
+        <a class="button" href="${rootHref('form.html')}">フォームを選ぶ</a>
+        <a class="button button-secondary" href="${rootHref('anytime_service_prices.html')}">料金を確認する</a>
+      </div>
+    `;
+    return section;
+  };
+
   document.addEventListener('DOMContentLoaded', () => {
+    normalizeSiteLinks();
+
     const main = document.querySelector('main');
     if (main) {
       const sections = Array.from(main.querySelectorAll('section')).filter((section) => labelFor(section));
@@ -212,9 +285,19 @@
         main.insertBefore(nav, main.firstElementChild);
       }
 
+      if (!document.querySelector('.action-strip') && !window.location.pathname.endsWith('/form.html')) {
+        const actionStrip = createActionStrip();
+        const reference = main.querySelector('.page-nav');
+        if (reference && reference.nextSibling) {
+          main.insertBefore(actionStrip, reference.nextSibling);
+        } else {
+          main.insertBefore(actionStrip, main.firstElementChild);
+        }
+      }
+
       if (!document.getElementById('site-search')) {
         const searchPanel = createSearchPanel();
-        const reference = main.querySelector('.page-nav');
+        const reference = main.querySelector('.action-strip') || main.querySelector('.page-nav');
         if (reference && reference.nextSibling) {
           main.insertBefore(searchPanel, reference.nextSibling);
         } else {

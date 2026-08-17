@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P56Q566B');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="何でも屋の申し込みから支払い、サービス利用完了までの流れをまとめた利用案内です。">
+  <title>利用案内 | 何でも屋</title>
+  <style>
+    .step-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .step-list li {
+      position: relative;
+      padding: 14px 16px 14px 56px;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      background: #f8fbff;
+    }
+
+    .step-list li::before {
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.86rem;
+      font-weight: 700;
+      counter-increment: step;
+      content: counter(step);
+    }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .mini-card {
+      padding: 16px;
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      background: #f8fbff;
+    }
+
+    .mini-card h3 {
+      margin-top: 0;
+      color: #1e3a8a;
+    }
+
+    .section-lead {
+      color: var(--muted);
+    }
+
+    .notice-list {
+      margin: 12px 0 0;
+      padding-left: 1.2em;
+    }
+
+    .notice-list li {
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 760px) {
+      .split-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="lead-form-popup.js" defer></script>
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P56Q566B"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <span class="eyebrow">User Guide</span>
+      <h1>利用案内</h1>
+      <p class="lead">「何でも屋」の申し込み、事前確認、お支払い、サービス利用完了までの流れを目的別にまとめています。</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">お問い合わせはこちら</a>
+        <a class="button button-secondary" href="service.html">サービス一覧</a>
+        <a class="button button-secondary" href="site-links.html">サイトリンク</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="page-nav" aria-label="ページ内メニュー">
+      <a href="#start">はじめに</a>
+      <a href="#flow">利用の流れ</a>
+      <a href="#subscription">定期利用</a>
+      <a href="#support">支援・ハウス</a>
+      <a href="#payment">支払い</a>
+      <a href="#links">関連リンク</a>
+    </nav>
+
+    <div class="grid">
+      <section class="card" id="start">
+        <h2>はじめに確認すること</h2>
+        <p>利用したい内容が決まっている場合は、サービス一覧または料金シミュレーターで対象サービスと概算料金を確認してからお問い合わせください。内容が未確定の場合でも、フォームから相談できます。</p>
+        <div class="split-grid">
+          <div class="mini-card">
+            <h3>サービスを選ぶ</h3>
+            <p>子ども向け、シニア、フリー、アシスタント、ビジネスアシスタント、Nanndemoya365、NanndemoyaCloudなどから目的に近いものを確認します。</p>
+          </div>
+          <div class="mini-card">
+            <h3>料金の目安を出す</h3>
+            <p>基本料金、プレミアム料金、移動代金は条件によって変わります。各シミュレーターで事前に目安を確認できます。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="flow">
+        <h2>主要5サービスとNanndemoya365の流れ</h2>
+        <p class="section-lead">対象は、子ども向けサービス、シニアサービス、フリーサービス、アシスタントサービス、ビジネスアシスタントサービス、Nanndemoya365です。</p>
+        <ol class="step-list">
+          <li>申し込みフォームまたはお問い合わせフォームから、希望するサービス、日時、場所、依頼内容を送信します。</li>
+          <li>「何でも屋」から指定された連絡方法で返信し、対応可否、作業内容、料金条件を確認します。</li>
+          <li>内容が確定したら申し込み完了です。依頼日の前日までに、行きの移動代金をお支払いください。</li>
+          <li>依頼日当日、ご指定の場所でサービスを提供します。</li>
+          <li>サービス終了後、利用料金とオプション料金をお支払いください。事前に支払った行きの移動代金は除きます。</li>
+          <li>お支払い確認後、領収書をお渡しして完了です。</li>
+        </ol>
+        <p class="note">Nanndemoya365は、ベースパックでのお支払いが基本です。利用料金とオプション料金は、事前入金が必要になる場合があります。</p>
+      </section>
+
+      <section class="card" id="subscription">
+        <h2>定期利用・クラウドサービスの流れ</h2>
+        <div class="split-grid">
+          <div class="mini-card">
+            <h3>NanndemoyaCloud</h3>
+            <ol class="step-list">
+              <li>フォームから申し込みます。</li>
+              <li>見積書兼請求書を受け取り、記載された期限までに指定口座へ振り込みます。</li>
+              <li>入金確認後、利用開始手続きを行い、完了後に通知します。</li>
+              <li>初回以降は原則として毎月28日までにベースパックへ入金します。</li>
+              <li>入金確認後、サービス利用が継続されます。</li>
+            </ol>
+          </div>
+          <div class="mini-card">
+            <h3>MacStudioShere's</h3>
+            <p>サービス提供開始後に、申し込み方法、利用条件、支払い方法を掲載します。</p>
+            <p>関連情報は、デジタルサービスの案内ページで確認できます。</p>
+            <a href="guide/service/subscription/digital-service/MacStudioSheres.html">MacStudioShere’sを見る</a>
+          </div>
+        </div>
+        <p class="note">NanndemoyaCloudの初回支払いは銀行振り込み、初回以降はベースパックでのお支払いが基本です。</p>
+      </section>
+
+      <section class="card" id="support">
+        <h2>支援制度・何でも屋ハウスの流れ</h2>
+        <div class="split-grid">
+          <div class="mini-card">
+            <h3>ライフイベント支援</h3>
+            <ol class="step-list">
+              <li>フォームから支援内容を申し込みます。</li>
+              <li>対象要件を確認するための審査を行います。</li>
+              <li>審査通過後、指定された方法で入金状況を確認します。</li>
+              <li>「何でも屋」から連絡が届いた場合は、速やかに返信してください。</li>
+            </ol>
+          </div>
+          <div class="mini-card">
+            <h3>何でも屋ハウス</h3>
+            <ol class="step-list">
+              <li>申し込みフォームから物件提供の希望を送信します。</li>
+              <li>詳細情報の確認依頼に返信します。</li>
+              <li>物件見学、査定、オプション確認の日時を調整します。</li>
+              <li>見学と査定、オプション項目の確認を実施します。</li>
+              <li>条件確認後、利用開始手続きに進みます。</li>
+            </ol>
+          </div>
+        </div>
+        <p class="note">何でも屋ハウスの査定は第三者の査定業者などが行う場合があるため、完了まで時間がかかることがあります。</p>
+      </section>
+
+      <section class="card" id="payment">
+        <h2>お支払い方法</h2>
+        <p>サービスの種類によって利用できる支払い方法が異なります。サブスクリプション形式のサービスや基金では、利用できる方法が限定される場合があります。</p>
+        <div class="link-grid">
+          <div class="link-card">
+            <h3>現金</h3>
+            <span>何でも屋基金とサブスクリプション形式のサービス以外で利用できます。</span>
+          </div>
+          <div class="link-card">
+            <h3>口座振り込み</h3>
+            <span>サブスクリプション形式のサービス以外で利用できます。NanndemoyaCloudの初回支払いにも使用します。</span>
+          </div>
+          <div class="link-card">
+            <h3>PayPal</h3>
+            <span>サブスクリプション形式のサービス以外で利用できます。手数料の関係で割高になる場合があります。</span>
+          </div>
+          <div class="link-card">
+            <h3>ベースパッククレジット</h3>
+            <span>主要サービスの基本料金に利用できます。オプション料金などには利用できない場合があります。</span>
+          </div>
+          <div class="link-card">
+            <h3>ベースパック</h3>
+            <span>「何でも屋」の各サービスで利用できる前払い型の支払い方法です。</span>
+          </div>
+          <div class="link-card">
+            <h3>送金による支払い</h3>
+            <span>サブスクリプション形式のサービスと何でも屋基金以外で利用できる場合があります。詳細はお問い合わせください。</span>
+          </div>
+        </div>
+        <h3>ベースパックの特徴</h3>
+        <ul class="notice-list">
+          <li>事前に入金した金額を、サービス利用時の支払いに活用できます。</li>
+          <li>支払いを一本化しやすく、利用明細や電子領収書の確認に役立ちます。</li>
+          <li>残高や条件に応じて、ベースパッククレジットが付与される場合があります。</li>
+          <li>何でも屋基金への参加や、関連サービスの支払い管理にも活用できます。</li>
+        </ul>
+      </section>
+
+      <section class="card" id="links">
+        <h2>関連リンク</h2>
+        <p>申し込み前の確認、料金計算、規約確認に使うページをまとめています。</p>
+        <div class="link-grid">
+          <a class="link-card" href="service.html">
+            <h3>サービス一覧</h3>
+            <span>各サービスの概要と詳細ページへのリンクを確認できます。</span>
+          </a>
+          <a class="link-card" href="anytime_service_prices.html">
+            <h3>料金シミュレーター</h3>
+            <span>基本料金とプレミアム料金の目安を計算できます。</span>
+          </a>
+          <a class="link-card" href="transport_cost_simulator.html">
+            <h3>移動代金シミュレーター</h3>
+            <span>サービス利用時に必要な移動代金の目安を確認できます。</span>
+          </a>
+          <a class="link-card" href="Nanndemoya365.html">
+            <h3>Nanndemoya365</h3>
+            <span>定期利用プランの概要と各プランへのリンクを確認できます。</span>
+          </a>
+          <a class="link-card" href="NanndemoyaCloud.html">
+            <h3>NanndemoyaCloud</h3>
+            <span>クラウドサービスの概要、詳細、追加規定を確認できます。</span>
+          </a>
+          <a class="link-card" href="house.html">
+            <h3>何でも屋ハウス</h3>
+            <span>物件提供、査定、特典、契約更新の案内を確認できます。</span>
+          </a>
+          <a class="link-card" href="NCF.html">
+            <h3>何でも屋基金</h3>
+            <span>基金一覧、参加条件、特典、規定を確認できます。</span>
+          </a>
+          <a class="link-card" href="policy.html">
+            <h3>規約・ポリシー</h3>
+            <span>利用規約、プライバシーポリシー、特定商取引法に基づく表記を確認できます。</span>
+          </a>
+          <a class="link-card" href="helps/help-document.html">
+            <h3>ヘルプ記事</h3>
+            <span>目的別に整理された補足記事を確認できます。</span>
+          </a>
+          <a class="link-card" href="https://forms.gle/jk4cPoWeWUBHnbZX8">
+              <h3>主要サービス申込フォーム</h3>
+              <span>主要サービスに申し込む場合はこちら。</h3>
+          </a>
+          <a class="link-card" href="https://forms.gle/2UbCYcLhJ7JQpypV8">
+              <h3>Nanndemoya365申込フォーム</h3>
+              <span>Nanndemoya365の申し込みはこちら。</span>
+          </a>
+          <a class="link-card" href="https://forms.gle/7hwRJbdccUGm5Nyz9">
+              <h3>NanndemoyaCloud申込フォーム</h3>
+              <span>NanndemoyaCloudの申し込みはこちら。</span>
+          </a>
+          <a class="link-card" href="https://forms.gle/fn3EUDTEBQsGK5o6A">
+              <h3>ライフイベント支援申し込みフォーム</h3>
+              <span>ライフイベント支援の申し込みはこちら。</h3>
+          </a>
+          <a class="link-card" href="https://forms.gle/A6TX1uAXhQFHXTAN8">
+              <h3>「何でも屋ハウス」申込フォーム</h3>
+              <span>「何でも屋ハウス」の申し込みはこちら。</span>
+          </a>
+          <a class="link-card" href="https://forms.gle/U2qGFdcRgPSxpJ5r5">
+              <h3>ベースパック入金申し込みフォーム</h3>
+              <span><strong>ベースパック</strong>の入金申し込みこちら。</span>
+          </a>
+          <a class="link-card" href="form.html">
+              <h3>「何でも屋」のフォーム一覧</h3>
+              <span>各種サービスの申請やお問い合わせなどのフォーム埋め込みはこちら。</span>
+        　</a>
+        </div>
+      </section>
+
+      <section class="card cta" id="contact">
+        <h2>お問い合わせ</h2>
+        <p>対応可否、料金、支払い方法、申し込み前の確認はお問い合わせフォームからご連絡ください。</p>
+        <a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">フォームを開く</a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <a href="index.html">トップページ</a>
+    &nbsp;|&nbsp;
+    <a href="information.html">連絡先</a>
+    &nbsp;|&nbsp;
+    <a href="site-links.html">サイトリンク</a>
+    <p>© 2026 Nanndemoya | Anyways, Anywhere, Anytimes</p>
+  </footer>
+
+  <a class="back-top" href="#top" aria-label="ページ上部へ戻る">↑</a>
+  <script src="assets/site-enhancements.js" defer></script>
+</body>
+</html>

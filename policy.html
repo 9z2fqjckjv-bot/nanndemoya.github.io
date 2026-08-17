@@ -10,7 +10,7 @@
   <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="GitHub Pages向けのNanndemoya共通HTMLテンプレートです。">
+  <meta name="description" content="何でも屋の利用規約、プライバシーポリシー、特定商取引法に基づく表記、各サービスの追加規定をまとめたポリシー一覧です。">
   <title>ポリシー | 何でも屋</title>
   <style>
     :root {
@@ -225,6 +225,16 @@
       font-weight: 400;
     }
 
+    .policy-group + .policy-group {
+      margin-top: 28px;
+    }
+
+    .policy-group h3 {
+      margin: 0 0 10px;
+      color: #1e3a8a;
+      font-size: 1.08rem;
+    }
+
     .cta {
       border-color: #93c5fd;
       background: #eff6ff;
@@ -313,13 +323,13 @@
 
   <header class="hero" id="top">
     <div class="hero-inner">
-      <div class="eyebrow">GitHub Pages Template</div>
+      <div class="eyebrow">Policy</div>
       <h1>ポリシートップ</h1>
       <p class="lead">
-        「何でも屋」の各ポリシーのリンクを掲載しています。
+        「何でも屋」の基本規約、個人情報の取り扱い、取引条件、サービス別の追加規定をまとめています。
       </p>
       <div class="hero-actions">
-        <a class="button button-primary" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">お問い合わせはこちら</a>
+        <a class="button button-primary" href="form.html#external-forms">規約について問い合わせる</a>
         <a class="button button-secondary" href="index.html">トップページ</a>
         <a class="button button-secondary" href="site-links.html">サイトリンク</a>
       </div>
@@ -332,37 +342,69 @@
 
       <section class="card" id="links">
         <h2>ポリシー一覧</h2>
-        <p>各ポリシーのページへと推移することができます。</p>
-        <div class="link-grid">
-          <a class="link-card" href="guide/policy/Act-on-Specified-Commercial-Transactions.html">
-            <h3>特定商取引法に基づく表記</h3>
-            <span>特定商取引法に基づく表記とキャンセル・返金規定、後払いサービスの注意点を掲載しています。</span>
-          </a>
-          <a class="link-card" href="guide/policy/terms-of-service.html">
-            <h3>利用規約</h3>
-            <span>「何でも屋」の利用規約です。「何でも屋」ご利用前にお読みください。</span>
-          </a>
-          <a class="link-card" href="guide/service/digital-service/MacStudioSheres.html">
-            <h3>MacStudioShere'sの追加規定</h3>
-            <span>MacStudioShere'sのサービスと追加規定が掲載されています。</span>
-          </a>
-          <a class="link-card" href="guide/service/Life-Events/rule.html">
-            <h3>ライフイベント支援の贈与要件</h3>
-            <span>ライフイベント支援の贈与対象となるための要件（ライフイベント支援サービスの追加規定変わり）が掲載されています。</span>
-          </a>
-          <a class="link-card" href="NCF.html">
-            <h3>何でも屋基金規定</h3>
-            <span>「何でも屋基金」における追加規定が掲載されています。</span>
-          </a>
+        <p>サービスの利用前、申し込み前、基金参加前に確認が必要な規約・追加規定へのリンクです。</p>
+
+        <div class="policy-group">
+          <h3>基本規約・取引条件</h3>
+          <div class="link-grid">
+            <a class="link-card" href="guide/policy/terms-of-service.html">
+              <h3>利用規約</h3>
+              <span>全サービス共通の利用条件、料金、キャンセル、禁止事項、免責、個人情報の取り扱いを掲載しています。</span>
+            </a>
+            <a class="link-card" href="guide/policy/privacy-policy.html">
+              <h3>プライバシーポリシー</h3>
+              <span>個人情報の取得、利用目的、管理、第三者提供、問い合わせ方法を掲載しています。</span>
+            </a>
+            <a class="link-card" href="guide/policy/Act-on-Specified-Commercial-Transactions.html">
+              <h3>特定商取引法に基づく表記</h3>
+              <span>事業者情報、支払方法、キャンセル・返金規定、後払いサービスの注意点を掲載しています。</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="policy-group">
+          <h3>サブスクリプション・デジタルサービス追加規定</h3>
+          <div class="link-grid">
+            <a class="link-card" href="Nanndemoya365.html#rules">
+              <h3>Nanndemoya365追加規定</h3>
+              <span>定額利用、ベースパック、最低料金、オプション料金、住み込みサービス、Businessプランの条件を確認できます。</span>
+            </a>
+            <a class="link-card" href="guide/service/subscription/NanndemoyaCloud/rule.html">
+              <h3>NanndemoyaCloud追加規定</h3>
+              <span>Google Workspace連携、ドメイン管理、端末・通信オプション、標準サポート範囲を確認できます。</span>
+            </a>
+            <a class="link-card" href="guide/service/subscription/digital-service/MacStudioSheres.html#additional-rules">
+              <h3>MacStudioShere's追加規定</h3>
+              <span>リモート接続、共有リソース、月額・スポット利用、禁止事項、免責などの追加規定を確認できます。</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="policy-group">
+          <h3>支援制度・基金・ハウス規定</h3>
+          <div class="link-grid">
+            <a class="link-card" href="guide/service/Life-Events/rule.html">
+              <h3>ライフイベント支援の贈与要件</h3>
+              <span>ライフイベント支援の贈与対象となる要件、除外条件、同意事項を確認できます。</span>
+            </a>
+            <a class="link-card" href="NCF.html#fund-rules">
+              <h3>何でも屋基金規定</h3>
+              <span>基金参加、ベースパッククレジット、コンプリートボーナス、スポンサー枠などの規定を確認できます。</span>
+            </a>
+            <a class="link-card" href="house.html">
+              <h3>何でも屋ハウス利用規約</h3>
+              <span>物件提供、査定、ベースパッククレジット、契約更新、契約終了、個人情報の扱いを確認できます。</span>
+            </a>
+          </div>
         </div>
       </section>
 
       <section class="card cta" id="contact">
         <h2>お問い合わせ</h2>
         <p>
-          ご相談、ご質問、掲載内容についての確認は、お問い合わせフォームからご連絡ください。
+          規約や掲載内容についての確認は、フォーム一覧からお問い合わせフォームを選んでご連絡ください。
         </p>
-        <a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">フォームを開く</a>
+        <a class="button" href="form.html#external-forms">お問い合わせフォームを開く</a>
       </section>
     </div>
   </main>
@@ -379,5 +421,4 @@
   <a class="back-top" href="#top" aria-label="ページ上部へ戻る">↑</a>
   <script src="assets/site-enhancements.js" defer></script>
 </body>
-</html>d
-
+</html>
