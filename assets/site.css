@@ -23,6 +23,23 @@ body {
 }
 a { color: var(--accent); }
 a:hover { color: var(--accent-dark); }
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, .24);
+  outline-offset: 3px;
+}
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+video {
+  display: block;
+  border-radius: 12px;
+  background: #0f172a;
+}
 body > header,
 .hero {
   padding: 64px 20px 44px;

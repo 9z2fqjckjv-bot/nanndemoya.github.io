@@ -1,6 +1,7 @@
 (() => {
   const searchPages = [
     { title: 'トップページ', path: 'index.html' },
+    { title: '資料一覧', path: 'documet/index.html' },
     { title: 'サイトリンク', path: 'site-links.html' },
     { title: '連絡先', path: 'information.html' },
     { title: 'サービス', path: 'service.html' },
@@ -36,6 +37,13 @@
     { title: 'スマートフォン基金', path: 'guide/N.C.F~Nanndemoya_Crowd_Funding/Smartphone.html' },
     { title: 'スポンサー枠について', path: 'guide/N.C.F~Nanndemoya_Crowd_Funding/Sponsor.html' },
     { title: 'MacStudioShere’s', path: 'guide/service/digital-service/MacStudioSheres.html' },
+    { title: 'NanndemoyaCloud サービス概要', path: 'guide/service/subscription/NanndemoyaCloud/info.html' },
+    { title: 'NanndemoyaCloud 詳細ガイド', path: 'guide/service/subscription/NanndemoyaCloud/guide.html' },
+    { title: 'NanndemoyaCloud 利用ルール', path: 'guide/service/subscription/NanndemoyaCloud/rule.html' },
+    { title: 'Nanndemoya365 Lite', path: 'guide/service/subscription/Nanndemoya365/Lite.html' },
+    { title: 'Nanndemoya365 Normal', path: 'guide/service/subscription/Nanndemoya365/Normal.html' },
+    { title: 'Nanndemoya365 Plus', path: 'guide/service/subscription/Nanndemoya365/Plus.html' },
+    { title: 'Nanndemoya365 Business', path: 'guide/service/subscription/Nanndemoya365/Business.html' },
     { title: 'ライフイベント支援とは', path: 'guide/service/Life-Events/info.html' },
     { title: 'ライフイベント支援の贈与対象要件', path: 'guide/service/Life-Events/rule.html' },
     { title: 'アシスタントサービス', path: 'guide/service/main/assistant-service.html' },
