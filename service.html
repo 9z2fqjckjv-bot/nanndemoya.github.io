@@ -23,14 +23,18 @@
     .lead { max-width: 720px; margin: 16px auto 0; color: rgba(255, 255, 255, 0.94); }
     .grid { display: grid; gap: 22px; }
     .card { padding: 28px; border: 1px solid var(--border); border-radius: 16px; background: var(--card); box-shadow: var(--shadow); }
+    .service-section { margin-top: 22px; }
+    .service-section:first-of-type { margin-top: 16px; }
+    .service-section > h3 { margin: 0 0 10px; color: #1e3a8a; font-size: 1.06rem; }
     .service-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
     .service-card { min-height: 132px; padding: 18px; border: 1px solid #bfdbfe; border-radius: 14px; background: #f8fbff; color: var(--text); text-decoration: none; transition: border-color 0.2s ease, transform 0.2s ease; }
     .service-card:hover { border-color: var(--accent); color: var(--text); transform: translateY(-2px); }
     .service-card p { color: var(--muted); font-size: 0.94rem; }
     .table-wrap { overflow-x: auto; margin-top: 12px; border: 1px solid var(--border); border-radius: 12px; background: #fff; }
-    table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: 0.95rem; }
+    table { width: 100%; min-width: 860px; border-collapse: collapse; font-size: 0.95rem; }
     th, td { padding: 10px 12px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: right; white-space: nowrap; }
     th:first-child, td:first-child { text-align: left; }
+    td:last-child { white-space: normal; }
     th { background: #e5e7eb; color: #111827; font-weight: 700; }
     tr:last-child th, tr:last-child td { border-bottom: 0; }
     th:last-child, td:last-child { border-right: 0; }
@@ -58,73 +62,148 @@
     <div class="grid">
       <section class="card">
         <h2>サービス案内</h2>
-        <p>ご依頼内容に近いサービスを選ぶと、基本料金、プレミアム料金、夜間料金、オプション料金、関連する案内を確認できます。</p>
-        <div class="service-grid">
-          <a class="service-card" href="guide/service/main/free-service.html">
-            <h3>フリーサービス</h3>
-            <p>道具を使う作業や日常の困りごとに対応する、標準的なサービスです。</p>
-          </a>
-          <a class="service-card" href="guide/service/main/assistant-service.html">
-            <h3>アシスタントサービス</h3>
-            <p>相談や同行、対人サポートなど、人に寄り添う作業に対応するサービスです。</p>
-          </a>
-          <a class="service-card" href="guide/service/main/business-assistant-service.html">
-            <h3>ビジネスアシスタントサービス</h3>
-            <p>業務補助、事務作業、調査、資料整理など、事業活動を支えるサービスです。</p>
-          </a>
-          <a class="service-card" href="guide/service/main/kids-service.html">
-            <h3>子ども向けサービス</h3>
-            <p>子どもの学び、遊び、見守り、日常の小さな挑戦を支えるサービスです。</p>
-          </a>
-          <a class="service-card" href="guide/service/main/senior-service.html">
-            <h3>シニアサービス</h3>
-            <p>高齢の方の日常生活、外出、デジタル利用、相談を支えるサービスです。</p>
-          </a>
-          <a class="service-card" href="guide/service/digital-service/MacStudioSheres.html">
-            <h3>MacStudioShere’s</h3>
-            <p>MacStudioへのリモート接続で、メモリやストレージを利用できる予定のデジタルサービスです。</p>
-          </a>
-          <a class="service-card" href="guide/service/Life-Events/info.html">
-            <h3>ライフイベント支援とは</h3>
-            <p>生活上の大きな節目や困りごとに対する支援内容と考え方を確認できます。</p>
-          </a>
-          <a class="service-card" href="guide/service/Life-Events/rule.html">
-            <h3>ライフイベント支援の贈与対象要件</h3>
-            <p>ライフイベント支援で贈与対象となる条件や確認事項を確認できます。</p>
-          </a>
+        <p>ご依頼内容に近いサービスを選ぶと、概要、事例、料金、オプション、関連する案内を確認できます。</p>
+
+        <div class="service-section">
+          <h3>基本サービス</h3>
+          <div class="service-grid">
+            <a class="service-card" href="guide/service/main/kids-service.html">
+              <h3>子ども向けサービス</h3>
+              <p>子どもの生活や学習、遊び、見守りに関する依頼を、内容に応じて柔軟にサポートします。</p>
+            </a>
+            <a class="service-card" href="guide/service/main/senior-service.html">
+              <h3>シニアサービス</h3>
+              <p>高齢の方の暮らしの困りごと、外出、相談、デジタル機器の利用などをサポートします。</p>
+            </a>
+            <a class="service-card" href="guide/service/main/free-service.html">
+              <h3>フリーサービス</h3>
+              <p>道具を利用した作業や、日常生活のサポートに向いた基本サービスです。</p>
+            </a>
+            <a class="service-card" href="guide/service/main/assistant-service.html">
+              <h3>アシスタントサービス</h3>
+              <p>相談、同行、作業補助など、人の判断や会話が必要な依頼に向いたサービスです。</p>
+            </a>
+            <a class="service-card" href="guide/service/main/business-assistant-service.html">
+              <h3>ビジネスアシスタントサービス</h3>
+              <p>個人事業主や企業の事務、調査、運営補助など、仕事に関する依頼を支えます。</p>
+            </a>
+          </div>
+        </div>
+
+        <div class="service-section">
+          <h3>定期利用・クラウドサービス</h3>
+          <div class="service-grid">
+            <a class="service-card" href="guide/service/subscription/Nanndemoya365/Lite.html">
+              <h3>Nanndemoya365_Lite</h3>
+              <p>子ども向けサービスとシニアサービスを定期利用したい人向けのプランです。</p>
+            </a>
+            <a class="service-card" href="guide/service/subscription/Nanndemoya365/Normal.html">
+              <h3>Nanndemoya365_Normal</h3>
+              <p>子ども向け、シニア、フリーサービスを定期利用したい人向けのプランです。</p>
+            </a>
+            <a class="service-card" href="guide/service/subscription/Nanndemoya365/Plus.html">
+              <h3>Nanndemoya365_Plus</h3>
+              <p>子ども向け、シニア、フリー、アシスタントサービスを定期利用したい人向けです。</p>
+            </a>
+            <a class="service-card" href="guide/service/subscription/Nanndemoya365/Business.html">
+              <h3>Nanndemoya365_Business</h3>
+              <p>ビジネスアシスタントサービスに対応した企業、団体、組織、教育機関向けのサービスです。</p>
+            </a>
+            <a class="service-card" href="guide/service/subscription/NanndemoyaCloud/info.html">
+              <h3>NanndemoyaCloudのご紹介</h3>
+              <p>Google Workspaceと「何でも屋」独自サポートを組み合わせたクラウドプラン一覧です。</p>
+            </a>
+            <a class="service-card" href="guide/service/subscription/NanndemoyaCloud/guide.html">
+              <h3>NanndemoyaCloudの詳細</h3>
+              <p>Google Workspace機能と「何でも屋」独自サポートの比較詳細一覧です。</p>
+            </a>
+            <a class="service-card" href="guide/service/subscription/NanndemoyaCloud/rule.html">
+              <h3>NanndemoyaCloudの追加規定</h3>
+              <p>NanndemoyaCloudの利用にあたって適用される追加条項および運用規定です。</p>
+            </a>
+          </div>
+        </div>
+
+        <div class="service-section">
+          <h3>デジタルサービス・支援制度</h3>
+          <div class="service-grid">
+            <a class="service-card" href="guide/service/digital-service/MacStudioSheres.html">
+              <h3>MacStudioShere’s</h3>
+              <p>購入予定のMacStudioへリモート接続し、メモリとストレージを利用できる予定のサービスです。</p>
+            </a>
+            <a class="service-card" href="guide/service/Life-Events/info.html">
+              <h3>ライフイベント支援とは</h3>
+              <p>結婚、妊娠、出産、育児、教育など、多額の費用を要するイベントへの支援内容です。</p>
+            </a>
+            <a class="service-card" href="guide/service/Life-Events/rule.html">
+              <h3>ライフイベント支援の贈与対象となる要件</h3>
+              <p>ライフイベント支援の贈与対象となるために必要な要件と例外扱いを確認できます。</p>
+            </a>
+          </div>
         </div>
       </section>
 
       <section class="card">
-        <h2>料金の目安</h2>
-        <p>料金は添付の「何でも屋｜利用料金表」を元にしています。詳細は各サービスページで確認してください。</p>
+        <h2>基本サービス料金の目安</h2>
+        <p>基本サービスの時間給は、各サービスページの料金表を元に掲載しています。給料単位や日給・週給・月給、オプション料金は各詳細ページで確認してください。</p>
         <p><a class="button" href="anytime_service_prices.html">基本料金・プレミアム料金を計算する</a></p>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th scope="col">区分</th>
-                <th scope="col">日中 時間給</th>
-                <th scope="col">夜間 時間給</th>
-                <th scope="col">主なオプション</th>
+                <th scope="col">サービス</th>
+                <th scope="col">基本 日中</th>
+                <th scope="col">基本 夜間</th>
+                <th scope="col">プレミアム 日中</th>
+                <th scope="col">プレミアム 夜間</th>
+                <th scope="col">主な内容</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row">基本料金</th>
+                <th scope="row">子ども向けサービス</th>
+                <td>¥500から</td>
+                <td>¥525から</td>
                 <td>¥1,000から</td>
-                <td>¥1,500から</td>
-                <td>移動代金、宿泊代金、道具代金など</td>
+                <td>¥1,050から</td>
+                <td>学習、遊び、見守り、日常サポート</td>
               </tr>
               <tr>
-                <th scope="row">プレミアム料金</th>
+                <th scope="row">シニアサービス</th>
+                <td>¥500から</td>
+                <td>¥525から</td>
+                <td>¥1,000から</td>
+                <td>¥1,050から</td>
+                <td>暮らし、外出、相談、デジタル利用</td>
+              </tr>
+              <tr>
+                <th scope="row">フリーサービス</th>
+                <td>¥1,000から</td>
+                <td>¥1,500から</td>
                 <td>¥2,000から</td>
                 <td>¥3,000から</td>
-                <td>サービス保証、マルチサービスなど</td>
+                <td>道具を使う作業、日常の困りごと</td>
+              </tr>
+              <tr>
+                <th scope="row">ビジネスアシスタントサービス</th>
+                <td>¥1,500から</td>
+                <td>¥1,950から</td>
+                <td>¥3,000から</td>
+                <td>¥3,000から</td>
+                <td>事務、調査、資料整理、運営補助</td>
+              </tr>
+              <tr>
+                <th scope="row">アシスタントサービス</th>
+                <td>¥2,000から</td>
+                <td>¥2,200から</td>
+                <td>¥4,000から</td>
+                <td>¥4,400から</td>
+                <td>相談、同行、対人サポート、作業補助</td>
               </tr>
             </tbody>
           </table>
         </div>
+        <p class="note">基本料金のほか、移動代金などのオプション料金が必要になる場合があります。Nanndemoya365、NanndemoyaCloud、MacStudioShere’sはそれぞれの詳細ページで料金条件を確認してください。</p>
       </section>
 
       <section class="card note">
