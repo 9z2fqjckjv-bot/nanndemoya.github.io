@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="何でも屋の基本料金・プレミアム料金をサービス、時間帯、給料単位、数量から概算できるシミュレーターです。">
+  <title>基本料金・プレミアム料金シミュレーター | 何でも屋</title>
+  <link rel="stylesheet" href="../shared/google-sites-embed.css">
+</head>
+<body>
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <div class="eyebrow">Nanndemoya Price Simulator</div>
+      <h1>基本料金・プレミアム料金シミュレーター</h1>
+      <p class="lead">サービス種別、料金区分、時間帯、給料単位を選んで、基本料金またはプレミアム料金の目安を計算できます。</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#simulator">計算を始める</a>
+        <a class="button button-secondary" href="transport_cost_simulator.html">移動代金シミュレーター</a>
+        <a class="button button-secondary" href="service.html">サービス一覧</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="page-nav" aria-label="ページ内メニュー">
+      <a href="#simulator">シミュレーター</a>
+      <a href="#price-source">料金表</a>
+      <a href="#links">関連リンク</a>
+      <a href="#contact">お問い合わせ</a>
+    </nav>
+
+    <div class="grid">
+      <section class="simulator-grid" id="simulator">
+        <div class="card">
+          <h2>条件を入力してください</h2>
+          <div class="form-grid">
+            <div class="field">
+              <label for="serviceType">サービス</label>
+              <select id="serviceType">
+                <option value="free">フリーサービス</option>
+                <option value="assistant">アシスタントサービス</option>
+                <option value="business">ビジネスアシスタントサービス</option>
+                <option value="kids">子ども向けサービス</option>
+                <option value="senior">シニアサービス</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="priceType">料金区分</label>
+              <select id="priceType">
+                <option value="basic">基本料金</option>
+                <option value="premium">プレミアム料金</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="timeBand">時間帯</label>
+              <select id="timeBand">
+                <option value="day">日中</option>
+                <option value="night">夜間</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="unitType">給料単位</label>
+              <select id="unitType">
+                <option value="hour">時間給</option>
+                <option value="day">日給</option>
+                <option value="week">週給</option>
+                <option value="month">月給</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="unitCount">区分</label>
+              <select id="unitCount">
+                <option value="1">1</option>
+                <option value="3">3</option>
+                <option value="6">6</option>
+                <option value="12">12</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="quantity">数量</label>
+              <input id="quantity" type="number" min="1" step="1" value="1" inputmode="numeric">
+            </div>
+          </div>
+          <div class="note" style="margin-top:18px;">
+            料金は `documet/何でも屋｜利用料金表.pdf` を正として扱い、既存の各サービス料金ページに掲載されているPDF由来の表と同じ数値を使用しています。移動代金などのオプション料金は含みません。
+          </div>
+        </div>
+
+        <aside class="card result-panel" aria-live="polite">
+          <h2>計算結果</h2>
+          <div class="result-total">
+            <span class="label">概算料金</span>
+            <span class="price" id="totalPrice">¥1,000</span>
+          </div>
+          <ul class="breakdown" id="breakdown"></ul>
+        </aside>
+      </section>
+
+      <section class="card" id="price-source">
+        <h2>料金表</h2>
+        <p>シミュレーターで使う日中の時間給は下記の通りです。夜間料金は各サービスページ掲載の夜間表を反映しています。</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">サービス</th>
+                <th scope="col">基本料金（日中・時間給1）</th>
+                <th scope="col">プレミアム料金（日中・時間給1）</th>
+                <th scope="col">詳細</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">フリーサービス</th><td>¥1,000</td><td>¥2,000</td><td><a href="guide/service/main/free-service.html">料金表へ</a></td></tr>
+              <tr><th scope="row">アシスタントサービス</th><td>¥2,000</td><td>¥4,000</td><td><a href="guide/service/main/assistant-service.html">料金表へ</a></td></tr>
+              <tr><th scope="row">ビジネスアシスタントサービス</th><td>¥1,500</td><td>¥3,000</td><td><a href="guide/service/main/business-assistant-service.html">料金表へ</a></td></tr>
+              <tr><th scope="row">子ども向けサービス</th><td>¥500</td><td>¥1,000</td><td><a href="guide/service/main/kids-service.html">料金表へ</a></td></tr>
+              <tr><th scope="row">シニアサービス</th><td>¥500</td><td>¥1,000</td><td><a href="guide/service/main/senior-service.html">料金表へ</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card" id="links">
+        <h2>関連リンク</h2>
+        <div class="link-grid">
+          <a class="link-card" href="service.html"><h3>サービス一覧</h3><span>各サービスの概要と料金ページへ移動できます。</span></a>
+          <a class="link-card" href="transport_cost_simulator.html"><h3>移動代金シミュレーター</h3><span>移動距離や交通手段から移動代金を概算できます。</span></a>
+          <a class="link-card" href="site-links.html"><h3>サイトリンク</h3><span>公開中の各ページへ移動できます。</span></a>
+        </div>
+      </section>
+
+      <section class="card cta" id="contact">
+        <h2>お問い合わせ</h2>
+        <p>正確な料金やオプション料金を確認したい場合は、お問い合わせフォームからご連絡ください。</p>
+        <a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLScvr4KGUBZa23xgdhVwdHmf7QPHC2mq7XcAVeNw65eKqKOedg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">フォームを開く</a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <a href="index.html">トップページ</a>&nbsp;·&nbsp;<a href="information.html">連絡先</a>&nbsp;·&nbsp;<a href="site-links.html">サイトリンク</a>
+    <p>© 2026 Nanndemoya | Anyways, Anywhere, Anytimes</p>
+  </footer>
+
+  <a class="back-top" href="#top" aria-label="ページ上部へ戻る">↑</a>
+  <script>
+    const priceData = {
+      free: {
+        label: 'フリーサービス',
+        basic: {
+          day: { hour: {1: 1000, 3: 2750, 6: 5000, 12: 9000}, day: {1: 7500, 3: 21000, 6: 40000, 12: 75000}, week: {1: 45000, 3: 130000, 6: 255000, 12: 500000}, month: {1: 215000, 3: 630000, 6: 1230000, 12: 2400000} },
+          night: { hour: {1: 1500, 3: 4125, 6: 7500, 12: 13500}, day: {1: 11250, 3: 31500, 6: 60000, 12: 112500}, week: {1: 67500, 3: 195000, 6: 382500, 12: 750000}, month: {1: 322500, 3: 945000, 6: 1845000, 12: 3600000} }
+        }
+      },
+      assistant: { label: 'アシスタントサービス', multiplier: 2 },
+      business: { label: 'ビジネスアシスタントサービス', multiplier: 1.5 },
+      kids: { label: '子ども向けサービス', multiplier: 0.5 },
+      senior: { label: 'シニアサービス', multiplier: 0.5 }
+    };
+
+    const unitLabels = { hour: '時間給', day: '日給', week: '週給', month: '月給' };
+    const priceLabels = { basic: '基本料金', premium: 'プレミアム料金' };
+    const timeLabels = { day: '日中', night: '夜間' };
+    const yen = (value) => new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY', maximumFractionDigits: 0 }).format(value);
+
+    const derivePrice = (service, priceType, timeBand, unitType, unitCount) => {
+      const base = priceData.free.basic[timeBand][unitType][unitCount];
+      const serviceMultiplier = priceData[service].multiplier || 1;
+      const premiumMultiplier = priceType === 'premium' ? 2 : 1;
+      return Math.round(base * serviceMultiplier * premiumMultiplier);
+    };
+
+    const calculate = () => {
+      const service = document.getElementById('serviceType').value;
+      const priceType = document.getElementById('priceType').value;
+      const timeBand = document.getElementById('timeBand').value;
+      const unitType = document.getElementById('unitType').value;
+      const unitCount = document.getElementById('unitCount').value;
+      const quantity = Math.max(1, Number(document.getElementById('quantity').value) || 1);
+      const unitPrice = derivePrice(service, priceType, timeBand, unitType, unitCount);
+      const total = unitPrice * quantity;
+
+      document.getElementById('totalPrice').textContent = yen(total);
+      document.getElementById('breakdown').innerHTML = `
+        <li><span>サービス</span><strong>${priceData[service].label}</strong></li>
+        <li><span>料金区分</span><strong>${priceLabels[priceType]}（${timeLabels[timeBand]}）</strong></li>
+        <li><span>給料単位</span><strong>${unitLabels[unitType]} / 区分 ${unitCount}</strong></li>
+        <li><span>単価</span><strong>${yen(unitPrice)}</strong></li>
+        <li><span>数量</span><strong>${quantity}</strong></li>
+      `;
+    };
+
+    ['serviceType', 'priceType', 'timeBand', 'unitType', 'unitCount', 'quantity'].forEach((id) => {
+      document.getElementById(id).addEventListener('input', calculate);
+      document.getElementById(id).addEventListener('change', calculate);
+    });
+    calculate();
+  </script>
+</body>
+</html>

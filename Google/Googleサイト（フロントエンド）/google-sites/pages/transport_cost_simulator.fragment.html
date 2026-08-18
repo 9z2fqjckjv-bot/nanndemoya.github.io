@@ -1,0 +1,209 @@
+<!-- Source: transport_cost_simulator.html -->
+<!-- Title: 移動代金シミュレーター ｜ 何でも屋 -->
+<header class="hero">
+    <div class="hero-inner">
+      <span class="badge">移動実費の目安をすぐ計算</span>
+      <h1>移動代金シミュレーター</h1>
+      <p class="lead">スタッフがお客様の指定場所へ伺うための移動代金を、住所から取得した距離・所要時間と交通手段・往復有無から概算します。</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#simulator">計算を始める</a>
+        <a class="button button-secondary" href="anytime_service_prices.html">基本料金シミュレーターへ</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="grid" id="simulator">
+      <section class="card">
+        <h2>条件を入力してください</h2>
+        <div class="form-grid">
+          <div class="field">
+            <label for="originAddress">出発地住所</label>
+            <input type="text" id="originAddress" placeholder="例：東京都渋谷区道玄坂1丁目">
+            <span class="hint">スタッフの出発地・拠点などを入力してください。</span>
+          </div>
+
+          <div class="field">
+            <label for="destinationAddress">目的地住所</label>
+            <input type="text" id="destinationAddress" placeholder="例：東京都新宿区西新宿2丁目">
+            <span class="hint">お客様の指定場所を入力してください。</span>
+          </div>
+
+          <div class="field full">
+            <label>住所から距離を自動取得</label>
+            <div class="route-actions">
+              <button class="button button-api" type="button" id="routeSearchButton">距離・所要時間を自動取得</button>
+              <p class="route-status" id="routeStatus">住所を入力してボタンを押すと、距離と所要時間を自動反映します。</p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="distanceKm">片道距離（km）</label>
+            <input type="number" id="distanceKm" min="0" step="0.1" value="5" inputmode="decimal">
+            <span class="hint">API取得後に自動入力されます。取得できない場合は手動で修正できます。</span>
+          </div>
+
+          <div class="field">
+            <label for="travelMinutes">片道移動時間（分）</label>
+            <input type="number" id="travelMinutes" min="0" step="1" value="20" inputmode="numeric">
+            <span class="hint">API取得後に自動入力されます。移動時間は料金確認時の参考値です。</span>
+          </div>
+
+          <div class="field">
+            <label for="transportType">交通手段</label>
+            <select id="transportType">
+              <option value="mixed">複合交通（公共交通・車・船など）</option>
+              <option value="public">公共交通機関</option>
+              <option value="car">自家用車・事業車</option>
+              <option value="bike">自転車・徒歩</option>
+              <option value="taxi">タクシー</option>
+              <option value="airplane">飛行機</option>
+              <option value="ferry">フェリー</option>
+              <option value="customerCar">Let's Go Car's!（お客様の車）</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="roundTrip">往復設定</label>
+            <select id="roundTrip">
+              <option value="2">往復で計算</option>
+              <option value="1">片道のみで計算</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="parkingFee">駐車場・高速代など（円）</label>
+            <input type="number" id="parkingFee" min="0" step="10" value="0" inputmode="numeric">
+          </div>
+
+          <div class="field">
+            <label for="extraFee">その他実費（円）</label>
+            <input type="number" id="extraFee" min="0" step="10" value="0" inputmode="numeric">
+          </div>
+
+          <div class="field full">
+            <label>追加条件</label>
+            <div class="inline-options">
+              <label class="check-option"><input type="checkbox" id="useMinimum" checked> 最低移動代金を適用</label>
+              <label class="check-option"><input type="checkbox" id="rushSurcharge"> 急ぎ・深夜など割増（20%）</label>
+            </div>
+          </div>
+        </div>
+
+        <h3>交通手段ごとの初期単価</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>交通手段</th>
+                <th>計算方法</th>
+                <th>目安</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>公共交通機関</td>
+                <td>片道距離 × 30円/km × 往復</td>
+                <td>近距離電車・バスの概算</td>
+              </tr>
+              <tr>
+                <td>自家用車・事業車</td>
+                <td>片道距離 × 35円/km × 往復</td>
+                <td>燃料費相当の概算</td>
+              </tr>
+              <tr>
+                <td>自転車・徒歩</td>
+                <td>0円</td>
+                <td>近隣対応向け</td>
+              </tr>
+              <tr>
+                <td>タクシー</td>
+                <td>初乗り500円 + 片道距離 × 400円/km × 往復</td>
+                <td>実際はタクシー会社の運賃が優先</td>
+              </tr>
+              <tr>
+                <td>飛行機</td>
+                <td>基本8,000円 + 片道距離 × 22円/km × 往復</td>
+                <td>航空券・空港アクセス費の概算。実費が確定している場合は実費優先</td>
+              </tr>
+              <tr>
+                <td>フェリー</td>
+                <td>基本2,500円 + 片道距離 × 60円/km × 往復</td>
+                <td>乗船料・港までの移動費の概算。実費が確定している場合は実費優先</td>
+              </tr>
+              <tr>
+                <td>Let's Go Car's!</td>
+                <td>0円</td>
+                <td>お客様の自家用車による送迎</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="note warning">このシミュレーターは見積もり前の概算です。公共交通機関・タクシー・高速道路・駐車場などの実費が確定している場合は、その実費を優先して調整します。</p>
+      </section>
+
+      <aside class="card result-card" aria-live="polite">
+        <h2>計算結果</h2>
+        <div class="result-total">
+          <div class="label">移動代金の目安</div>
+          <span class="price" id="totalPrice">¥300</span>
+        </div>
+        <ul class="breakdown" id="breakdown"></ul>
+        <div class="route-detail" id="routeDetails" hidden></div>
+        <div class="result-actions">
+          <button class="button button-contact" type="button" id="emailEstimateButton">見積書をメールで送信</button>
+          <button class="button button-outline" type="button" id="reselectRouteButton" hidden>経路を再選択</button>
+          <a class="button button-outline" href="index.html">トップへ戻る</a>
+        </div>
+      </aside>
+    </div>
+
+  </main>
+
+  <a class="back-top" href="#top">↑ トップへ</a>
+
+  <dialog class="modal" id="routeChoiceDialog" aria-labelledby="routeChoiceTitle">
+    <div class="modal-inner">
+      <h2 id="routeChoiceTitle">利用する経路を選択してください</h2>
+      <p class="hint">複数の候補が見つかりました。料金計算に使う経路を選択すると、ルートや乗り継ぎ案内を詳細表示します。</p>
+      <div class="route-options" id="routeChoiceOptions"></div>
+      <div class="modal-actions">
+        <button class="button button-muted" type="button" id="routeChoiceCancel">キャンセル</button>
+        <button class="button button-api" type="button" id="routeChoiceApply">この経路で計算</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="modal" id="mailChoiceDialog" aria-labelledby="mailChoiceTitle">
+    <div class="modal-inner">
+      <h2 id="mailChoiceTitle">送信に使うメールソフトを選択してください</h2>
+      <p class="hint">選択後、見積書本文を作成し、表示中の経路・料金詳細を画像化して自動ダウンロードします。対応ブラウザでは画像をクリップボードにもコピーします。</p>
+      <div class="mail-options">
+        <label class="mail-option">
+          <input type="radio" name="mailClient" value="gmail" checked>
+          <span><strong>Gmail</strong><small>Gmailの作成画面を開きます。</small></span>
+        </label>
+        <label class="mail-option">
+          <input type="radio" name="mailClient" value="icloud">
+          <span><strong>icloud</strong><small>iCloud Mailを開き、本文をコピーして貼り付けやすくします。</small></span>
+        </label>
+        <label class="mail-option">
+          <input type="radio" name="mailClient" value="outlook">
+          <span><strong>Outlook</strong><small>Outlook.comの作成画面を開きます。</small></span>
+        </label>
+        <label class="mail-option">
+          <input type="radio" name="mailClient" value="yahoo">
+          <span><strong>Yahoo!メール（YahooJapanのメールソフト）</strong><small>Yahoo!メールの作成画面を開きます。</small></span>
+        </label>
+        <label class="mail-option">
+          <input type="radio" name="mailClient" value="local">
+          <span><strong>ローカルソフト（ユーザーが利用しているデバイスで登録済みのデフォルトメールソフト）</strong><small>端末に設定済みのメールソフトを開きます。</small></span>
+        </label>
+      </div>
+      <div class="modal-actions">
+        <button class="button button-muted" type="button" id="mailChoiceCancel">キャンセル</button>
+        <button class="button button-api" type="button" id="mailChoiceApply">選択したメールソフトを開く</button>
+      </div>
+    </div>
+  </dialog>
