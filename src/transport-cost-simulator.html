@@ -1,0 +1,152 @@
+---
+layout: layouts/base.njk
+title: "移動代金シミュレーター ｜ 何でも屋"
+description: "何でも屋の移動代金シミュレーター。距離・交通手段・往復有無から、スタッフ移動費の目安を計算できます。"
+---
+
+<header class="hero">
+<div class="hero-inner">
+<span class="badge">移動実費の目安をすぐ計算</span>
+<h1>移動代金シミュレーター</h1>
+<p class="lead">スタッフがお客様の指定場所へ伺うための移動代金を、住所から取得した距離・所要時間と交通手段・往復有無から概算します。</p>
+<div class="hero-actions">
+<a class="button button-primary" href="#simulator">計算を始める</a>
+<a class="button button-secondary" href="anytime-service-prices.html">基本料金シミュレーターへ</a>
+</div>
+</div>
+</header>
+<main class="container">
+<div class="grid" id="simulator">
+<section class="card">
+<h2>条件を入力してください</h2>
+<div class="form-grid">
+<div class="field">
+<label for="originAddress">出発地住所</label>
+<input id="originAddress" placeholder="例：東京都渋谷区道玄坂1丁目" type="text"/>
+<span class="hint">スタッフの出発地・拠点などを入力してください。</span>
+</div>
+<div class="field">
+<label for="destinationAddress">目的地住所</label>
+<input id="destinationAddress" placeholder="例：東京都新宿区西新宿2丁目" type="text"/>
+<span class="hint">お客様の指定場所を入力してください。</span>
+</div>
+<div class="field full">
+<label>住所から距離を自動取得</label>
+<div class="route-actions">
+<button class="button button-api" id="routeSearchButton" type="button">距離・所要時間を自動取得</button>
+<p class="route-status" id="routeStatus">住所を入力してボタンを押すと、距離と所要時間を自動反映します。</p>
+</div>
+</div>
+<div class="field">
+<label for="distanceKm">片道距離（km）</label>
+<input id="distanceKm" inputmode="decimal" min="0" step="0.1" type="number" value="5"/>
+<span class="hint">API取得後に自動入力されます。取得できない場合は手動で修正できます。</span>
+</div>
+<div class="field">
+<label for="travelMinutes">片道移動時間（分）</label>
+<input id="travelMinutes" inputmode="numeric" min="0" step="1" type="number" value="20"/>
+<span class="hint">API取得後に自動入力されます。移動時間は料金確認時の参考値です。</span>
+</div>
+<div class="field">
+<label for="transportType">交通手段</label>
+<select id="transportType">
+<option value="mixed">複合交通（公共交通・車・船など）</option>
+<option value="public">公共交通機関</option>
+<option value="car">自家用車・事業車</option>
+<option value="bike">自転車・徒歩</option>
+<option value="taxi">タクシー</option>
+<option value="airplane">飛行機</option>
+<option value="ferry">フェリー</option>
+<option value="customerCar">Let's Go Car's!（お客様の車）</option>
+</select>
+</div>
+<div class="field">
+<label for="roundTrip">往復設定</label>
+<select id="roundTrip">
+<option value="2">往復で計算</option>
+<option value="1">片道のみで計算</option>
+</select>
+</div>
+<div class="field">
+<label for="parkingFee">駐車場・高速代など（円）</label>
+<input id="parkingFee" inputmode="numeric" min="0" step="10" type="number" value="0"/>
+</div>
+<div class="field">
+<label for="extraFee">その他実費（円）</label>
+<input id="extraFee" inputmode="numeric" min="0" step="10" type="number" value="0"/>
+</div>
+<div class="field full">
+<label>追加条件</label>
+<div class="inline-options">
+<label class="check-option"><input checked="" id="useMinimum" type="checkbox"/> 最低移動代金を適用</label>
+<label class="check-option"><input id="rushSurcharge" type="checkbox"/> 急ぎ・深夜など割増（20%）</label>
+</div>
+</div>
+</div>
+<h3>交通手段ごとの初期単価</h3>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>交通手段</th>
+<th>計算方法</th>
+<th>目安</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>公共交通機関</td>
+<td>片道距離 × 30円/km × 往復</td>
+<td>近距離電車・バスの概算</td>
+</tr>
+<tr>
+<td>自家用車・事業車</td>
+<td>片道距離 × 35円/km × 往復</td>
+<td>燃料費相当の概算</td>
+</tr>
+<tr>
+<td>自転車・徒歩</td>
+<td>0円</td>
+<td>近隣対応向け</td>
+</tr>
+<tr>
+<td>タクシー</td>
+<td>初乗り500円 + 片道距離 × 400円/km × 往復</td>
+<td>実際はタクシー会社の運賃が優先</td>
+</tr>
+<tr>
+<td>飛行機</td>
+<td>基本8,000円 + 片道距離 × 22円/km × 往復</td>
+<td>航空券・空港アクセス費の概算。実費が確定している場合は実費優先</td>
+</tr>
+<tr>
+<td>フェリー</td>
+<td>基本2,500円 + 片道距離 × 60円/km × 往復</td>
+<td>乗船料・港までの移動費の概算。実費が確定している場合は実費優先</td>
+</tr>
+<tr>
+<td>Let's Go Car's!</td>
+<td>0円</td>
+<td>お客様の自家用車による送迎</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="note warning">このシミュレーターは見積もり前の概算です。公共交通機関・タクシー・高速道路・駐車場などの実費が確定している場合は、その実費を優先して調整します。</p>
+</section>
+<aside aria-live="polite" class="card result-card">
+<h2>計算結果</h2>
+<div class="result-total">
+<div class="label">移動代金の目安</div>
+<span class="price" id="totalPrice">¥300</span>
+</div>
+<ul class="breakdown" id="breakdown"></ul>
+<div class="route-detail" hidden="" id="routeDetails"></div>
+<div class="result-actions">
+<button class="button button-contact" id="emailEstimateButton" type="button">見積書をメールで送信</button>
+<button class="button button-outline" hidden="" id="reselectRouteButton" type="button">経路を再選択</button>
+<a class="button button-outline" href="index.html">トップへ戻る</a>
+</div>
+</aside>
+</div>
+</main>

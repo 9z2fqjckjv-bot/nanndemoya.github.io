@@ -1,0 +1,24 @@
+{
+  "name": "nanndemoya.github.io",
+  "version": "1.0.0",
+  "description": "「何でも屋」の公式サイトです。サービス案内、料金シミュレーター、移動代金シミュレーター、何でも屋ハウス、何でも屋基金、各種ポリシー、問い合わせ導線を静的HTMLで構成しています。",
+  "main": "lead-form-popup.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/9z2fqjckjv-bot/nanndemoya.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/9z2fqjckjv-bot/nanndemoya.github.io/issues"
+  },
+  "homepage": "https://github.com/9z2fqjckjv-bot/nanndemoya.github.io#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6"
+  }
+}

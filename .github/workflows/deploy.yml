@@ -1,4 +1,4 @@
-name: SFTP Deploy to Xserver
+name: Build and SFTP Deploy to Xserver
 
 on:
   push:
@@ -12,6 +12,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Build site with Eleventy
+        run: npx @11ty/eleventy
+
       - name: Deploy via SFTP (SSH Key)
         uses: easingthemes/ssh-deploy@main
         env:
@@ -24,6 +36,6 @@ jobs:
           REMOTE_HOST: ${{ env.REMOTE_HOST }}
           REMOTE_USER: ${{ env.REMOTE_USER }}
           REMOTE_PORT: ${{ env.REMOTE_PORT }}
-          # 転送先を実際のドメイン名（nanndemoya.net）に修正
+          SOURCE: "_site/"
           TARGET: /home/${{ env.REMOTE_USER }}/nanndemoya.net/public_html/
           EXCLUDE: "/.git/, /.github/, /node_modules/"
