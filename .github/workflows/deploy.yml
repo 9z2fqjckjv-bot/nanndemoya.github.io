@@ -12,17 +12,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci || npm install
-
-      - name: Build site with Eleventy
-        run: npx @11ty/eleventy
+      - name: Prepare static site
+        run: |
+          mkdir -p deploy-artifact
+          rsync -a ./ deploy-artifact/ \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '_site/' \
+            --exclude 'node_modules/' \
+            --exclude 'logs/' \
+            --exclude 'deploy-artifact/'
 
       - name: Deploy via SFTP (SSH Key)
         uses: easingthemes/ssh-deploy@main
@@ -36,6 +35,6 @@ jobs:
           REMOTE_HOST: ${{ env.REMOTE_HOST }}
           REMOTE_USER: ${{ env.REMOTE_USER }}
           REMOTE_PORT: ${{ env.REMOTE_PORT }}
-          SOURCE: "_site/"
+          SOURCE: "deploy-artifact/"
           TARGET: /home/${{ env.REMOTE_USER }}/nanndemoya.net/public_html/
           EXCLUDE: "/.git/, /.github/, /node_modules/"

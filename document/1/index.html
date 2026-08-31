@@ -1,0 +1,303 @@
+<p>ファイル全体の構成（全15シート以上）を読み込み、<strong>「4つのメインサービス ＋ オプション」の全料金体制を網羅した総合シミュレーター</strong>にアップグレードしたGASコードを作成しました。</p>
+<p>このコードでは、スプレッドシートのタブ名（例：<code>フリーサービス - 日中</code> や <code>フリーサービス - オプション</code>）を自動で解析し、<strong>「サービス名」「プラン（時間帯）」「給与形態」「単位」のプルダウンを動的に生成</strong>します。さらに、各サービスに付随する**「オプション」もチェックボックスで追加**して合計金額を算出できるようにしています。</p>
+<p>以下の手順で <code>コード.gs</code> と <code>Index.html</code> を上書きしてください。</p>
+<h3>1. <code>コード.gs</code>（バックエンド）</h3>
+<p>すべてのシートをループ処理し、「基本料金」と「オプション料金」に分けてデータを抽出します。</p>
+<pre><code class="language-javascript">function doGet() {
+  return HtmlService.createHtmlOutputFromFile('Index')
+      .setTitle('総合利用料金シミュレーター')
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
+      .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+}
+
+// 全シートから料金データを動的に取得する関数
+function getFeeData() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheets = ss.getSheets();
+  
+  const result = {
+    main: {},    // 基本料金表データ
+    options: {}  // オプション表データ
+  };
+
+  sheets.forEach(sheet =&gt; {
+    const sheetName = sheet.getName();
+    // 「 - 」でサービス名とプラン名を分割
+    const parts = sheetName.split(' - ');
+    if (parts.length &lt; 2) return;
+    
+    const serviceName = parts[0];
+    const planName = parts[1];
+
+    if (planName === 'オプション') {
+      // オプションシートの処理 (A2:Dから取得)
+      const data = sheet.getDataRange().getValues();
+      result.options[serviceName] = [];
+      for (let i = 1; i &lt; data.length; i++) {
+        if (data[i][0]) { // オプション名が存在する場合
+          result.options[serviceName].push({
+            name: data[i][0],
+            desc: data[i][1],
+            price: data[i][2],
+            note: data[i][3]
+          });
+        }
+      }
+    } else {
+      // 基本料金シートの処理 (日中, 夜間, プレミアム等)
+      if (!result.main[serviceName]) {
+        result.main[serviceName] = {};
+      }
+      result.main[serviceName][planName] = {};
+      
+      // A2:E6の範囲（料金表）を取得
+      const data = sheet.getRange('A2:E6').getValues();
+      const units = data[0].slice(1); // [1, 3, 6, 12]
+
+      for (let i = 1; i &lt; data.length; i++) {
+        const type = data[i][0]; // 時間給, 日給, 週給, 月給
+        if (!type) continue;
+        result.main[serviceName][planName][type] = {};
+        const fees = data[i].slice(1);
+        for (let j = 0; j &lt; units.length; j++) {
+          result.main[serviceName][planName][type][units[j]] = fees[j];
+        }
+      }
+    }
+  });
+
+  return result;
+}
+
+</code></pre>
+<h3>2. <code>Index.html</code>（フロントエンド）</h3>
+<p>プルダウンが連動して変化し、オプション料金も含めた合計金額を計算するUIです。</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;base target=&quot;_top&quot;&gt;
+    &lt;style&gt;
+      body { font-family: 'Helvetica Neue', Arial, sans-serif; padding: 20px; background-color: #f0f2f5; color: #333; }
+      .container { max-width: 500px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+      h2 { text-align: center; color: #1a73e8; font-size: 22px; margin-bottom: 20px; }
+      label { display: block; margin-top: 15px; font-size: 14px; font-weight: bold; color: #555; }
+      select { width: 100%; padding: 12px; margin-top: 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 16px; box-sizing: border-box; background-color: #fafafa; }
+      
+      .options-container { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef; display: none; }
+      .option-item { display: flex; align-items: center; margin-bottom: 10px; font-size: 14px; }
+      .option-item input { margin-right: 10px; transform: scale(1.2); cursor: pointer; }
+      .option-price { color: #d93025; font-weight: bold; margin-left: auto; }
+      .option-desc { font-size: 12px; color: #777; margin-left: 28px; margin-top: -5px; margin-bottom: 10px; }
+
+      .summary-box { border: 2px solid #1a73e8; background: #f4f8ff; padding: 20px; border-radius: 8px; margin-top: 25px; }
+      .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 16px; }
+      .summary-total { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 2px dashed #ccc; font-size: 24px; font-weight: bold; color: #d93025; }
+      
+      .loading { text-align: center; color: #666; font-size: 16px; padding: 20px; }
+      #app-content { display: none; }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+      &lt;h2&gt;総合利用料金シミュレーター&lt;/h2&gt;
+      
+      &lt;div id=&quot;loading&quot; class=&quot;loading&quot;&gt;スプレッドシートから最新の料金データを読み込んでいます...&lt;/div&gt;
+      
+      &lt;div id=&quot;app-content&quot;&gt;
+        &lt;label&gt;サービス&lt;/label&gt;
+        &lt;select id=&quot;service&quot; onchange=&quot;updatePlans()&quot;&gt;&lt;/select&gt;
+
+        &lt;label&gt;プラン（時間帯）&lt;/label&gt;
+        &lt;select id=&quot;plan&quot; onchange=&quot;updateTypes()&quot;&gt;&lt;/select&gt;
+
+        &lt;label&gt;給与形態&lt;/label&gt;
+        &lt;select id=&quot;type&quot; onchange=&quot;updateUnits()&quot;&gt;&lt;/select&gt;
+
+        &lt;label&gt;単位&lt;/label&gt;
+        &lt;select id=&quot;unit&quot; onchange=&quot;calculate()&quot;&gt;&lt;/select&gt;
+
+        &lt;div id=&quot;options-container&quot; class=&quot;options-container&quot;&gt;
+          &lt;label style=&quot;margin-top:0;&quot;&gt;追加オプション&lt;/label&gt;
+          &lt;div id=&quot;options-list&quot;&gt;&lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;summary-box&quot;&gt;
+          &lt;div class=&quot;summary-row&quot;&gt;
+            &lt;span&gt;基本料金:&lt;/span&gt;
+            &lt;span id=&quot;base-fee&quot;&gt;¥0&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;summary-row&quot;&gt;
+            &lt;span&gt;オプション料金:&lt;/span&gt;
+            &lt;span id=&quot;option-fee&quot;&gt;¥0&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;summary-total&quot;&gt;
+            &lt;span&gt;合計:&lt;/span&gt;
+            &lt;span id=&quot;total-fee&quot;&gt;¥0&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+      let appData = null;
+
+      // 画面読み込み時にデータ取得
+      google.script.run.withSuccessHandler(function(data) {
+        appData = data;
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('app-content').style.display = 'block';
+        initServiceDropdown();
+      }).getFeeData();
+
+      function initServiceDropdown() {
+        const serviceSelect = document.getElementById('service');
+        serviceSelect.innerHTML = '';
+        for (const service in appData.main) {
+          const option = document.createElement('option');
+          option.value = service;
+          option.textContent = service;
+          serviceSelect.appendChild(option);
+        }
+        updatePlans();
+      }
+
+      function updatePlans() {
+        const service = document.getElementById('service').value;
+        const planSelect = document.getElementById('plan');
+        planSelect.innerHTML = '';
+        if (appData.main[service]) {
+          for (const plan in appData.main[service]) {
+            const option = document.createElement('option');
+            option.value = plan;
+            option.textContent = plan;
+            planSelect.appendChild(option);
+          }
+        }
+        updateOptions(); // サービスが変わったらオプションも更新
+        updateTypes();
+      }
+
+      function updateTypes() {
+        const service = document.getElementById('service').value;
+        const plan = document.getElementById('plan').value;
+        const typeSelect = document.getElementById('type');
+        typeSelect.innerHTML = '';
+        if (appData.main[service] &amp;&amp; appData.main[service][plan]) {
+          for (const type in appData.main[service][plan]) {
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = type;
+            typeSelect.appendChild(option);
+          }
+        }
+        updateUnits();
+      }
+
+      function updateUnits() {
+        const service = document.getElementById('service').value;
+        const plan = document.getElementById('plan').value;
+        const type = document.getElementById('type').value;
+        const unitSelect = document.getElementById('unit');
+        unitSelect.innerHTML = '';
+        if (appData.main[service] &amp;&amp; appData.main[service][plan] &amp;&amp; appData.main[service][plan][type]) {
+          for (const unit in appData.main[service][plan][type]) {
+            const option = document.createElement('option');
+            option.value = unit;
+            option.textContent = unit;
+            unitSelect.appendChild(option);
+          }
+        }
+        calculate();
+      }
+
+      function updateOptions() {
+        const service = document.getElementById('service').value;
+        const optionsList = document.getElementById('options-list');
+        const optionsContainer = document.getElementById('options-container');
+        optionsList.innerHTML = '';
+        
+        if (appData.options[service] &amp;&amp; appData.options[service].length &gt; 0) {
+          optionsContainer.style.display = 'block';
+          appData.options[service].forEach((opt, index) =&gt; {
+            // オプション項目の作成
+            const div = document.createElement('div');
+            
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'option-item';
+            
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.id = 'opt_' + index;
+            cb.value = opt.price;
+            cb.onchange = calculate;
+            
+            const lbl = document.createElement('label');
+            lbl.htmlFor = 'opt_' + index;
+            lbl.style.display = 'inline';
+            lbl.style.margin = '0';
+            lbl.innerText = opt.name;
+            
+            const priceSpan = document.createElement('span');
+            priceSpan.className = 'option-price';
+            priceSpan.innerText = '+¥' + Number(opt.price).toLocaleString();
+            
+            itemDiv.appendChild(cb);
+            itemDiv.appendChild(lbl);
+            itemDiv.appendChild(priceSpan);
+            div.appendChild(itemDiv);
+
+            // 説明文があれば追加
+            if (opt.desc) {
+              const descDiv = document.createElement('div');
+              descDiv.className = 'option-desc';
+              descDiv.innerText = opt.desc;
+              div.appendChild(descDiv);
+            }
+            
+            optionsList.appendChild(div);
+          });
+        } else {
+          optionsContainer.style.display = 'none';
+        }
+      }
+
+      function calculate() {
+        if (!appData) return;
+        const service = document.getElementById('service').value;
+        const plan = document.getElementById('plan').value;
+        const type = document.getElementById('type').value;
+        const unit = document.getElementById('unit').value;
+        
+        // 基本料金の計算
+        let baseFee = 0;
+        if(appData.main[service] &amp;&amp; appData.main[service][plan] &amp;&amp; appData.main[service][plan][type] &amp;&amp; appData.main[service][plan][type][unit]) {
+          baseFee = Number(appData.main[service][plan][type][unit]) || 0;
+        }
+        
+        // オプション料金の計算
+        let optionFee = 0;
+        const checkboxes = document.querySelectorAll('#options-list input[type=&quot;checkbox&quot;]');
+        checkboxes.forEach(cb =&gt; {
+          if (cb.checked) {
+            optionFee += Number(cb.value) || 0;
+          }
+        });
+        
+        const totalFee = baseFee + optionFee;
+        
+        // 画面に反映
+        document.getElementById('base-fee').innerText = '¥' + baseFee.toLocaleString();
+        document.getElementById('option-fee').innerText = '¥' + optionFee.toLocaleString();
+        document.getElementById('total-fee').innerText = '¥' + totalFee.toLocaleString();
+      }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+
+</code></pre>
+<h3>このコードの特長</h3>
+<ol>
+<li><strong>完全自動追従:</strong> 今後スプレッドシート側に新しいサービス（例:<code>新規サービス - 日中</code>）や新しいオプションを追加しても、<strong>コードを書き換えることなく自動でプルダウンに反映</strong>されます。</li>
+<li><strong>連動型プルダウン:</strong> 「フリーサービス」を選ぶとそれに紐づくプラン（日中・夜間など）だけが表示され、あり得ない組み合わせを選択できないようになっています。</li>
+<li><strong>オプション計算機能:</strong> 各サービス専用のオプションシート（例:<code>フリーサービス - オプション</code>）から「オプション名・説明・金額」を自動抽出し、チェックボックスで追加料金を合算できます。</li>
+</ol>
