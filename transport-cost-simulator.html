@@ -6,14 +6,15 @@
   <title>移動代金シミュレーター ｜ 何でも屋</title>
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
+      --primary: #1a73e8;
+      --primary-hover: #1557b0;
       --bg: #f8fafc;
       --card-bg: #ffffff;
       --text: #1e293b;
       --text-muted: #64748b;
       --border: #e2e8f0;
       --accent: #f59e0b;
+      --success: #16a34a;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,7 +40,7 @@
     input[type="text"], input[type="number"], select {
       width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.95rem; background: #fff;
     }
-    input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+    input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.15); }
     .hint { font-size: 0.78rem; color: var(--text-muted); }
 
     .route-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
@@ -63,6 +64,129 @@
     .breakdown li { display: flex; justify-content: space-between; border-bottom: 1px dashed var(--border); padding-bottom: 6px; }
     .breakdown li span { color: var(--text-muted); }
     .breakdown li strong { color: var(--text); }
+
+    /* Action Buttons in Result Card */
+    .result-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+    .btn-detail {
+      background: #0f9d58; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.95rem; transition: background 0.2s, transform 0.1s;
+    }
+    .btn-detail:hover { background: #0b8043; transform: translateY(-1px); }
+    .btn-outline {
+      background: #fff; border: 1.5px solid var(--border); color: #334155; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-outline:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+    /* ========================================================
+       Google Maps風 ルート案内 & 詳細ポップアップ (Modal)
+       ======================================================== */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px; z-index: 99999;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+
+    .modal-card {
+      background: #ffffff; width: min(700px, 100%); max-height: 90vh;
+      border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex; flex-direction: column; overflow: hidden;
+      transform: translateY(20px) scale(0.98); transition: transform 0.25s ease;
+    }
+    .modal-overlay.active .modal-card { transform: translateY(0) scale(1); }
+
+    .modal-header {
+      padding: 18px 24px; background: #ffffff; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .modal-header h3 { font-size: 1.2rem; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 8px; }
+    .modal-close {
+      background: none; border: none; font-size: 1.4rem; color: #64748b;
+      cursor: pointer; width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; transition: background 0.2s, color 0.2s;
+    }
+    .modal-close:hover { background: #f1f5f9; color: #0f172a; }
+
+    .modal-body {
+      padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 24px;
+    }
+
+    /* Google Maps Route Header Card */
+    .gmap-route-summary {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1a73e8 100%);
+      color: #ffffff; border-radius: 12px; padding: 20px;
+      box-shadow: 0 4px 14px rgba(26, 115, 232, 0.3);
+    }
+    .gmap-route-meta { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+    .gmap-route-duration { font-size: 2rem; font-weight: 800; line-height: 1; }
+    .gmap-route-distance { font-size: 1.1rem; opacity: 0.9; }
+    .gmap-route-mode-badge {
+      margin-left: auto; background: rgba(255, 255, 255, 0.2);
+      padding: 4px 12px; border-radius: 999px; font-size: 0.82rem; font-weight: 600;
+    }
+
+    .gmap-od-points { display: flex; flex-direction: column; gap: 8px; font-size: 0.92rem; }
+    .gmap-point { display: flex; align-items: center; gap: 10px; }
+    .gmap-point-icon { width: 18px; text-align: center; font-size: 1rem; }
+    .gmap-point-text { font-weight: 500; word-break: break-all; }
+
+    /* Timeline & Transit Step Display */
+    .route-timeline-section {
+      background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 20px;
+    }
+    .section-title { font-size: 1rem; font-weight: 700; color: #0f172a; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+    .route-timeline { list-style: none; position: relative; padding-left: 20px; }
+    .route-timeline::before {
+      content: ""; position: absolute; top: 12px; bottom: 12px; left: 7px; width: 2px; background: #cbd5e1;
+    }
+
+    .timeline-step { position: relative; margin-bottom: 20px; }
+    .timeline-step:last-child { margin-bottom: 0; }
+
+    .step-dot {
+      position: absolute; left: -20px; top: 3px; width: 16px; height: 16px; border-radius: 50%;
+      background: #ffffff; border: 3px solid #64748b; box-shadow: 0 0 0 2px #ffffff;
+    }
+    .step-dot.transit { border-color: var(--primary); background: var(--primary); }
+    .step-dot.drive { border-color: #e37400; background: #e37400; }
+    .step-dot.origin { border-color: #10b981; background: #10b981; }
+    .step-dot.dest { border-color: #ef4444; background: #ef4444; }
+
+    .step-content { background: #ffffff; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+    .step-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; gap: 8px; flex-wrap: wrap; }
+    .step-title { font-weight: 700; font-size: 0.92rem; color: #1e293b; display: flex; align-items: center; gap: 6px; }
+    .step-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 700; color: #ffffff; background: #2563eb;
+    }
+    .step-badge.express { background: #dc2626; }
+    .step-badge.highway { background: #d97706; }
+    .step-badge.walk { background: #64748b; }
+    .step-meta { font-size: 0.8rem; color: var(--text-muted); }
+    .step-desc { font-size: 0.85rem; color: #475569; margin-top: 4px; line-height: 1.5; }
+
+    /* Cost Table in Modal */
+    .cost-table-section {
+      background: #ffffff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+    }
+    .cost-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .cost-table th, .cost-table td { padding: 10px 16px; border-bottom: 1px solid var(--border); text-align: left; }
+    .cost-table th { background: #f8fafc; font-weight: 600; color: #475569; }
+    .cost-table td.amount { text-align: right; font-weight: 700; }
+    .cost-table tr.total-row { background: #eff6ff; }
+    .cost-table tr.total-row td { font-size: 1.05rem; color: var(--primary); font-weight: 800; border-bottom: none; }
+
+    /* Modal Footer */
+    .modal-footer {
+      padding: 16px 24px; background: #f8fafc; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .gmap-link-btn {
+      background: #1a73e8; color: #ffffff; padding: 10px 18px; border-radius: 8px;
+      text-decoration: none; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; transition: background 0.2s;
+    }
+    .gmap-link-btn:hover { background: #1557b0; color: #fff; }
   </style>
 </head>
 <body>
@@ -112,11 +236,11 @@
         <div class="field">
           <label for="transportType">交通手段</label>
           <select id="transportType">
+            <option value="public" selected>公共交通機関（電車・バス）</option>
+            <option value="car">自家用車・事業車（高速/一般道）</option>
             <option value="mixed">複合交通（公共交通・車・船など）</option>
-            <option value="public" selected>公共交通機関</option>
-            <option value="car">自家用車・事業車</option>
-            <option value="bike">自転車・徒歩</option>
             <option value="taxi">タクシー</option>
+            <option value="bike">自転車・徒歩</option>
             <option value="airplane">飛行機</option>
             <option value="ferry">フェリー</option>
             <option value="customerCar">Let's Go Car's!（お客様の車）</option>
@@ -159,23 +283,108 @@
         <span class="price" id="totalPrice">¥0</span>
       </div>
       <ul class="breakdown" id="breakdown"></ul>
+
+      <div class="result-actions">
+        <button class="btn-detail" id="openRouteModalButton" type="button">
+          <span>🗺️</span> 詳細ルート・計算内訳を見る
+        </button>
+        <button class="btn-outline" id="emailEstimateButton" type="button">
+          <span>✉️</span> 見積もり内容をメール作成
+        </button>
+      </div>
     </aside>
   </main>
 </div>
 
+<!-- ========================================================
+     Google Maps風 詳細ルート & 見積明細ポップアップ (Modal)
+     ======================================================== -->
+<div class="modal-overlay" id="routeDetailModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3 id="modalTitle">🗺️ ルート案内 & 料金見積もり詳細</h3>
+      <button class="modal-close" id="closeRouteModalButton" aria-label="閉じる">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- 1. Google Maps風 サマリーカード -->
+      <div class="gmap-route-summary">
+        <div class="gmap-route-meta">
+          <span class="gmap-route-duration" id="modalDuration">約 20 分</span>
+          <span class="gmap-route-distance" id="modalDistance">（片道 5.0 km）</span>
+          <span class="gmap-route-mode-badge" id="modalTransportBadge">公共交通機関</span>
+        </div>
+        <div class="gmap-od-points">
+          <div class="gmap-point">
+            <span class="gmap-point-icon">📍</span>
+            <span class="gmap-point-text" id="modalOrigin">出発地</span>
+          </div>
+          <div class="gmap-point">
+            <span class="gmap-point-icon">🏁</span>
+            <span class="gmap-point-text" id="modalDestination">目的地</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Google Maps風 ルートタイムライン案内 -->
+      <section class="route-timeline-section">
+        <h4 class="section-title"><span>🧭</span> 経路・乗り換え・道路案内ステップ</h4>
+        <ul class="route-timeline" id="modalTimeline">
+          <!-- JSで動的にタイムラインステップを生成 -->
+        </ul>
+      </section>
+
+      <!-- 3. 料金計算明細テーブル -->
+      <section>
+        <h4 class="section-title"><span>🧾</span> 移動代金・実費の計算明細</h4>
+        <div class="cost-table-section">
+          <table class="cost-table">
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>計算基準 / 条件</th>
+                <th style="text-align: right;">金額</th>
+              </tr>
+            </thead>
+            <tbody id="modalCostBreakdownTable">
+              <!-- JSで動的に内訳を生成 -->
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 8px;">
+          ※ 電車・バスの実際の運賃、高速道路ETC料金、駐車場代金の実費が確定している場合は、実費を優先して精算いたします。
+        </p>
+      </section>
+    </div>
+
+    <div class="modal-footer">
+      <a class="gmap-link-btn" id="modalGmapLink" href="#" target="_blank" rel="noopener noreferrer">
+        <span>🌐</span> Google マップで実際のルートを開く
+      </a>
+      <button class="btn-outline" id="modalCloseFooterButton" type="button">閉じる</button>
+    </div>
+  </div>
+</div>
+
 <script>
+  // ==========================================
+  // 定数・設定
+  // ==========================================
   const GOOGLE_MAPS_API_KEY = 'AIzaSyB2SmrDXLXeYEaYnf_fNcor9T1I98-0cS4'; // 実際のAPIキーに置き換えてください
 
   const RATES = {
-    mixed: { label: '複合交通', base: 0, perKm: 30, minimum: 300 },
     public: { label: '公共交通機関', base: 0, perKm: 30, minimum: 300 },
     car: { label: '自家用車・事業車', base: 0, perKm: 35, minimum: 300 },
+    mixed: { label: '複合交通', base: 0, perKm: 30, minimum: 300 },
     bike: { label: '自転車・徒歩', base: 0, perKm: 0, minimum: 0 },
     taxi: { label: 'タクシー', base: 500, perKm: 400, minimum: 1000 },
     airplane: { label: '飛行機', base: 8000, perKm: 22, minimum: 8000 },
     ferry: { label: 'フェリー', base: 2500, perKm: 60, minimum: 2500 },
     customerCar: { label: "Let's Go Car's!", base: 0, perKm: 0, minimum: 0 }
   };
+
+  // APIから取得した最新のルート情報キャッシュ
+  let latestRouteApiResponse = null;
 
   const yen = (value) => '¥' + Math.round(value).toLocaleString('ja-JP');
 
@@ -186,12 +395,9 @@
     return Number.isFinite(value) && value > 0 ? value : 0;
   };
 
-  function renderBreakdown(items) {
-    const list = document.getElementById('breakdown');
-    if (!list) return;
-    list.innerHTML = items.map((item) => `<li><span>${item.label}</span><strong>${item.value}</strong></li>`).join('');
-  }
-
+  // ==========================================
+  // 料金計算処理
+  // ==========================================
   function calcTransportCost() {
     const distance = numberValue('distanceKm');
     const minutes = numberValue('travelMinutes');
@@ -217,25 +423,86 @@
       totalPriceEl.textContent = yen(total);
     }
 
-    renderBreakdown([
-      { label: '交通手段', value: rate.label },
-      { label: '計算距離', value: `${totalDistance.toLocaleString('ja-JP')} km` },
-      { label: '移動時間の目安', value: `${totalMinutes.toLocaleString('ja-JP')} 分` },
-      { label: '距離・交通手段分', value: yen(distanceCost) },
-      { label: '最低移動代金', value: useMinimum ? yen(minimumCost) : '適用なし' },
-      { label: '駐車場・高速代など', value: yen(parkingFee) },
-      { label: 'その他実費', value: yen(extraFee) },
-      { label: '割増（夜間・緊急等）', value: rushSurcharge ? yen(surcharge) : 'なし' }
-    ]);
+    const breakdownEl = document.getElementById('breakdown');
+    if (breakdownEl) {
+      const items = [
+        { label: '交通手段', value: rate.label },
+        { label: '計算距離', value: `${totalDistance.toLocaleString('ja-JP')} km（${multiplier === 2 ? '往復' : '片道'}）` },
+        { label: '移動時間の目安', value: `${totalMinutes.toLocaleString('ja-JP')} 分` },
+        { label: '距離・交通手段分', value: yen(distanceCost) },
+        { label: '最低移動代金', value: useMinimum ? yen(minimumCost) : '適用なし' },
+        { label: '駐車場・高速代など', value: yen(parkingFee) },
+        { label: 'その他実費', value: yen(extraFee) },
+        { label: '割増（夜間・緊急等）', value: rushSurcharge ? yen(surcharge) : 'なし' }
+      ];
+      breakdownEl.innerHTML = items.map((item) => `<li><span>${item.label}</span><strong>${item.value}</strong></li>`).join('');
+    }
+
+    return { distance, minutes, multiplier, type, rate, parkingFee, extraFee, useMinimum, rushSurcharge, distanceCost, minimumCost, surcharge, total };
   }
 
-  async function fetchRoute(origin, destination) {
+  // ==========================================
+  // Google Maps Routes API (v2) 呼び出し処理
+  // ==========================================
+  async function fetchRoute(origin, destination, transportType = 'public') {
+    let travelMode = 'DRIVE';
+    if (transportType === 'public' || transportType === 'mixed') travelMode = 'TRANSIT';
+    else if (transportType === 'bike') travelMode = 'BICYCLE';
+
+    const requestBody = {
+      origin: { address: origin },
+      destination: { address: destination },
+      travelMode: travelMode
+    };
+
+    if (travelMode === 'TRANSIT') {
+      requestBody.transitPreferences = {
+        routingPreference: 'LESS_WALKING'
+      };
+    }
+
     const response = await fetch('https://routes.googleapis.com/directions/v2:computeRoutes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
-        'X-Goog-FieldMask': 'routes.distanceMeters,routes.duration'
+        'X-Goog-FieldMask': 'routes.distanceMeters,routes.duration,routes.description,routes.legs.steps'
+      },
+      body: JSON.stringify(requestBody)
+    });
+
+    if (!response.ok) {
+      if (travelMode === 'TRANSIT') {
+        return fetchRouteFallbackDrive(origin, destination);
+      }
+      const errorData = await response.json().catch(() => null);
+      const errorMessage = errorData?.error?.message || `HTTPエラー (${response.status})`;
+      throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    const route = data.routes && data.routes[0];
+    if (!route) {
+      throw new Error('該当するルートが見つかりませんでした。住所を詳しく指定してください。');
+    }
+
+    const durationSec = route.duration ? Number(route.duration.replace('s', '')) : 0;
+    latestRouteApiResponse = route;
+
+    return {
+      distanceKm: (route.distanceMeters || 0) / 1000,
+      durationMinutes: Math.ceil(durationSec / 60),
+      rawRoute: route
+    };
+  }
+
+  async function fetchRouteFallbackDrive(origin, destination) {
+    const response = await fetch('https://routes.googleapis.com/directions/v2:computeRoutes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
+        'X-Goog-FieldMask': 'routes.distanceMeters,routes.duration,routes.description,routes.legs.steps'
       },
       body: JSON.stringify({
         origin: { address: origin },
@@ -245,30 +512,31 @@
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => null);
-      const errorMessage = errorData?.error?.message || `HTTPエラー (${response.status})`;
-      throw new Error(errorMessage);
+      throw new Error('ルート情報を取得できませんでした。');
     }
-
     const data = await response.json();
     const route = data.routes && data.routes[0];
-    if (!route) {
-      throw new Error('該当するルートが見つかりませんでした。');
-    }
+    if (!route) throw new Error('ルートが見つかりませんでした。');
 
     const durationSec = route.duration ? Number(route.duration.replace('s', '')) : 0;
+    latestRouteApiResponse = route;
 
     return {
       distanceKm: (route.distanceMeters || 0) / 1000,
-      durationMinutes: Math.ceil(durationSec / 60)
+      durationMinutes: Math.ceil(durationSec / 60),
+      rawRoute: route
     };
   }
 
+  // ==========================================
+  // 経路取得 & 入力欄更新
+  // ==========================================
   async function updateRouteEstimate() {
     const originInput = document.getElementById('originAddress');
     const destinationInput = document.getElementById('destinationAddress');
     const statusEl = document.getElementById('routeStatus');
     const searchBtn = document.getElementById('routeSearchButton');
+    const transportType = document.getElementById('transportType')?.value || 'public';
 
     const origin = originInput ? originInput.value.trim() : '';
     const destination = destinationInput ? destinationInput.value.trim() : '';
@@ -283,20 +551,20 @@
 
     if (!GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY.includes('YOUR_API_KEY')) {
       if (statusEl) {
-        statusEl.textContent = '⚠️ APIキーが未設定です。有効な API キーを設定してください。';
+        statusEl.textContent = '⚠️ APIキーが未設定です。コード内の GOOGLE_MAPS_API_KEY を設定してください。';
         statusEl.style.color = '#e53e3e';
       }
       return;
     }
 
     if (statusEl) {
-      statusEl.textContent = '🔄 距離と所要時間を取得中...';
-      statusEl.style.color = '#2563eb';
+      statusEl.textContent = '🔄 距離・所要時間・詳細ルートを取得中...';
+      statusEl.style.color = '#1a73e8';
     }
     if (searchBtn) searchBtn.disabled = true;
 
     try {
-      const { distanceKm, durationMinutes } = await fetchRoute(origin, destination);
+      const { distanceKm, durationMinutes } = await fetchRoute(origin, destination, transportType);
 
       const distanceEl = document.getElementById('distanceKm');
       const minutesEl = document.getElementById('travelMinutes');
@@ -307,12 +575,12 @@
       calcTransportCost();
 
       if (statusEl) {
-        statusEl.textContent = `✅ 取得成功：片道約 ${distanceKm.toFixed(1)} km / 約 ${durationMinutes} 分`;
+        statusEl.textContent = `✅ 取得成功：片道約 ${distanceKm.toFixed(1)} km / 約 ${durationMinutes} 分（「詳細ルート・計算内訳を見る」で経路確認可能）`;
         statusEl.style.color = '#16a34a';
       }
     } catch (error) {
       if (statusEl) {
-        statusEl.textContent = `❌ 取得失敗：${error.message}`;
+        statusEl.textContent = `❌ 取得失敗：${error.message}（手動で距離を入力して計算できます）`;
         statusEl.style.color = '#dc2626';
       }
     } finally {
@@ -320,6 +588,222 @@
     }
   }
 
+  // ==========================================
+  // モーダル生成・表示処理 (Google Maps感覚のUI構築)
+  // ==========================================
+  function generateGoogleMapsUrl(origin, destination, transportType) {
+    let mode = 'transit';
+    if (transportType === 'car' || transportType === 'taxi' || transportType === 'customerCar') mode = 'driving';
+    else if (transportType === 'bike') mode = 'bicycling';
+    return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&travelmode=${mode}`;
+  }
+
+  function renderRouteDetailModal() {
+    const origin = document.getElementById('originAddress')?.value.trim() || '出発地';
+    const destination = document.getElementById('destinationAddress')?.value.trim() || '目的地';
+    const distanceKm = numberValue('distanceKm');
+    const travelMinutes = numberValue('travelMinutes');
+    const transportType = document.getElementById('transportType')?.value || 'public';
+    const cost = calcTransportCost();
+
+    // 1. サマリーカードの更新
+    document.getElementById('modalOrigin').textContent = origin;
+    document.getElementById('modalDestination').textContent = destination;
+    document.getElementById('modalDuration').textContent = `約 ${travelMinutes} 分`;
+    document.getElementById('modalDistance').textContent = `（片道 ${distanceKm.toFixed(1)} km / ${cost.multiplier === 2 ? '往復計算' : '片道計算'}）`;
+    document.getElementById('modalTransportBadge').textContent = cost.rate.label;
+
+    // Google マップ遷移リンク
+    const gmapLink = document.getElementById('modalGmapLink');
+    if (gmapLink) {
+      gmapLink.href = generateGoogleMapsUrl(origin, destination, transportType);
+    }
+
+    // 2. タイムラインステップの生成 (APIデータまたはリッチな自動生成)
+    const timelineEl = document.getElementById('modalTimeline');
+    timelineEl.innerHTML = '';
+
+    const steps = [];
+
+    // 出発地点ステップ
+    steps.push({
+      type: 'origin',
+      badge: '出発',
+      badgeClass: '',
+      title: origin,
+      meta: '0分',
+      desc: 'スタッフ出発地より移動を開始'
+    });
+
+    // APIのステップ情報がある場合はパースして構築
+    const apiSteps = latestRouteApiResponse?.legs?.[0]?.steps;
+    if (apiSteps && apiSteps.length > 0) {
+      apiSteps.forEach((s) => {
+        const instruction = s.navigationInstruction?.instructions || s.transitDetails?.stopDetails?.departureStop?.name || '指定ルートを進行';
+        const transitInfo = s.transitDetails;
+        if (transitInfo) {
+          const lineName = transitInfo.transitLine?.name || transitInfo.transitLine?.shortName || '公共交通機関';
+          const depStop = transitInfo.stopDetails?.departureStop?.name || '乗車駅';
+          const arrStop = transitInfo.stopDetails?.arrivalStop?.name || '降車駅';
+          const stopCount = transitInfo.stopCount ? `${transitInfo.stopCount}駅` : '';
+          steps.push({
+            type: 'transit',
+            badge: lineName,
+            badgeClass: 'express',
+            title: `${depStop} ➔ ${arrStop}`,
+            meta: stopCount,
+            desc: `${lineName}に乗車（${transitInfo.headsign ? transitInfo.headsign + '方面' : ''}）`
+          });
+        } else {
+          steps.push({
+            type: 'drive',
+            badge: s.travelMode === 'WALK' ? '徒歩' : '経由',
+            badgeClass: s.travelMode === 'WALK' ? 'walk' : 'highway',
+            title: instruction,
+            meta: '',
+            desc: '道路案内・順路に沿って進行'
+          });
+        }
+      });
+    } else {
+      // フォールバック: 交通手段に応じたリッチな推定タイムライン
+      if (transportType === 'public' || transportType === 'mixed') {
+        const estWalkMin = Math.min(6, Math.max(3, Math.round(travelMinutes * 0.15)));
+        const trainMin = Math.max(5, travelMinutes - (estWalkMin * 2));
+        steps.push({
+          type: 'transit',
+          badge: '徒歩',
+          badgeClass: 'walk',
+          title: `出発地 ➔ 最寄り駅`,
+          meta: `約 ${estWalkMin} 分`,
+          desc: '駅改札へ向かい乗車ホームへ移動'
+        });
+        steps.push({
+          type: 'transit',
+          badge: '電車・路線バス',
+          badgeClass: 'express',
+          title: '主要路線を利用して目的地最寄り駅へ',
+          meta: `約 ${trainMin} 分`,
+          desc: '最短接続ルート（JR / 地下鉄 / 私鉄 / 路線バス）を利用'
+        });
+        steps.push({
+          type: 'transit',
+          badge: '徒歩',
+          badgeClass: 'walk',
+          title: `最寄り駅 ➔ ${destination}`,
+          meta: `約 ${estWalkMin} 分`,
+          desc: '指定場所・お客様のご指定先へ伺います'
+        });
+      } else if (transportType === 'car' || transportType === 'taxi') {
+        steps.push({
+          type: 'drive',
+          badge: distanceKm > 15 ? '首都高・高速道路' : '主要幹線道路',
+          badgeClass: 'highway',
+          title: distanceKm > 15 ? '最寄りICより高速道路を利用' : '主要幹線道路を経由',
+          meta: `約 ${travelMinutes} 分`,
+          desc: distanceKm > 15 ? 'スムーズなルートで高速道路・バイパスを経由して移動' : '一般道・主要幹線道路を経由して移動'
+        });
+      } else if (transportType === 'bike') {
+        steps.push({
+          type: 'drive',
+          badge: '自転車・徒歩',
+          badgeClass: 'walk',
+          title: '近隣エリアを安全に移動',
+          meta: `約 ${travelMinutes} 分`,
+          desc: '指定場所まで直接伺います'
+        });
+      } else {
+        steps.push({
+          type: 'drive',
+          badge: cost.rate.label,
+          badgeClass: 'highway',
+          title: '指定交通手段による移動',
+          meta: `約 ${travelMinutes} 分`,
+          desc: '運行ダイヤ・航路・航空便等に合わせたスケジュールで移動'
+        });
+      }
+    }
+
+    // 目的地到着ステップ
+    steps.push({
+      type: 'dest',
+      badge: '到着',
+      badgeClass: '',
+      title: destination,
+      meta: `計 約 ${travelMinutes} 分`,
+      desc: '指定先へ到着（作業・サービス開始）'
+    });
+
+    // タイムライン描画
+    timelineEl.innerHTML = steps.map((st) => `
+      <li class="timeline-step">
+        <div class="step-dot ${st.type}"></div>
+        <div class="step-content">
+          <div class="step-header">
+            <div class="step-title">
+              ${st.badge ? `<span class="step-badge ${st.badgeClass}">${st.badge}</span>` : ''}
+              <span>${st.title}</span>
+            </div>
+            ${st.meta ? `<span class="step-meta">${st.meta}</span>` : ''}
+          </div>
+          <p class="step-desc">${st.desc}</p>
+        </div>
+      </li>
+    `).join('');
+
+    // 3. 料金計算内訳テーブルの生成
+    const tbody = document.getElementById('modalCostBreakdownTable');
+    tbody.innerHTML = `
+      <tr>
+        <td><strong>交通手段・基本料</strong></td>
+        <td>${cost.rate.label}（基本単価: ${yen(cost.rate.base)} + ${cost.rate.perKm}円/km）</td>
+        <td class="amount">${yen(cost.distanceCost)}</td>
+      </tr>
+      <tr>
+        <td><strong>最低移動代金設定</strong></td>
+        <td>${cost.useMinimum ? `適用中（最低保証 ${yen(cost.rate.minimum)}）` : '適用なし'}</td>
+        <td class="amount">${cost.useMinimum ? yen(cost.minimumCost) : '¥0'}</td>
+      </tr>
+      <tr>
+        <td><strong>往復設定</strong></td>
+        <td>${cost.multiplier === 2 ? '往復（×2倍計算）' : '片道（×1倍計算）'} / 片道 ${cost.distance.toFixed(1)} km</td>
+        <td class="amount">合計 ${(cost.distance * cost.multiplier).toFixed(1)} km</td>
+      </tr>
+      <tr>
+        <td><strong>駐車場・有料道路実費</strong></td>
+        <td>指定料金・ETC概算</td>
+        <td class="amount">${yen(cost.parkingFee)}</td>
+      </tr>
+      <tr>
+        <td><strong>その他実費</strong></td>
+        <td>特急料金・入場料・フェリー等の実費</td>
+        <td class="amount">${yen(cost.extraFee)}</td>
+      </tr>
+      <tr>
+        <td><strong>割増料金</strong></td>
+        <td>${cost.rushSurcharge ? '夜間・早朝・緊急割増（20%）' : 'なし'}</td>
+        <td class="amount">${cost.rushSurcharge ? yen(cost.surcharge) : '¥0'}</td>
+      </tr>
+      <tr class="total-row">
+        <td><strong>合計見積額（税込目安）</strong></td>
+        <td><strong>概算移動代金</strong></td>
+        <td class="amount">${yen(cost.total)}</td>
+      </tr>
+    `;
+
+    // モーダルを表示
+    const modal = document.getElementById('routeDetailModal');
+    if (modal) modal.classList.add('active');
+  }
+
+  function closeRouteDetailModal() {
+    const modal = document.getElementById('routeDetailModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  // ==========================================
+  // イベントリスナーの登録
+  // ==========================================
   document.addEventListener('DOMContentLoaded', () => {
     const calcInputs = [
       'distanceKm',
@@ -357,6 +841,49 @@
       }
     });
 
+    // 詳細ルートポップアップのトリガー
+    const openModalBtn = document.getElementById('openRouteModalButton');
+    if (openModalBtn) {
+      openModalBtn.addEventListener('click', renderRouteDetailModal);
+    }
+
+    // モーダルを閉じる各種ボタン
+    const closeModalBtn = document.getElementById('closeRouteModalButton');
+    if (closeModalBtn) {
+      closeModalBtn.addEventListener('click', closeRouteDetailModal);
+    }
+
+    const closeModalFooterBtn = document.getElementById('modalCloseFooterButton');
+    if (closeModalFooterBtn) {
+      closeModalFooterBtn.addEventListener('click', closeRouteDetailModal);
+    }
+
+    const modalOverlay = document.getElementById('routeDetailModal');
+    if (modalOverlay) {
+      modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) closeRouteDetailModal();
+      });
+    }
+
+    // Escape キーでモーダルを閉じる
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeRouteDetailModal();
+    });
+
+    // メール見積もり作成ボタン
+    const emailBtn = document.getElementById('emailEstimateButton');
+    if (emailBtn) {
+      emailBtn.addEventListener('click', () => {
+        const origin = document.getElementById('originAddress')?.value.trim() || '';
+        const dest = document.getElementById('destinationAddress')?.value.trim() || '';
+        const total = document.getElementById('totalPrice')?.textContent || '';
+        const subject = encodeURIComponent('【移動代金お見積り】何でも屋');
+        const body = encodeURIComponent(`移動代金の概算お見積りです。\n\n【出発地】: ${origin}\n【目的地】: ${dest}\n【移動代金目安】: ${total}\n\nよろしくお願いいたします。`);
+        window.location.href = `mailto:?subject=${subject}&body=${body}`;
+      });
+    }
+
+    // 初期計算
     calcTransportCost();
   });
 </script>
