@@ -12,6 +12,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/**/*.xlsx");
   eleventyConfig.addPassthroughCopy("src/**/*.md");
   eleventyConfig.addPassthroughCopy("src/favicon.ico");
+  eleventyConfig.addPassthroughCopy("src/CNAME");
 
   // Create search index collection
   eleventyConfig.addCollection("searchIndex", function(collectionApi) {
