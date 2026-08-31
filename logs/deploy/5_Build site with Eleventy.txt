@@ -1,0 +1,36 @@
+﻿2026-08-31T00:57:27.3104729Z ##[group]Run npx @11ty/eleventy
+2026-08-31T00:57:27.3105157Z [36;1mnpx @11ty/eleventy[0m
+2026-08-31T00:57:27.3143340Z shell: /usr/bin/bash -e {0}
+2026-08-31T00:57:27.3143704Z ##[endgroup]
+2026-08-31T00:57:28.2240824Z [11ty] Problem writing Eleventy templates:
+2026-08-31T00:57:28.2242816Z [11ty] 1. Problem creating an Eleventy Layout for the "./src/anytime-service-prices.html" template file. (via EleventyBaseError)
+2026-08-31T00:57:28.2261789Z [11ty] 2. You’re trying to use a layout that does not exist: _includes/layouts/base.njk (via `layout: layouts/base.njk`)
+2026-08-31T00:57:28.2263827Z [11ty] Wrote 0 files in 0.12 seconds (v3.1.6)
+2026-08-31T00:57:28.2264722Z [11ty] 
+2026-08-31T00:57:28.2291400Z [11ty] Original error stack trace: Error: You’re trying to use a layout that does not exist: _includes/layouts/base.njk (via `layout: layouts/base.njk`)
+2026-08-31T00:57:28.2311656Z [11ty]     at TemplateLayoutPathResolver.getFullPath (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateLayoutPathResolver.js:115:10)
+2026-08-31T00:57:28.2331407Z [11ty]     at new TemplateLayout (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateLayout.js:19:31)
+2026-08-31T00:57:28.2341398Z [11ty]     at TemplateLayout.getTemplate (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateLayout.js:58:17)
+2026-08-31T00:57:28.2344119Z [11ty]     at Template.getLayout (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/Template.js:187:26)
+2026-08-31T00:57:28.2347320Z [11ty]     at #getData (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/Template.js:388:23)
+2026-08-31T00:57:28.2361409Z [11ty]     at async TemplateMap.add (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateMap.js:70:14)
+2026-08-31T00:57:28.2380490Z [11ty]     at async Promise.all (index 0)
+2026-08-31T00:57:28.2382662Z [11ty]     at async TemplateWriter._addToTemplateMap (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateWriter.js:340:13)
+2026-08-31T00:57:28.2385498Z [11ty]     at async TemplateWriter._createTemplateMap (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateWriter.js:351:3)
+2026-08-31T00:57:28.2387433Z [11ty]     at async TemplateWriter.generateTemplates (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateWriter.js:382:3)
+2026-08-31T00:57:28.2388380Z [11ty] Eleventy Fatal Error (CLI):
+2026-08-31T00:57:28.2389223Z [11ty] 1. Problem creating an Eleventy Layout for the "./src/anytime-service-prices.html" template file. (via EleventyBaseError)
+2026-08-31T00:57:28.2390666Z [11ty] 2. You’re trying to use a layout that does not exist: _includes/layouts/base.njk (via `layout: layouts/base.njk`)
+2026-08-31T00:57:28.2391360Z [11ty] 
+2026-08-31T00:57:28.2392293Z [11ty] Original error stack trace: Error: You’re trying to use a layout that does not exist: _includes/layouts/base.njk (via `layout: layouts/base.njk`)
+2026-08-31T00:57:28.2393817Z [11ty]     at TemplateLayoutPathResolver.getFullPath (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateLayoutPathResolver.js:115:10)
+2026-08-31T00:57:28.2395391Z [11ty]     at new TemplateLayout (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateLayout.js:19:31)
+2026-08-31T00:57:28.2396784Z [11ty]     at TemplateLayout.getTemplate (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateLayout.js:58:17)
+2026-08-31T00:57:28.2398154Z [11ty]     at Template.getLayout (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/Template.js:187:26)
+2026-08-31T00:57:28.2420115Z [11ty]     at #getData (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/Template.js:388:23)
+2026-08-31T00:57:28.2421594Z [11ty]     at async TemplateMap.add (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateMap.js:70:14)
+2026-08-31T00:57:28.2422469Z [11ty]     at async Promise.all (index 0)
+2026-08-31T00:57:28.2423583Z [11ty]     at async TemplateWriter._addToTemplateMap (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateWriter.js:340:13)
+2026-08-31T00:57:28.2425436Z [11ty]     at async TemplateWriter._createTemplateMap (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateWriter.js:351:3)
+2026-08-31T00:57:28.2426960Z [11ty]     at async TemplateWriter.generateTemplates (file:///home/runner/work/nanndemoya.github.io/nanndemoya.github.io/node_modules/@11ty/eleventy/src/TemplateWriter.js:382:3)
+2026-08-31T00:57:28.3291770Z ##[error]Process completed with exit code 1.
