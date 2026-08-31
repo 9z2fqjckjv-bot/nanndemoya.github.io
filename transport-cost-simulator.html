@@ -188,7 +188,155 @@
     <p>&copy; 2026 Nanndemoya | Anyways, Anywhere, Anytimes</p>
   </footer>
 
-  <a class="back-top" href="#top" aria-label="ページ上部へ戻る">↑</a>
-  <script src="/assets/site-enhancements.js" defer></script>
+  <script>
+    const GOOGLE_MAPS_API_KEY = 'AIzaSyB2SmrDXLXeYEaYnf_fNcor9T1I98-0cS4'; // 実際のAPIキーに置き換えてください
+
+    const RATES = {
+      mixed: { label: '複合交通', base: 0, perKm: 30, minimum: 300 },
+      public: { label: '公共交通機関', base: 0, perKm: 30, minimum: 300 },
+      car: { label: '自家用車・事業車', base: 0, perKm: 35, minimum: 300 },
+      bike: { label: '自転車・徒歩', base: 0, perKm: 0, minimum: 0 },
+      taxi: { label: 'タクシー', base: 500, perKm: 400, minimum: 1000 },
+      airplane: { label: '飛行機', base: 8000, perKm: 22, minimum: 8000 },
+      ferry: { label: 'フェリー', base: 2500, perKm: 60, minimum: 2500 },
+      customerCar: { label: "Let's Go Car's!", base: 0, perKm: 0, minimum: 0 }
+    };
+
+    const yen = (value) => '¥' + Math.round(value).toLocaleString('ja-JP');
+    const numberValue = (id) => {
+      const value = Number(document.getElementById(id).value);
+      return Number.isFinite(value) && value > 0 ? value : 0;
+    };
+
+    function renderBreakdown(items) {
+      const list = document.getElementById('breakdown');
+      list.innerHTML = items.map((item) => `<li><span>${item.label}</span><strong>${item.value}</strong></li>`).join('');
+    }
+
+    function calcTransportCost() {
+      const distance = numberValue('distanceKm');
+      const minutes = numberValue('travelMinutes');
+      const multiplier = Number(document.getElementById('roundTrip').value);
+      const type = document.getElementById('transportType').value;
+      const parkingFee = numberValue('parkingFee');
+      const extraFee = numberValue('extraFee');
+      const useMinimum = document.getElementById('useMinimum').checked;
+      const rushSurcharge = document.getElementById('rushSurcharge').checked;
+      
+      const rate = RATES[type] || RATES.public;
+
+      const distanceCost = (rate.base + distance * rate.perKm) * multiplier;
+      const minimumCost = useMinimum ? rate.minimum : 0;
+      const subtotal = Math.max(distanceCost, minimumCost) + parkingFee + extraFee;
+      const surcharge = rushSurcharge ? Math.round(subtotal * 0.2) : 0;
+      const total = subtotal + surcharge;
+      const totalDistance = distance * multiplier;
+      const totalMinutes = minutes * multiplier;
+
+      document.getElementById('totalPrice').textContent = yen(total);
+      renderBreakdown([
+        { label: '交通手段', value: rate.label },
+        { label: '計算距離', value: `${totalDistance.toLocaleString('ja-JP')} km` },
+        { label: '移動時間の目安', value: `${totalMinutes.toLocaleString('ja-JP')} 分` },
+        { label: '距離・交通手段分', value: yen(distanceCost) },
+        { label: '最低移動代金', value: useMinimum ? yen(minimumCost) : '適用なし' },
+        { label: '駐車場・高速代など', value: yen(parkingFee) },
+        { label: 'その他実費', value: yen(extraFee) },
+        { label: '割増', value: rushSurcharge ? yen(surcharge) : 'なし' }
+      ]);
+    }
+
+    async function fetchRoute(origin, destination) {
+      const response = await fetch('https://routes.googleapis.com/directions/v2:computeRoutes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': GOOGLE_MAPS_API_KEY,
+          'X-Goog-FieldMask': 'routes.distanceMeters,routes.duration'
+        },
+        body: JSON.stringify({
+          origin: { address: origin },
+          destination: { address: destination },
+          travelMode: 'DRIVE'
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('ルート情報を取得できませんでした。');
+      }
+
+      const data = await response.json();
+      const route = data.routes && data.routes[0];
+      if (!route) {
+        throw new Error('該当するルートが見つかりませんでした。');
+      }
+
+      return {
+        distanceKm: route.distanceMeters / 1000,
+        durationMinutes: Math.ceil(Number(route.duration.replace('s', '')) / 60)
+      };
+    }
+
+    async function updateRouteEstimate() {
+      const origin = document.getElementById('originAddress').value.trim();
+      const destination = document.getElementById('destinationAddress').value.trim();
+      const statusEl = document.getElementById('routeStatus');
+
+      if (!origin || !destination) {
+        statusEl.textContent = '出発地と目的地を入力してください。';
+        return;
+      }
+
+      if (GOOGLE_MAPS_API_KEY === 'YOUR_API_KEY' || GOOGLE_MAPS_API_KEY === '') {
+        statusEl.textContent = 'APIキーが設定されていません。コード内の GOOGLE_MAPS_API_KEY を設定してください。';
+        return;
+      }
+
+      statusEl.textContent = '取得中...';
+
+      try {
+        const route = await fetchRoute(origin, destination);
+        document.getElementById('distanceKm').value = route.distanceKm.toFixed(1);
+        document.getElementById('travelMinutes').value = route.durationMinutes;
+        calcTransportCost();
+        statusEl.textContent = `成功：距離 ${route.distanceKm.toFixed(1)}km、所要時間 約${route.durationMinutes}分`;
+      } catch (err) {
+        statusEl.textContent = 'エラー：' + err.message + ' 手動で入力してください。';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('input, select').forEach((element) => {
+        if (element.id !== 'originAddress' && element.id !== 'destinationAddress') {
+          element.addEventListener('input', calcTransportCost);
+          element.addEventListener('change', calcTransportCost);
+        }
+      });
+
+      const routeSearchBtn = document.getElementById('routeSearchButton');
+      if (routeSearchBtn) {
+        routeSearchBtn.addEventListener('click', updateRouteEstimate);
+      }
+
+      const reselectBtn = document.getElementById('reselectRouteButton');
+      if (reselectBtn) {
+        reselectBtn.addEventListener('click', () => {
+          document.getElementById('originAddress').value = '';
+          document.getElementById('destinationAddress').value = '';
+          document.getElementById('routeStatus').textContent = '住所を入力してボタンを押すと、距離と所要時間を自動反映します。';
+        });
+      }
+
+      const emailBtn = document.getElementById('emailEstimateButton');
+      if (emailBtn) {
+        emailBtn.addEventListener('click', () => {
+           const total = document.getElementById('totalPrice').textContent;
+           window.location.href = "mailto:?subject=移動代金のお見積り&body=移動代金の目安: " + total;
+        });
+      }
+
+      calcTransportCost();
+    });
+  </script>
 </body>
 </html>
