@@ -111,11 +111,12 @@
     section.setAttribute('aria-label', '主要アクション');
     section.innerHTML = `
       <div>
-        <h2>相談・申し込みはこちら</h2>
-        <p>迷った場合はフォーム一覧から目的に近い窓口を選べます。料金確認後の相談も同じ場所から進めます。</p>
+        <h2>次の一歩を選ぶ</h2>
+        <p>依頼内容が決まっている方は申込へ、まだ迷っている方は相談フォームへ進めます。料金の目安確認もここからできます。</p>
       </div>
       <div class="action-strip-actions">
-        <a class="button" href="/form.html">フォームを選ぶ</a>
+        <a class="button" href="/form.html#main-service-form">利用を申し込む</a>
+        <a class="button button-secondary" href="/form.html#contact-form">相談する</a>
         <a class="button button-secondary" href="/anytime-service-prices.html">料金を確認する</a>
       </div>
     `;
