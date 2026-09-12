@@ -1,0 +1,149 @@
+/* IR / 少人数私募債ページおよびサイト共通ナビ */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(10px);
+  color: #fff;
+}
+.site-nav-brand {
+  margin-right: auto;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+  letter-spacing: .04em;
+}
+.site-nav-brand:hover { color: #bfdbfe; }
+.site-nav-toggle {
+  display: none;
+  padding: 8px 12px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 999px;
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.site-nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.site-nav-list a {
+  color: rgba(255,255,255,.92);
+  font-weight: 700;
+  font-size: .92rem;
+  text-decoration: none;
+}
+.site-nav-list a:hover,
+.site-nav-list a[aria-current="page"] {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.news-banner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px 18px;
+  align-items: center;
+  margin: 0 0 22px;
+  padding: 16px 18px;
+  border: 1px solid #fed7aa;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%);
+  box-shadow: var(--shadow);
+}
+.news-banner-label {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--warm);
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+}
+.news-banner h2,
+.news-banner p { margin: 0; }
+.news-banner h2 { font-size: 1.12rem; color: #9a3412; }
+.news-banner p { margin-top: 4px; color: var(--muted); font-size: .95rem; }
+.ir-hero {
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, .94) 0%, rgba(30, 64, 175, .9) 52%, rgba(15, 118, 110, .84) 100%),
+    url("/document/Gemini_Generated_Image_i1h2cbi1h2cbi1h2.png") center / cover;
+}
+.ir-page { display: grid; gap: 22px; }
+.ir-page > .card { margin-top: 0; }
+.ir-notice {
+  border-color: #93c5fd;
+  background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
+}
+.ir-business-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 12px;
+}
+.ir-video-wrap {
+  overflow: hidden;
+  border-radius: 12px;
+  background: #0f172a;
+}
+.ir-video-wrap video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+.ir-terms-table th {
+  width: 28%;
+  text-align: left;
+  white-space: nowrap;
+  background: #eef2ff;
+  color: #1e3a8a;
+}
+.ir-legal {
+  border-color: #fdba74;
+  background: #fff7ed;
+}
+.ir-disclaimer {
+  margin: 0 0 16px;
+  padding: 16px 18px;
+  border-left: 4px solid #c2410c;
+  border-radius: 12px;
+  background: #fff;
+  color: #7c2d12;
+}
+.ir-disclaimer p { margin: 0 0 10px; font-weight: 700; }
+.ir-disclaimer p:last-child { margin-bottom: 0; }
+.ir-cta-actions { margin-top: 18px; }
+.ir-cta-secondary {
+  border: 1px solid #bfdbfe;
+  background: #fff;
+  color: #1d4ed8;
+}
+.ir-cta-secondary:hover {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+@media (max-width: 760px) {
+  .site-nav-toggle { display: inline-flex; }
+  .site-nav-list {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+  }
+  .site-nav.is-open .site-nav-list { display: flex; }
+  .news-banner,
+  .ir-business-grid { grid-template-columns: 1fr; }
+  .news-banner .button { width: 100%; }
+}
