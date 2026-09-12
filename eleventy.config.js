@@ -14,14 +14,20 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/favicon.ico");
   eleventyConfig.addPassthroughCopy("src/CNAME");
 
+  // ルート配置の公開資産（現行GitHub Pages構成との併用）
+  eleventyConfig.addPassthroughCopy("assets");
+  eleventyConfig.addPassthroughCopy("document");
+  eleventyConfig.addPassthroughCopy("lead-form-popup.js");
+  eleventyConfig.addPassthroughCopy("favicon.ico");
+  eleventyConfig.addPassthroughCopy("CNAME");
+
   // Create search index collection
   eleventyConfig.addCollection("searchIndex", function(collectionApi) {
     const pages = collectionApi.getAll().filter(item => item.url && item.url.endsWith('.html'));
     return pages.map(page => {
-      // Avoid templateContent early access error by using rawInput
       let text = page.rawInput || "";
-      text = text.replace(/<[^>]*>?/gm, ' '); // remove tags
-      text = text.replace(/\s+/g, ' ').trim(); // normalize whitespace
+      text = text.replace(/<[^>]*>?/gm, ' ');
+      text = text.replace(/\s+/g, ' ').trim();
       return {
         title: page.data.title || "",
         url: page.url,
@@ -32,8 +38,11 @@ module.exports = function(eleventyConfig) {
 
   return {
     templateFormats: ["html", "njk"],
+    htmlTemplateEngine: "njk",
+    markdownTemplateEngine: "njk",
     dir: {
       input: "src",
+      includes: "../_includes",
       output: "_site"
     },
     pathPrefix: "/"
