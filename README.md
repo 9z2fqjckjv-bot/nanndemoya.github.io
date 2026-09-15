@@ -14,6 +14,7 @@ GitHub Pagesでそのまま公開できる、ビルド不要のサイトです�
 | `transport_cost_simulator.html` | 移動代金シミュレーター。Google Maps APIを使い、距離・所要時間・交通手段から移動代金を概算します。 |
 | `house.html` | 何でも屋ハウスの案内と利用規約です。 |
 | `NCF.html` | 何でも屋基金のトップページです。各基金ページへのリンクと基金規定を掲載します。 |
+| `ir/index.html` | 何でも屋基金（少人数私募債）のIR案内です。関係者・縁故者向けの情報提供ページです。 |
 | `policy.html` | ポリシートップ。特定商取引法に基づく表記、プライバシーポリシー、利用規約へ移動できます。 |
 | `information.html` | 連絡先、所在地、問い合わせ先の案内です。 |
 | `site-links.html` | サイト内外の関連リンク一覧です。 |
@@ -35,13 +36,15 @@ GitHub Pagesでそのまま公開できる、ビルド不要のサイトです�
 | ファイル | 役割 |
 | --- | --- |
 | `assets/site.css` | `templete.html` のスタイルに合わせた共通CSS。カード、ページ内メニュー、関連リンク、表、シミュレーターUIなどを整えます。 |
+| `assets/site-ir.css` | 基金・IRページ用の追加スタイルとサイト共通ナビ。 |
 | `assets/site-enhancements.js` | ページ内メニュー、関連リンク、ページ上部へ戻るボタンを補助する共通JS。 |
+| `assets/site-nav.js` | 共通ナビの生成とフッターへのIRリンク挿入。 |
 | `lead-form-popup.js` | ページ読み込み完了後30秒で問い合わせポップアップを表示します。閉じた場合は24時間非表示になります。 |
 | `lead-form-popup.js` 内のGoogleログイン導線 | Google Identity Servicesを読み込み、Googleフォームへの問い合わせ導線を提供します。 |
 
 ## 資料フォルダ
 
-`documet/` には、Webページの内容確認に使う資料・動画・画像を置いています。料金やサービス内容の根拠確認では、公開向けに確認しやすいPDFを優先します。
+`document/` には、Webページの内容確認に使う資料・動画・画像を置いています。料金やサービス内容の根拠確認では、公開向けに確認しやすいPDFを優先します。
 
 主な資料は以下です。
 
@@ -81,6 +84,9 @@ GitHub Pagesでそのまま公開できる、ビルド不要のサイトです�
 ├── transport_cost_simulator.html
 ├── house.html
 ├── NCF.html
+├── ir/
+│   ├── index.html
+│   └── index.njk
 ├── policy.html
 ├── information.html
 ├── site-links.html
@@ -88,19 +94,10 @@ GitHub Pagesでそのまま公開できる、ビルド不要のサイトです�
 ├── lead-form-popup.js
 ├── assets/
 │   ├── site.css
-│   └── site-enhancements.js
-├── documet/
-│   ├── 何でも屋｜利用料金表.pdf
-│   ├── 何でも屋｜利用料金表.numbers
-│   ├── 「何でも屋」　〜事業方針、目的、サービス、基金、そしてメッセージ〜.pdf
-│   ├── 「何でも屋」　〜事業方針、目的、サービス、基金、そしてメッセージ〜.key
-│   ├── ライフイベント支援基金と何でも屋ハウス基金.pdf
-│   ├── ライフイベント支援基金と何でも屋ハウス基金.mp4
-│   ├── ライフイベント支援基金と何でも屋ハウス基金.jpg
-│   ├── 1分サービス紹介 *.mp4
-│   ├── 1分紹介 何でも基金編 *.mp4
-│   ├── AINOHOT-ST3.png
-│   └── DIGNOSX5.png
+│   ├── site-ir.css
+│   ├── site-enhancements.js
+│   └── site-nav.js
+├── document/
 ├── guide/
 │   ├── house/
 │   ├── N.C.F~Nanndemoya_Crowd_Funding/
@@ -112,7 +109,7 @@ GitHub Pagesでそのまま公開できる、ビルド不要のサイトです�
 ## 更新時の確認ポイント
 
 1. HTMLを追加・変更した場合は、`assets/site.css`、`assets/site-enhancements.js`、`lead-form-popup.js` の読み込みパスを確認する
-2. 料金を変更した場合は、`documet/何でも屋｜利用料金表.pdf` と各サービス料金ページ、`anytime_service_prices.html` の数値を突き合わせる
+2. 料金を変更した場合は、`document/何でも屋｜利用料金表.pdf` と各サービス料金ページ、`anytime_service_prices.html` の数値を突き合わせる
 3. 移動代金シミュレーターを変更する場合は、下部のAPI連携用 `<script>` に影響がないか確認する
 4. 連絡先、規約、ポリシーを変更した場合は、`information.html`、`policy.html`、`guide/policy/` の表記ゆれを確認する
 5. ブラウザで表示崩れ、リンク、フォーム導線、シミュレーターの計算結果を確認する
@@ -120,8 +117,8 @@ GitHub Pagesでそのまま公開できる、ビルド不要のサイトです�
 ## 注意事項
 
 - APIキーを公開HTMLに含める場合は、必ずHTTPリファラー制限と利用API制限を設定してください。
-- `documet/` のPDF、Keynote、Numbers、動画で内容が重複する場合は、PDFを優先してWebページへ反映します。
-- `documet` はフォルダ名の綴りが現在の実ディレクトリに合わせて `documet/` になっています。
+- `document/` のPDF、Keynote、Numbers、動画で内容が重複する場合は、PDFを優先してWebページへ反映します。
+- 少人数私募債のIRページ（`ir/`）は公募・勧誘ではありません。関係者・縁故者向けの情報提供です。
 - 事業情報、料金、ポリシーは利用者への案内に直結するため、公開前に最新内容との整合性を確認してください。
 
 © 2026 Nanndemoya | Anyways, Anywhere, Anytimes
